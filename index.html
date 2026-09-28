@@ -1,0 +1,2400 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0d14" />
+  <meta name="description" content="Interactive DS-101 Business Analytics exam practice lab." />
+  <title>DS-101 // Study Console</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07090d;
+      --window: #0c1017;
+      --panel: #0f141d;
+      --panel2: #121925;
+      --panel3: #171f2d;
+      --ink: #edf3ff;
+      --muted: #8490a5;
+      --muted2: #5f6b7d;
+      --line: #202a3a;
+      --line2: #2a374a;
+      --purple: #a78bfa;
+      --cyan: #4de2ff;
+      --green: #4ade9a;
+      --red: #ff6b81;
+      --amber: #ffca62;
+      --shadow: 0 35px 90px rgba(0,0,0,.48);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #05070a;
+      color: var(--ink);
+      font-family: Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      overflow-x: hidden;
+    }
+    
+    button,input {
+      font: inherit;
+    }
+    
+    button {
+      color: inherit;
+    }
+    
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: .28;
+      background-image: linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(circle at center,black,transparent 78%);
+    }
+    
+    .aurora {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: .16;
+      z-index: -2;
+      pointer-events: none;
+    }
+    
+    .aurora-one {
+      width: 520px;
+      height: 520px;
+      background: #6847ff;
+      left: -160px;
+      top: -150px;
+    }
+    
+    .aurora-two {
+      width: 520px;
+      height: 520px;
+      background: #00c8ff;
+      right: -220px;
+      bottom: -130px;
+    }
+    
+    .app-window {
+      width: min(1580px,calc(100vw - 28px));
+      height: calc(100vh - 28px);
+      min-height: 720px;
+      margin: 14px auto;
+      border: 1px solid #242d3a;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--window);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-rows: 46px minmax(0,1fr) 26px;
+      position: relative;
+    }
+    
+    .titlebar {
+      display: grid;
+      grid-template-columns: 160px minmax(280px,1fr) 330px 54px;
+      align-items: center;
+      background: #0c1119;
+      border-bottom: 1px solid var(--line);
+      min-width: 0;
+    }
+    
+    .traffic {
+      display: flex;
+      gap: 8px;
+      padding-left: 16px;
+    }
+    
+    .traffic i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: block;
+    }
+    
+    .traffic i:nth-child(1) {
+      background: #ff5f57;
+    }
+    
+    .traffic i:nth-child(2) {
+      background: #febc2e;
+    }
+    
+    .traffic i:nth-child(3) {
+      background: #28c840;
+    }
+    
+    .tabs {
+      display: flex;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .tab {
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: #0b0f16;
+      color: #94a0b5;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    
+    .tab.active {
+      background: #111722;
+      color: #f5f8ff;
+      box-shadow: inset 0 2px 0 var(--purple);
+    }
+    
+    .tab b {
+      font-size: 7px;
+      color: var(--purple);
+    }
+    
+    .file-icon {
+      font-weight: 900;
+    }
+    
+    .file-icon.html {
+      color: #ff876f;
+    }
+    
+    .file-icon.md {
+      color: #63b3ff;
+    }
+    
+    .command-pill {
+      height: 29px;
+      border: 1px solid #283447;
+      background: #111823;
+      border-radius: 8px;
+      color: #8d99ab;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      font-size: 11px;
+      margin-right: 10px;
+    }
+    
+    .command-pill kbd {
+      font: inherit;
+      color: #66758c;
+    }
+    
+    .mobile-menu {
+      display: none;
+      border: 0;
+      background: transparent;
+      font-size: 18px;
+      color: #aab6c9;
+    }
+    
+    .workspace {
+      display: grid;
+      grid-template-columns: 242px minmax(560px,1fr) 286px;
+      min-height: 0;
+    }
+    
+    .explorer,.inspector {
+      background: #0d121a;
+      min-height: 0;
+      overflow-y: auto;
+    }
+    
+    .explorer {
+      border-right: 1px solid var(--line);
+    }
+    
+    .inspector {
+      border-left: 1px solid var(--line);
+      padding-bottom: 20px;
+    }
+    
+    .pane-title {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      color: #7e899b;
+      font-size: 10px;
+      letter-spacing: .12em;
+      border-bottom: 1px solid rgba(32,42,58,.7);
+    }
+    
+    .pane-title button {
+      display: none;
+      border: 0;
+      background: none;
+      color: #8792a4;
+      font-size: 18px;
+    }
+    
+    .brand-block {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      margin: 14px 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg,#121a27,#0d131c);
+      border-radius: 12px;
+    }
+    
+    .brand-glyph {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg,var(--purple),var(--cyan));
+      color: #080b10;
+      font-weight: 1000;
+      font-size: 13px;
+      box-shadow: 0 10px 24px rgba(97,102,255,.18);
+    }
+    
+    .brand-block strong {
+      display: block;
+      font: 700 11px ui-monospace,SFMono-Regular,Menlo,monospace;
+      letter-spacing: .04em;
+    }
+    
+    .brand-block small {
+      display: block;
+      color: var(--muted2);
+      font-size: 9px;
+      margin-top: 3px;
+    }
+    
+    .tree-section {
+      padding: 4px 8px;
+    }
+    
+    .tree-heading {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #98a3b5;
+      text-align: left;
+      font: 700 9px ui-monospace,SFMono-Regular,Menlo,monospace;
+      letter-spacing: .08em;
+      padding: 10px 8px;
+    }
+    
+    .tree-heading span {
+      color: #66748a;
+    }
+    
+    .chapter-tree {
+      display: grid;
+      gap: 2px;
+    }
+    
+    .chapter-item {
+      border: 0;
+      background: transparent;
+      color: #91a0b5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 8px 7px 20px;
+      border-radius: 6px;
+      text-align: left;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    
+    .chapter-item:hover {
+      background: #151c28;
+      color: #cbd6e8;
+    }
+    
+    .chapter-item.active {
+      background: #192235;
+      color: #f4f7ff;
+      box-shadow: inset 2px 0 0 var(--purple);
+    }
+    
+    .chapter-item.priority .folder {
+      color: var(--amber);
+    }
+    
+    .chapter-item .folder {
+      color: #79a9ff;
+      margin-right: 7px;
+    }
+    
+    .chapter-item b {
+      font: 600 9px ui-monospace,monospace;
+      color: #536178;
+    }
+    
+    .chapter-item.active b {
+      color: #a9b5c7;
+    }
+    
+    .question-map {
+      display: grid;
+      grid-template-columns: repeat(7,1fr);
+      gap: 5px;
+      padding: 3px 7px 8px;
+    }
+    
+    .map-btn {
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #101722;
+      color: #6f7d92;
+      font: 700 9px ui-monospace,monospace;
+      cursor: pointer;
+    }
+    
+    .map-btn:hover {
+      border-color: #52637c;
+      color: #dbe4f3;
+    }
+    
+    .map-btn.current {
+      background: #232341;
+      border-color: var(--purple);
+      color: #f3f0ff;
+      box-shadow: 0 0 0 2px rgba(167,139,250,.09);
+    }
+    
+    .map-btn.correct {
+      border-color: rgba(74,222,154,.55);
+      color: var(--green);
+      background: rgba(74,222,154,.07);
+    }
+    
+    .map-btn.incorrect {
+      border-color: rgba(255,107,129,.55);
+      color: var(--red);
+      background: rgba(255,107,129,.07);
+    }
+    
+    .map-legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: #66748a;
+      font-size: 8px;
+      padding: 2px 8px 8px;
+    }
+    
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    
+    .dot.current {
+      background: var(--purple);
+    }
+    
+    .dot.good {
+      background: var(--green);
+    }
+    
+    .dot.bad {
+      background: var(--red);
+    }
+    
+    .explorer-actions {
+      display: grid;
+      gap: 6px;
+      padding: 14px;
+    }
+    
+    .ghost-btn {
+      border: 1px solid var(--line);
+      background: #111722;
+      color: #8f9bad;
+      border-radius: 8px;
+      padding: 8px 9px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    
+    .ghost-btn:hover {
+      border-color: #3a4a61;
+      color: #dce5f5;
+    }
+    
+    .ghost-btn.danger:hover {
+      border-color: rgba(255,107,129,.45);
+      color: #ff8295;
+    }
+    
+    .editor {
+      min-width: 0;
+      background: radial-gradient(circle at 50% 0%,rgba(167,139,250,.06),transparent 28rem),#0b1017;
+      overflow: auto;
+    }
+    
+    .editor.hidden {
+      display: none;
+    }
+    
+    .editor-breadcrumbs {
+      height: 38px;
+      border-bottom: 1px solid rgba(32,42,58,.65);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 17px;
+      color: #647188;
+      font: 500 10px ui-monospace,SFMono-Regular,Menlo,monospace;
+    }
+    
+    .editor-breadcrumbs b {
+      color: #3e4a5e;
+    }
+    
+    .editor-stage {
+      width: min(900px,calc(100% - 48px));
+      margin: 0 auto;
+      padding: 38px 0 70px;
+    }
+    
+    .study-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 28px;
+      align-items: flex-end;
+      margin-bottom: 24px;
+    }
+    
+    .kicker {
+      font: 800 10px ui-monospace,SFMono-Regular,Menlo,monospace;
+      letter-spacing: .11em;
+      color: #8391a6;
+      margin-bottom: 8px;
+    }
+    
+    .live-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(74,222,154,.08);
+      margin-right: 8px;
+    }
+    
+    .live-dot.cyan {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(77,226,255,.08);
+    }
+    
+    .study-header h1 {
+      font-size: clamp(26px,3vw,42px);
+      line-height: 1.02;
+      letter-spacing: -.04em;
+      margin: 0;
+    }
+    
+    .study-header h1 span {
+      background: linear-gradient(90deg,#b79dff,#66e8ff);
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .study-header p {
+      margin: 10px 0 0;
+      color: #7d899d;
+      font-size: 13px;
+      max-width: 610px;
+    }
+    
+    .session-chip {
+      min-width: 112px;
+      text-align: right;
+      border-left: 1px solid var(--line);
+      padding-left: 18px;
+    }
+    
+    .session-chip span {
+      display: block;
+      font: 800 25px ui-monospace,SFMono-Regular,Menlo,monospace;
+    }
+    
+    .session-chip small {
+      color: #637087;
+      font-size: 9px;
+    }
+    
+    .question-shell {
+      position: relative;
+    }
+    
+    .line-rail {
+      position: absolute;
+      left: -39px;
+      top: 0;
+      width: 28px;
+      padding-top: 25px;
+      display: grid;
+      gap: 21px;
+      color: #344155;
+      font: 500 9px ui-monospace,monospace;
+      text-align: right;
+      user-select: none;
+    }
+    
+    .question-card {
+      background: linear-gradient(180deg,#111823,#0f151f);
+      border: 1px solid #253043;
+      border-radius: 16px;
+      box-shadow: 0 22px 55px rgba(0,0,0,.27),inset 0 1px 0 rgba(255,255,255,.025);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .question-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(var(--purple),transparent 55%);
+    }
+    
+    .question-topline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .question-id {
+      font: 800 14px ui-monospace,SFMono-Regular,Menlo,monospace;
+      color: #dfe6f1;
+    }
+    
+    .question-id small {
+      font-size: 9px;
+      color: #5e6a7e;
+      margin-left: 2px;
+    }
+    
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .tag {
+      padding: 4px 7px;
+      border: 1px solid #283549;
+      border-radius: 6px;
+      color: #8e9cb0;
+      background: #111925;
+      font: 700 8px ui-monospace,monospace;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .tag.purple {
+      color: #c0adff;
+      border-color: rgba(167,139,250,.32);
+      background: rgba(167,139,250,.07);
+    }
+    
+    .tiny-btn {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: #66748a;
+      border-radius: 6px;
+      padding: 5px 7px;
+      font: 600 8px ui-monospace,monospace;
+      cursor: pointer;
+    }
+    
+    .tiny-btn:hover {
+      color: #d4dcec;
+      border-color: #3b4b63;
+    }
+    
+    .prompt-block {
+      padding: 28px 28px 20px;
+    }
+    
+    .code-label {
+      font: 700 10px ui-monospace,SFMono-Regular,Menlo,monospace;
+      color: #77859a;
+      margin-bottom: 11px;
+    }
+    
+    .code-label span {
+      color: #c792ea;
+    }
+    
+    .code-label em {
+      font-style: normal;
+      color: #89ddff;
+    }
+    
+    .prompt-block h2 {
+      margin: 0;
+      font-size: clamp(19px,2.1vw,28px);
+      line-height: 1.35;
+      letter-spacing: -.02em;
+      font-weight: 740;
+    }
+    
+    .answers {
+      display: grid;
+      gap: 10px;
+      padding: 4px 28px 24px;
+    }
+    
+    .answer {
+      width: 100%;
+      border: 1px solid #253248;
+      background: #121a26;
+      color: #d7dfed;
+      border-radius: 11px;
+      padding: 14px 15px;
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      text-align: left;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+    
+    .answer:hover {
+      transform: translateY(-1px);
+      border-color: #41536f;
+      background: #151e2c;
+    }
+    
+    .answer.selected {
+      border-color: var(--purple);
+      background: rgba(167,139,250,.09);
+      box-shadow: 0 0 0 2px rgba(167,139,250,.08);
+    }
+    
+    .answer.correct-choice {
+      border-color: rgba(74,222,154,.56);
+      background: rgba(74,222,154,.08);
+    }
+    
+    .answer.wrong-choice {
+      border-color: rgba(255,107,129,.56);
+      background: rgba(255,107,129,.07);
+    }
+    
+    .answer-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      border: 1px solid #334259;
+      background: #0e141e;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      font: 800 10px ui-monospace,monospace;
+      color: #9ca9bb;
+    }
+    
+    .answer.selected .answer-letter {
+      border-color: var(--purple);
+      color: #d7ccff;
+    }
+    
+    .answer.correct-choice .answer-letter {
+      border-color: var(--green);
+      color: var(--green);
+    }
+    
+    .answer.wrong-choice .answer-letter {
+      border-color: var(--red);
+      color: var(--red);
+    }
+    
+    .answer-text {
+      font-size: 13px;
+      line-height: 1.45;
+      padding-top: 4px;
+    }
+    
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 18px 16px 28px;
+      border-top: 1px solid var(--line);
+      background: #0e141d;
+    }
+    
+    .shortcut-hint {
+      color: #58667a;
+      font-size: 9px;
+    }
+    
+    .shortcut-hint kbd,.keyboard-card kbd {
+      font: 700 8px ui-monospace,monospace;
+      color: #a5b1c3;
+      background: #171f2b;
+      border: 1px solid #2c394c;
+      border-bottom-color: #1b2431;
+      border-radius: 5px;
+      padding: 3px 5px;
+      box-shadow: 0 1px 0 #000;
+    }
+    
+    .shortcut-hint span {
+      margin: 0 6px;
+      color: #364256;
+    }
+    
+    .run-btn {
+      border: 1px solid #b29bff;
+      background: linear-gradient(135deg,#a78bfa,#7e71ff);
+      color: #090b10;
+      font-weight: 900;
+      border-radius: 9px;
+      padding: 10px 16px;
+      font-size: 11px;
+      box-shadow: 0 10px 28px rgba(126,113,255,.2);
+      cursor: pointer;
+    }
+    
+    .run-btn span {
+      margin-right: 5px;
+    }
+    
+    .run-btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    
+    .feedback-box {
+      display: none;
+      margin: 0 18px 18px 28px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #0c121a;
+    }
+    
+    .feedback-box.show {
+      display: block;
+      animation: reveal .25s ease;
+    }
+    
+    .feedback-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .feedback-head strong {
+      font: 800 10px ui-monospace,monospace;
+      letter-spacing: .08em;
+    }
+    
+    .feedback-head span {
+      font: 700 8px ui-monospace,monospace;
+      color: #59687d;
+    }
+    
+    .feedback-box.good {
+      border-color: rgba(74,222,154,.3);
+    }
+    
+    .feedback-box.bad {
+      border-color: rgba(255,107,129,.34);
+    }
+    
+    .feedback-box.good .feedback-head {
+      background: rgba(74,222,154,.07);
+      color: var(--green);
+    }
+    
+    .feedback-box.bad .feedback-head {
+      background: rgba(255,107,129,.07);
+      color: var(--red);
+    }
+    
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .feedback-cell {
+      padding: 14px 15px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .feedback-cell:nth-child(2n) {
+      border-right: 0;
+    }
+    
+    .feedback-cell.full {
+      grid-column: 1/-1;
+      border-right: 0;
+    }
+    
+    .feedback-cell label {
+      display: block;
+      color: #65738a;
+      font: 800 8px ui-monospace,monospace;
+      letter-spacing: .08em;
+      margin-bottom: 5px;
+    }
+    
+    .feedback-cell p {
+      margin: 0;
+      color: #b8c3d4;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+    
+    .feedback-cell.formula p {
+      font: 700 12px ui-monospace,SFMono-Regular,Menlo,monospace;
+      color: #d8e1ee;
+    }
+    
+    .feedback-cell.formula {
+      background: #0f1620;
+    }
+    
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    
+    .question-nav-row {
+      display: grid;
+      grid-template-columns: 130px 1fr 130px;
+      align-items: center;
+      gap: 18px;
+      margin-top: 14px;
+    }
+    
+    .nav-btn {
+      border: 1px solid var(--line);
+      background: #101722;
+      color: #8492a6;
+      border-radius: 9px;
+      padding: 10px 12px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    
+    .nav-btn:hover {
+      color: #e1e8f4;
+      border-color: #3a4a61;
+    }
+    
+    .nav-btn.primary {
+      border-color: #33445e;
+      color: #c4cfde;
+    }
+    
+    .progress-inline {
+      text-align: center;
+      color: #647289;
+      font-size: 9px;
+    }
+    
+    .mini-track {
+      height: 4px;
+      background: #17202d;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 7px;
+    }
+    
+    .mini-track i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg,var(--purple),var(--cyan));
+      border-radius: inherit;
+      transition: width .25s;
+    }
+    
+    .inspector-card,.score-card {
+      margin: 12px;
+      border: 1px solid var(--line);
+      background: #101620;
+      border-radius: 12px;
+    }
+    
+    .score-card {
+      display: flex;
+      gap: 13px;
+      align-items: center;
+      padding: 13px;
+    }
+    
+    .ring {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: conic-gradient(var(--purple) 0deg,#1b2635 0deg);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      position: relative;
+    }
+    
+    .ring::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      background: #0f151e;
+    }
+    
+    .ring div {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    
+    .ring strong {
+      display: block;
+      font: 900 15px ui-monospace,monospace;
+    }
+    
+    .ring small {
+      display: block;
+      color: #607087;
+      font-size: 7px;
+    }
+    
+    .score-copy span,.card-label {
+      display: block;
+      color: #647288;
+      font: 800 8px ui-monospace,monospace;
+      letter-spacing: .1em;
+    }
+    
+    .score-copy strong {
+      display: block;
+      margin: 4px 0 2px;
+      font: 800 15px ui-monospace,monospace;
+    }
+    
+    .score-copy small {
+      display: block;
+      color: #657389;
+      font-size: 8px;
+      line-height: 1.4;
+    }
+    
+    .inspector-card {
+      padding: 13px;
+    }
+    
+    .priority-card {
+      background: linear-gradient(145deg,rgba(167,139,250,.08),#101620);
+    }
+    
+    .priority-row {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+      margin-top: 11px;
+    }
+    
+    .priority-row>span {
+      width: 27px;
+      height: 27px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: #1f1c35;
+      color: #b8a6ff;
+      border: 1px solid rgba(167,139,250,.23);
+      font: 800 9px ui-monospace,monospace;
+    }
+    
+    .priority-row strong {
+      display: block;
+      font-size: 10px;
+    }
+    
+    .priority-row small {
+      display: block;
+      color: #657289;
+      font-size: 7.5px;
+      margin-top: 2px;
+    }
+    
+    .context-grid {
+      margin: 10px 0 0;
+      display: grid;
+      gap: 8px;
+    }
+    
+    .context-grid div {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+    
+    .context-grid dt {
+      color: #566479;
+      font: 700 8px ui-monospace,monospace;
+    }
+    
+    .context-grid dd {
+      margin: 0;
+      color: #aab5c6;
+      font-size: 9px;
+      line-height: 1.35;
+    }
+    
+    .quick-rule p {
+      margin: 9px 0 0;
+      color: #aeb8c8;
+      font-size: 10px;
+      line-height: 1.55;
+    }
+    
+    .keyboard-card>div:not(.card-label) {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+    }
+    
+    .keyboard-card span {
+      margin-right: auto;
+      color: #6b788c;
+      font-size: 8px;
+    }
+    
+    .statusbar {
+      background: #131a24;
+      border-top: 1px solid #253044;
+      color: #728096;
+      font: 600 9px ui-monospace,monospace;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      padding: 0 10px;
+    }
+    
+    .statusbar>div {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .statusbar .status-center {
+      justify-content: center;
+      color: #65748a;
+    }
+    
+    .statusbar>div:last-child {
+      justify-content: flex-end;
+    }
+    
+    .branch {
+      color: var(--cyan);
+    }
+    
+    .workout-stage {
+      width: min(980px,calc(100% - 48px));
+    }
+    
+    .workout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    
+    .workout-card {
+      border: 1px solid #263247;
+      background: linear-gradient(180deg,#111823,#0e151f);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    
+    .workout-card header {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .workout-index {
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #1d1d34;
+      color: #c0adff;
+      font: 800 10px ui-monospace,monospace;
+    }
+    
+    .workout-card h3 {
+      font-size: 12px;
+      margin: 0;
+    }
+    
+    .workout-card .body {
+      padding: 15px;
+    }
+    
+    .workout-card p {
+      margin: 0;
+      color: #98a5b8;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    
+    .reveal-btn {
+      margin-top: 14px;
+      border: 1px solid #33435b;
+      background: #141d2a;
+      color: #b6c1d1;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 9px;
+      cursor: pointer;
+    }
+    
+    .workout-answer {
+      display: none;
+      margin-top: 12px;
+      padding: 11px;
+      border: 1px solid rgba(77,226,255,.18);
+      background: rgba(77,226,255,.04);
+      border-radius: 9px;
+    }
+    
+    .workout-answer.show {
+      display: block;
+    }
+    
+    .workout-answer strong {
+      font: 800 8px ui-monospace,monospace;
+      color: var(--cyan);
+      letter-spacing: .08em;
+    }
+    
+    .workout-answer p {
+      margin-top: 6px;
+    }
+    
+    .formula-line {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      font: 700 10px ui-monospace,monospace;
+      color: #dbe6f5;
+    }
+    
+    .scrim {
+      display: none;
+    }
+    
+    @media (max-width:1180px) {
+      .workspace {
+        grid-template-columns: 220px minmax(520px,1fr);
+      }
+      .inspector {
+        display: none;
+      }
+      .titlebar {
+        grid-template-columns: 145px 1fr 280px 40px;
+      }
+      .editor-stage {
+        width: min(860px,calc(100% - 44px));
+      }
+    }
+    
+    @media (max-width:860px) {
+      body {
+        background: #070a0f;
+      }
+      .app-window {
+        width: 100%;
+        height: 100vh;
+        min-height: 0;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+      }
+      .titlebar {
+        grid-template-columns: 1fr 42px;
+      }
+      .traffic,.command-pill {
+        display: none;
+      }
+      .tabs {
+        min-width: 0;
+      }
+      .mobile-menu {
+        display: block;
+      }
+      .workspace {
+        display: block;
+      }
+      .explorer {
+        position: fixed;
+        z-index: 90;
+        left: -270px;
+        top: 46px;
+        bottom: 26px;
+        width: 260px;
+        transition: left .22s;
+        box-shadow: 20px 0 60px #000;
+      }
+      .explorer.open {
+        left: 0;
+      }
+      .pane-title button {
+        display: block;
+      }
+      .editor {
+        height: calc(100vh - 72px);
+      }
+      .editor-stage {
+        width: min(100% - 28px,720px);
+        padding-top: 26px;
+      }
+      .study-header {
+        align-items: flex-start;
+      }
+      .session-chip {
+        display: none;
+      }
+      .line-rail {
+        display: none;
+      }
+      .prompt-block {
+        padding: 23px 18px 17px;
+      }
+      .answers {
+        padding: 3px 18px 20px;
+      }
+      .submit-row {
+        padding: 14px 18px;
+        align-items: flex-end;
+      }
+      .shortcut-hint {
+        display: none;
+      }
+      .feedback-box {
+        margin: 0 18px 18px;
+      }
+      .feedback-grid {
+        grid-template-columns: 1fr;
+      }
+      .feedback-cell {
+        border-right: 0;
+      }
+      .question-nav-row {
+        grid-template-columns: 100px 1fr 100px;
+      }
+      .workout-grid {
+        grid-template-columns: 1fr;
+      }
+      .statusbar {
+        grid-template-columns: 1fr 1fr;
+      }
+      .statusbar .status-center {
+        display: none;
+      }
+      .scrim.show {
+        display: block;
+        position: fixed;
+        z-index: 80;
+        inset: 46px 0 26px;
+        background: rgba(0,0,0,.55);
+        backdrop-filter: blur(2px);
+      }
+    }
+    
+    @media (max-width:560px) {
+      .tab {
+        padding: 0 11px;
+        font-size: 10px;
+      }
+      .study-header h1 {
+        font-size: 27px;
+      }
+      .study-header p {
+        font-size: 11px;
+      }
+      .question-topline {
+        padding: 13px;
+      }
+      .prompt-block h2 {
+        font-size: 20px;
+      }
+      .answer {
+        padding: 12px;
+      }
+      .answer-text {
+        font-size: 12px;
+      }
+      .question-nav-row {
+        grid-template-columns: 1fr 1fr;
+      }
+      .progress-inline {
+        grid-column: 1/-1;
+        grid-row: 1;
+      }
+      .feedback-grid {
+        display: block;
+      }
+      .feedback-cell {
+        border-right: 0;
+      }
+      .statusbar>div:last-child span:nth-child(-n+2) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="aurora aurora-one" aria-hidden="true"></div>
+  <div class="aurora aurora-two" aria-hidden="true"></div>
+
+  <div class="app-window">
+    <header class="titlebar">
+      <div class="traffic" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="tabs" role="tablist" aria-label="Study views">
+        <button class="tab active" data-view="quiz" role="tab" aria-selected="true"><span class="file-icon html">&lt;/&gt;</span> quiz.html <b>●</b></button>
+        <button class="tab" data-view="workouts" role="tab" aria-selected="false"><span class="file-icon md">#</span> workouts.md</button>
+      </div>
+      <div class="command-pill"><span>⌘</span><span>DS-101 / Section 11</span><kbd>⌕</kbd></div>
+      <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+    </header>
+
+    <div class="workspace">
+      <aside class="explorer" id="explorer">
+        <div class="pane-title"><span>EXPLORER</span><button id="closeExplorer" aria-label="Close navigation">×</button></div>
+        <section class="brand-block">
+          <div class="brand-glyph">DS</div>
+          <div><strong>EXAM_PREP</strong><small>intro-business-analytics</small></div>
+        </section>
+
+        <section class="tree-section">
+          <button class="tree-heading"><span>⌄</span> REVIEW MODULES</button>
+          <nav id="chapterNav" class="chapter-tree" aria-label="Chapter filters"></nav>
+        </section>
+
+        <section class="tree-section">
+          <button class="tree-heading"><span>⌄</span> QUESTION MAP</button>
+          <div id="questionMap" class="question-map" aria-label="Question navigator"></div>
+          <div class="map-legend"><span><i class="dot current"></i>current</span><span><i class="dot good"></i>correct</span><span><i class="dot bad"></i>review</span></div>
+        </section>
+
+        <section class="explorer-actions">
+          <button class="ghost-btn" id="reviewMissed">↻ Review missed</button>
+          <button class="ghost-btn danger" id="resetAll">⌫ Reset progress</button>
+        </section>
+      </aside>
+
+      <main class="editor" id="quizView">
+        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span id="crumbChapter">Chapter 5</span><b>›</b><span id="crumbTopic">Categorical variables</span></div>
+
+        <section class="editor-stage">
+          <div class="study-header">
+            <div>
+              <div class="kicker"><span class="live-dot"></span> PRACTICE SESSION</div>
+              <h1>Business Analytics <span>Study Console</span></h1>
+              <p>35 exam-style questions built around your class topics, calculations, and JMP interpretation.</p>
+            </div>
+            <div class="session-chip"><span id="sessionAnswered">0</span><small>of 35 answered</small></div>
+          </div>
+
+          <div class="question-shell" id="questionShell">
+            <div class="line-rail" aria-hidden="true">
+              <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span>
+            </div>
+            <article class="question-card">
+              <header class="question-topline">
+                <div class="question-id"><span id="questionNumber">01</span><small>/ 35</small></div>
+                <div class="tags"><span id="chapterTag" class="tag purple">CH 5</span><span id="topicTag" class="tag">Categorical variables</span></div>
+                <button class="tiny-btn" id="retryQuestion" title="Clear this answer">↺ retry</button>
+              </header>
+
+              <div class="prompt-block">
+                <div class="code-label"><span>const</span> question <em>=</em></div>
+                <h2 id="questionText"></h2>
+              </div>
+
+              <div class="answers" id="answerList"></div>
+
+              <div class="submit-row">
+                <div class="shortcut-hint"><kbd>1–4</kbd> choose <span>·</span> <kbd>Enter</kbd> submit <span>·</span> <kbd>← →</kbd> navigate</div>
+                <button class="run-btn" id="submitAnswer"><span>▶</span> Run answer</button>
+              </div>
+
+              <div id="feedbackBox" class="feedback-box" aria-live="polite"></div>
+            </article>
+          </div>
+
+          <div class="question-nav-row">
+            <button class="nav-btn" id="prevQuestion">← Previous</button>
+            <div class="progress-inline"><span id="currentPosition">Question 1 of 35</span><div class="mini-track"><i id="miniProgress"></i></div></div>
+            <button class="nav-btn primary" id="nextQuestion">Next →</button>
+          </div>
+        </section>
+      </main>
+
+      <main class="editor hidden" id="workoutView">
+        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span>workouts.md</span><b>›</b><span>calculation-practice</span></div>
+        <section class="editor-stage workout-stage">
+          <div class="study-header">
+            <div><div class="kicker"><span class="live-dot cyan"></span> DEEP PRACTICE</div><h1>Workout <span>Problems</span></h1><p>Do these on paper first. Reveal the setup only after you commit to your own work.</p></div>
+            <div class="session-chip"><span>10</span><small>extended problems</small></div>
+          </div>
+          <div id="workoutList" class="workout-grid"></div>
+        </section>
+      </main>
+
+      <aside class="inspector">
+        <div class="pane-title"><span>INSPECTOR</span><span>•••</span></div>
+
+        <section class="score-card">
+          <div class="ring" id="scoreRing"><div><strong id="scorePct">0%</strong><small>accuracy</small></div></div>
+          <div class="score-copy"><span>SESSION SCORE</span><strong id="scoreCount">0 / 0</strong><small id="scoreCaption">Start answering to build your score.</small></div>
+        </section>
+
+        <section class="inspector-card priority-card">
+          <div class="card-label">PRIORITY REVIEW</div>
+          <div class="priority-row"><span>15</span><div><strong>Confidence Intervals</strong><small>margin of error · z vs t · interpretation</small></div></div>
+          <div class="priority-row"><span>16</span><div><strong>Hypothesis Testing</strong><small>critical values · p-values · decisions</small></div></div>
+        </section>
+
+        <section class="inspector-card">
+          <div class="card-label">CURRENT CONTEXT</div>
+          <dl class="context-grid">
+            <div><dt>chapter</dt><dd id="contextChapter">5</dd></div>
+            <div><dt>status</dt><dd id="contextStatus">unanswered</dd></div>
+            <div><dt>topic</dt><dd id="contextTopic">Categorical variables</dd></div>
+            <div><dt>mode</dt><dd>multiple choice</dd></div>
+          </dl>
+        </section>
+
+        <section class="inspector-card quick-rule">
+          <div class="card-label">QUICK RULE</div>
+          <p id="quickRule">Two categorical variables → contingency table or mosaic plot.</p>
+        </section>
+
+        <section class="inspector-card keyboard-card">
+          <div class="card-label">KEYBOARD</div>
+          <div><span>Choose answer</span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div>
+          <div><span>Submit</span><kbd>Enter</kbd></div>
+          <div><span>Navigate</span><kbd>←</kbd><kbd>→</kbd></div>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="statusbar">
+      <div><span class="branch">⑂</span> main <span>✓ synced</span></div>
+      <div class="status-center"><span id="statusText">Ready</span></div>
+      <div><span>UTF-8</span><span>DS-101</span><span>Dark+</span><span>⚡ Focus</span></div>
+    </footer>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <script>
+    const questions = [
+      {
+        n: 1,
+        ch: '5',
+        topic: 'Categorical variables',
+        q: 'Which display is designed for the relationship between two categorical variables?',
+        opts: [
+          'Scatterplot',
+          'Mosaic plot',
+          'Histogram of sample means',
+          'x̄ control chart'
+        ],
+        a: 1,
+        exp: 'A mosaic plot is built for two categorical variables. Its column widths reflect group sizes, while the segment heights show conditional proportions.',
+        tip: 'Ask what type each variable is before choosing a graph. Two categorical variables → contingency table or mosaic plot.'
+      },
+    
+      {
+        n: 2,
+        ch: '5',
+        topic: 'Conditional distributions',
+        q: 'A contingency table has 80 customers: 50 members and 30 nonmembers. To compare payment preferences between the two groups, which values are most useful?',
+        opts: [
+          'Overall marginal counts only',
+          'Conditional percentages within member and nonmember groups',
+          'Pearson correlations',
+          'Sample means'
+        ],
+        a: 1,
+        exp: 'To compare categories across groups, calculate percentages within each group. Those are conditional distributions. Raw counts can mislead when group sizes differ.',
+        tip: 'When the question says “compare groups,” think conditional percentages, not marginal totals.'
+      },
+    
+      {
+        n: 3,
+        ch: '5',
+        topic: 'Association',
+        q: 'If conditional distributions are nearly the same across groups, the class worksheet says this suggests:',
+        opts: [
+          'Strong association',
+          'Little or weak evidence of association',
+          'Causation',
+          'A Type I error'
+        ],
+        a: 1,
+        exp: 'If the conditional distributions barely change from one group to another, knowing one variable provides little information about the other. That means little evidence of association.',
+        tip: 'Different conditional distributions → evidence of association. Similar conditional distributions → weak or little evidence.'
+      },
+    
+      {
+        n: 4,
+        ch: '5',
+        topic: "Simpson's paradox",
+        q: 'After data are separated by a third variable, the direction of an apparent relationship reverses. This is called:',
+        opts: [
+          'Central Limit Theorem',
+          "Simpson's paradox",
+          'Binomial independence',
+          'Practical significance'
+        ],
+        a: 1,
+        exp: "Simpson's paradox occurs when an overall association reverses or changes substantially after the data are separated by a lurking or grouping variable.",
+        tip: 'Watch for a third variable that changes the story when you split the data into groups.'
+      },
+    
+      {
+        n: 5,
+        ch: '6',
+        topic: 'Pearson correlation',
+        q: 'Pearson correlation is appropriate when:',
+        opts: [
+          'Both variables are numerical',
+          'Both variables are categorical',
+          'One variable is always a count',
+          'The data form a contingency table'
+        ],
+        a: 0,
+        exp: 'Pearson correlation measures the direction and strength of a linear relationship between two numerical variables.',
+        tip: 'Two numerical variables → scatterplot + Pearson correlation. Two categorical variables → contingency table/mosaic plot.'
+      },
+    
+      {
+        n: 6,
+        ch: '6',
+        topic: 'Interpreting r',
+        q: 'JMP reports r = −0.88. The best interpretation is:',
+        opts: [
+          'Strong positive linear association',
+          'Strong negative linear association',
+          'Weak negative linear association',
+          '88% of Y is caused by X'
+        ],
+        a: 1,
+        exp: 'The negative sign gives the direction. Since |r| = 0.88 is close to 1, the linear association is strong. Correlation does not prove causation.',
+        tip: 'Sign = direction. |r| = strength. Never turn r into a causal percentage.'
+      },
+    
+      {
+        n: 7,
+        ch: '6',
+        topic: 'Covariance',
+        q: 'Why is covariance harder to use as a stand-alone strength measure than correlation?',
+        opts: [
+          'Covariance can only be positive',
+          'Covariance depends on units and has no fixed scale',
+          'Covariance only works for categorical variables',
+          'Covariance is always between −1 and 1'
+        ],
+        a: 1,
+        exp: 'Covariance changes when measurement units change, and it does not live on a fixed standardized scale. Pearson r fixes both issues by being unitless and bounded from −1 to 1.',
+        tip: 'Correlation is standardized covariance.'
+      },
+    
+      {
+        n: 8,
+        ch: '6',
+        topic: 'Linear vs nonlinear',
+        q: 'A scatterplot shows a clear curved pattern but r is close to 0. Which statement is safest?',
+        opts: [
+          'There is definitely no relationship',
+          'Pearson r indicates weak linear association, but a nonlinear relationship may still exist',
+          'The variables must be categorical',
+          'The sample size must be zero'
+        ],
+        a: 1,
+        exp: 'Pearson r only summarizes linear association. A strong curved relationship can still produce a correlation near zero.',
+        tip: 'Always read the scatterplot before relying only on r.'
+      },
+    
+      {
+        n: 9,
+        ch: '11',
+        topic: 'Binomial conditions',
+        q: 'Which is NOT one of the binomial conditions emphasized in your worksheet?',
+        opts: [
+          'Fixed number of trials',
+          'Two outcomes per trial',
+          'Constant probability of success',
+          'The number of trials continues until the first success'
+        ],
+        a: 3,
+        exp: 'A binomial model uses a fixed number n of independent trials, each with two outcomes and the same success probability p. “Continue until first success” describes a geometric-style setup.',
+        tip: 'Binomial = fixed n. Geometric = count trials until first success.'
+      },
+    
+      {
+        n: 10,
+        ch: '11',
+        topic: 'Probability wording',
+        q: 'If X counts successes in 12 trials, “at least 9 successes” means:',
+        opts: [
+          'X > 9',
+          'X ≥ 9',
+          'X ≤ 9',
+          'X < 9'
+        ],
+        a: 1,
+        exp: '“At least 9” includes 9 itself and every larger possible value, so X ≥ 9.',
+        tip: 'At least = ≥. More than = >. At most / no more than = ≤. Less than = <.'
+      },
+    
+      {
+        n: 11,
+        ch: '11',
+        topic: 'Binomial mean',
+        q: 'For X ~ Binomial(n = 20, p = 0.30), the expected number of successes is:',
+        opts: [
+          '3',
+          '6',
+          '14',
+          '20'
+        ],
+        a: 1,
+        exp: 'For a binomial random variable, the mean is E(X) = np. Here, 20(0.30) = 6.',
+        tip: 'Binomial mean: μ = np.',
+        formula: 'μ = E(X) = np = 20(0.30) = 6'
+      },
+    
+      {
+        n: 12,
+        ch: '11',
+        topic: 'Recognizing binomial',
+        q: 'A player takes 10 independent shots with the same make probability each time. X is the number made. This setup is best described as:',
+        opts: [
+          'Binomial',
+          'Chi-square independence',
+          'Confidence interval',
+          'Stratified sample'
+        ],
+        a: 0,
+        exp: 'There are 10 fixed trials, each shot has two outcomes, p is constant, and the shots are assumed independent. X counts successes, so a binomial model fits.',
+        tip: 'Fixed n + two outcomes + constant p + independence = binomial.'
+      },
+    
+      {
+        n: 13,
+        ch: '11',
+        topic: 'Probability wording',
+        q: '“No more than 2 successes” is written:',
+        opts: [
+          'P(X ≥ 2)',
+          'P(X > 2)',
+          'P(X ≤ 2)',
+          'P(X < 2)'
+        ],
+        a: 2,
+        exp: '“No more than 2” means 0, 1, or 2 successes, so P(X ≤ 2).',
+        tip: 'Translate the words before touching JMP.'
+      },
+    
+      {
+        n: 14,
+        ch: '12',
+        topic: 'Normal Quantile',
+        q: 'The Chapter 12 JMP file uses Normal Quantile. Conceptually, Normal Quantile is used to find:',
+        opts: [
+          'A cutoff/value corresponding to a specified cumulative probability',
+          'A contingency-table expected count',
+          'Pearson correlation',
+          'A sample-selection method'
+        ],
+        a: 0,
+        exp: 'A normal quantile works backward from a cumulative probability (percentile) to the corresponding value on a normal-distribution scale.',
+        tip: 'Probability → cutoff is a quantile problem. Cutoff → probability is a cumulative probability problem.'
+      },
+    
+      {
+        n: 15,
+        ch: '12',
+        topic: 'Normal scale',
+        q: 'In a Normal Quantile calculation, changing the mean and standard deviation changes:',
+        opts: [
+          'The requested percentile/cutoff on the original measurement scale',
+          'Whether variables are categorical',
+          'The number of χ² categories',
+          'Whether n is a population size'
+        ],
+        a: 0,
+        exp: 'The mean shifts the distribution and the standard deviation changes its spread, so the percentile location changes on the original measurement scale.',
+        tip: 'The percentile probability can stay the same while the actual cutoff changes when μ or σ changes.'
+      },
+    
+      {
+        n: 16,
+        ch: '13',
+        topic: 'Population vs sample',
+        q: 'A population is:',
+        opts: [
+          'A subset selected for study',
+          'All elements under study',
+          'The sample mean',
+          'Only volunteers'
+        ],
+        a: 1,
+        exp: 'The population is the full set of elements you want information about. A sample is only a subset taken from that population.',
+        tip: 'Population → N and parameters. Sample → n and statistics.'
+      },
+    
+      {
+        n: 17,
+        ch: '13',
+        topic: 'Stratified sampling',
+        q: 'A researcher divides students by class year and randomly samples students from every class year. This is:',
+        opts: [
+          'Cluster sampling',
+          'Convenience sampling',
+          'Stratified sampling',
+          'Voluntary response'
+        ],
+        a: 2,
+        exp: 'Stratified sampling divides the population into groups and takes a sample from every group. The goal is representation across all strata.',
+        tip: 'Stratified = sample from ALL groups. Cluster = randomly choose SOME groups.'
+      },
+    
+      {
+        n: 18,
+        ch: '13',
+        topic: 'Cluster sampling',
+        q: 'A researcher randomly chooses 4 entire store locations and surveys everyone in those selected locations. This most closely matches:',
+        opts: [
+          'Cluster sampling',
+          'Stratified sampling',
+          'Systematic sampling',
+          'Convenience sampling'
+        ],
+        a: 0,
+        exp: 'The stores are natural groups (clusters). Only some locations are selected, and people inside those selected clusters are surveyed.',
+        tip: 'Cluster sampling is often cheaper because you only visit selected groups.'
+      },
+    
+      {
+        n: 19,
+        ch: '13',
+        topic: 'Statistic vs parameter',
+        q: 'Which is a statistic rather than a parameter?',
+        opts: [
+          'The true mean spending of all customers',
+          'The true proportion of all users who renew',
+          'The sample mean from 75 customers',
+          'The population variance'
+        ],
+        a: 2,
+        exp: 'A statistic is computed from a sample. The sample mean x̄ from 75 customers is a statistic. The other choices describe population parameters.',
+        tip: 'Statistic = sample. Parameter = population.'
+      },
+    
+      {
+        n: 20,
+        ch: '14',
+        topic: 'Control charts',
+        q: 'An x̄ control chart plots:',
+        opts: [
+          'Individual raw observations only',
+          'Sample means over time',
+          'Sample proportions only',
+          'Categorical counts'
+        ],
+        a: 1,
+        exp: 'Each point on an x̄-chart is a subgroup/sample mean. The chart monitors whether the process center appears stable over time.',
+        tip: 'x̄-chart → sample means. s-chart → sample standard deviations. R-chart → sample ranges.'
+      },
+    
+      {
+        n: 21,
+        ch: '14',
+        topic: 'Standard error',
+        q: 'A process has μ = 100, σ = 8, and samples of n = 16. What is SE(x̄)?',
+        opts: [
+          '0.5',
+          '2',
+          '4',
+          '8'
+        ],
+        a: 1,
+        exp: 'The standard error of the sample mean is σ/√n. Here √16 = 4, so SE(x̄) = 8/4 = 2.',
+        tip: 'The sample mean varies less than individual observations because the standard error divides by √n.',
+        formula: 'SE(x̄) = σ/√n = 8/√16 = 8/4 = 2'
+      },
+    
+      {
+        n: 22,
+        ch: '14',
+        topic: 'Control limits',
+        q: 'Using Question 21, the 3-SE upper control limit is:',
+        opts: [
+          '102',
+          '104',
+          '106',
+          '124'
+        ],
+        a: 2,
+        exp: 'The upper control limit is μ + 3(SE). With μ = 100 and SE = 2, UCL = 100 + 3(2) = 106.',
+        tip: 'For the class 3-SE rule: LCL = μ − 3SE and UCL = μ + 3SE.',
+        formula: 'UCL = μ + 3(SE) = 100 + 3(2) = 106'
+      },
+    
+      {
+        n: 23,
+        ch: '14',
+        topic: 'Control-chart interpretation',
+        q: 'A point falls above the UCL on an x̄ chart. The correct conclusion from your class notes is:',
+        opts: [
+          'The process malfunction is proven',
+          'Ignore it because all points are random',
+          'Investigate because it is unusually far from target',
+          'Automatically lower α'
+        ],
+        a: 2,
+        exp: 'A point outside a control limit is unusually far from the target under ordinary variation, so it is a signal to investigate. It does not prove a specific malfunction or cause.',
+        tip: 'Control-chart signal = investigate, not “proved broken.”'
+      },
+    
+      {
+        n: 24,
+        ch: '15',
+        topic: 'Confidence interval structure',
+        q: 'A confidence interval is best described as:',
+        opts: [
+          'Point estimate ± margin of error',
+          'Test statistic ± p-value',
+          'Population ± sample',
+          'Expected count ± observed count'
+        ],
+        a: 0,
+        exp: 'The basic confidence-interval structure is point estimate ± margin of error. For a population mean, x̄ is usually the point estimate.',
+        tip: 'Think center ± uncertainty.',
+        formula: 'Confidence interval = point estimate ± margin of error'
+      },
+    
+      {
+        n: 25,
+        ch: '15',
+        topic: 'z vs t',
+        q: 'Population σ is unknown when estimating a population mean. According to your Chapter 15 worksheet, use:',
+        opts: [
+          'z only',
+          't with df = n − 1',
+          'χ² independence',
+          "Cramer's V"
+        ],
+        a: 1,
+        exp: 'When the population standard deviation σ is unknown, replace it with the sample standard deviation s and use the t distribution with df = n − 1.',
+        tip: 'Unknown σ → t. Known σ → z.',
+        formula: 'df = n − 1'
+      },
+    
+      {
+        n: 26,
+        ch: '15',
+        topic: 'Interval width',
+        q: 'Which change makes a confidence interval narrower, all else equal?',
+        opts: [
+          'Higher confidence level',
+          'Smaller sample size',
+          'Larger sample size',
+          'Greater variability'
+        ],
+        a: 2,
+        exp: 'A larger sample size lowers standard error, which lowers the margin of error and narrows the interval. Higher confidence or greater variability makes intervals wider.',
+        tip: 'More data → narrower interval. More confidence → wider interval.'
+      },
+    
+      {
+        n: 27,
+        ch: '15',
+        topic: 'CI interpretation',
+        q: 'Which is the correct interpretation of a 95% confidence interval?',
+        opts: [
+          'There is a 95% probability the fixed population parameter is inside this computed interval',
+          'We are 95% confident the population parameter lies between the interval endpoints',
+          '95% of the sample observations must lie inside the interval',
+          'H₀ is true with probability .95'
+        ],
+        a: 1,
+        exp: 'Your course uses the wording “We are 95% confident that the population parameter is between the two endpoints.” The interval is about uncertainty in the parameter estimate, not the percentage of raw observations.',
+        tip: 'Avoid saying “95% probability the parameter is in this already-computed interval.”'
+      },
+    
+      {
+        n: 28,
+        ch: '16',
+        topic: 'Hypotheses',
+        q: 'In a hypothesis test, H₀ generally contains:',
+        opts: [
+          'The benchmark/equality value',
+          'Only a greater-than sign',
+          'Only the sample mean',
+          'The p-value'
+        ],
+        a: 0,
+        exp: 'The null hypothesis states the benchmark/status-quo value and contains equality. The alternative tells you what kind of evidence you are looking for.',
+        tip: 'Put = in H₀. The direction (<, >, ≠) belongs in H₁.'
+      },
+    
+      {
+        n: 29,
+        ch: '16',
+        topic: 'Test tails',
+        q: 'If H₁: μ < 50, the test is:',
+        opts: [
+          'Right-tailed',
+          'Left-tailed',
+          'Two-tailed',
+          'Chi-square only'
+        ],
+        a: 1,
+        exp: 'The alternative points to values below the benchmark, so the rejection region is in the left tail.',
+        tip: 'The inequality in H₁ tells you the tail: < left, > right, ≠ two-tailed.'
+      },
+    
+      {
+        n: 30,
+        ch: '16',
+        topic: 'p-value decision',
+        q: 'At α = .05, JMP reports p = .018. The decision is:',
+        opts: [
+          'Fail to reject H₀',
+          'Reject H₀',
+          'Accept H₀',
+          'Increase p to .05'
+        ],
+        a: 1,
+        exp: 'Because p = .018 is smaller than α = .05, the observed result is sufficiently unusual under H₀ to reject H₀.',
+        tip: 'p < α → reject H₀. p ≥ α → fail to reject H₀.',
+        formula: '0.018 < 0.05 → Reject H₀'
+      },
+    
+      {
+        n: 31,
+        ch: '16',
+        topic: 'p-value meaning',
+        q: 'A p-value is:',
+        opts: [
+          'The probability H₀ is true',
+          'Assuming H₀ is true, the probability of a result at least as extreme as observed',
+          'The probability the sample mean equals the population mean',
+          'The confidence level'
+        ],
+        a: 1,
+        exp: 'The p-value is calculated under the assumption that H₀ is true. It measures how unusual the observed statistic, or something more extreme, would be under that assumption.',
+        tip: 'Never interpret the p-value as P(H₀ is true).'
+      },
+    
+      {
+        n: 32,
+        ch: '16',
+        topic: 'CI-test connection',
+        q: 'In a two-tailed test with α = .05, the matching confidence level in your worksheet is:',
+        opts: [
+          '90%',
+          '95%',
+          '97.5%',
+          '99%'
+        ],
+        a: 1,
+        exp: 'For a two-tailed test, α = .05 corresponds to a 95% confidence interval. If the null value is outside that interval, the two-tailed test rejects at α = .05.',
+        tip: 'α = .10 ↔ 90% CI, α = .05 ↔ 95% CI, α = .01 ↔ 99% CI.'
+      },
+    
+      {
+        n: 33,
+        ch: '18',
+        topic: 'Goodness-of-fit',
+        q: 'A χ² goodness-of-fit test is used to ask whether:',
+        opts: [
+          'Two numerical variables have linear association',
+          'One categorical distribution matches a proposed distribution/model',
+          'A population mean equals a benchmark',
+          'A control chart point is outside UCL'
+        ],
+        a: 1,
+        exp: 'A chi-square goodness-of-fit test compares observed counts in one categorical variable with the counts expected from a proposed distribution or probability model.',
+        tip: 'GOF = one categorical variable vs a proposed model. Independence = two categorical variables.'
+      },
+    
+      {
+        n: 34,
+        ch: '18',
+        topic: 'Expected counts',
+        q: 'In a χ² test of independence, an expected cell count is computed as:',
+        opts: [
+          'row total + column total',
+          '(row total × column total) / grand total',
+          'observed count / grand total',
+          'sample mean / standard error'
+        ],
+        a: 1,
+        exp: 'Under independence, the expected count combines the row and column marginal totals and divides by the overall grand total.',
+        tip: 'Expected count is based on marginals, not on the observed count in that cell.',
+        formula: 'E = (row total × column total) / grand total'
+      },
+    
+      {
+        n: 35,
+        ch: '18',
+        topic: 'JMP χ² output',
+        q: 'JMP reports Pearson χ² p = .003 at α = .05 for payment method vs membership status. The appropriate inferential conclusion is:',
+        opts: [
+          'Fail to reject independence',
+          'Reject H₀; there is evidence the variables are associated',
+          'Membership causes payment method',
+          'The χ² statistic must be negative'
+        ],
+        a: 1,
+        exp: 'Since .003 < .05, reject H₀ of independence. There is evidence that payment method and membership status are associated in the population. An association does not establish causation.',
+        tip: 'For chi-square independence, H₀ = independent and H₁ = associated/dependent.'
+      }
+    ];
+    
+    const workouts = [
+      {
+        label: 'A',
+        title: 'Conditional percentages',
+        prompt: 'A customer table shows 36 premium customers: 24 use app checkout and 12 use cashier checkout. Among 24 standard customers, 8 use app checkout and 16 use cashier checkout. Compute the conditional percentage using app checkout within each customer group. Does the pattern suggest association?',
+        answer: 'Premium: 24/36 = 66.7%. Standard: 8/24 = 33.3%. The conditional percentages are very different, so the pattern suggests an association between customer group and checkout method.',
+        formula: 'Premium app = 24 ÷ 36 = 0.667; Standard app = 8 ÷ 24 = 0.333'
+      },
+    
+      {
+        label: 'B',
+        title: 'Correlation interpretation',
+        prompt: 'JMP gives r = 0.42 for advertising and sales. State direction, relative strength, and what you must NOT conclude about causation.',
+        answer: 'The relationship is positive and moderate in linear strength. As advertising tends to increase, sales tend to increase. You must not conclude that advertising causes sales from correlation alone.',
+        formula: 'r = 0.42 → positive sign; |r| = 0.42 → moderate linear association'
+      },
+    
+      {
+        label: 'C',
+        title: 'Binomial',
+        prompt: 'A service representative successfully resolves a call on the first attempt with p = .70. Assume 8 independent calls with constant p. Write the model, compute the expected number of first-attempt resolutions, and write the expression for P(X ≥ 7).',
+        answer: 'X ~ Binomial(8, 0.70). The expected value is E(X)=np=8(0.70)=5.6. For at least 7 successes, add P(X=7) and P(X=8), or use the equivalent upper-tail calculation in JMP.',
+        formula: 'X ~ Binomial(8, 0.70); E(X)=5.6; P(X ≥ 7)=P(X=7)+P(X=8)'
+      },
+    
+      {
+        label: 'D',
+        title: 'Sampling method',
+        prompt: 'A company separates employees into Finance, Marketing, Operations, and HR, then randomly selects 15 employees from every department. Name the sampling method and explain the clue.',
+        answer: 'Stratified sampling. The population is divided into groups (departments), and a random sample is taken from every group.',
+        formula: 'Stratified = divide into groups → sample from ALL groups'
+      },
+    
+      {
+        label: 'E',
+        title: 'Control chart',
+        prompt: 'A process target is μ = 40, σ = 3, and n = 9 per subgroup. Compute SE, LCL, UCL using 3-SE limits. A subgroup mean is 43.4. What should management do?',
+        answer: 'SE = 3/√9 = 1. LCL = 40 − 3(1)=37. UCL = 40 + 3(1)=43. Since 43.4 is above the UCL, investigate the process. The signal does not by itself prove a malfunction.',
+        formula: 'SE=1; LCL=37; UCL=43; 43.4 > 43 → investigate'
+      },
+    
+      {
+        label: 'F',
+        title: 'Confidence interval mechanics',
+        prompt: 'A random sample has x̄ = 72, s = 10, n = 25, and σ is unknown. Identify z or t, degrees of freedom, standard error, and write the generic interval setup.',
+        answer: 'Use t because σ is unknown. df = 25 − 1 = 24. SE = 10/√25 = 2. The interval setup is 72 ± (t* × 2), where t* comes from a t table or JMP for the chosen confidence level.',
+        formula: 't; df=24; SE=2; CI = 72 ± t*·2'
+      },
+    
+      {
+        label: 'G',
+        title: 'Hypothesis test + critical value',
+        prompt: 'Suppose H₁: μ ≠ 100 and a two-tailed t test uses critical values −2.06 and +2.06. If t = 2.34, state whether the statistic falls in a rejection region and give the decision.',
+        answer: 'Yes. Since 2.34 > 2.06, the test statistic lies in the right rejection region. Reject H₀.',
+        formula: 't = 2.34 > 2.06 → rejection region → Reject H₀'
+      },
+    
+      {
+        label: 'H',
+        title: 'p-value + CI connection',
+        prompt: 'For H₀: μ = 25 vs H₁: μ ≠ 25 at α = .05, JMP reports p = .031 and a 95% CI of (25.4, 29.1). Make the p-value decision, state whether 25 is inside or outside the CI, and explain whether the methods agree.',
+        answer: 'Because .031 < .05, reject H₀. The null value 25 is outside the 95% CI because the interval begins at 25.4. The methods agree, exactly as expected for a matching two-tailed test and confidence interval.',
+        formula: 'p=.031 < .05 → reject; 25 ∉ (25.4,29.1)'
+      },
+    
+      {
+        label: 'I',
+        title: 'Chi-square expected counts',
+        prompt: 'A 2×3 table has row total 60, a particular column total 50, and grand total 150. Compute the expected count for the cell at that row/column intersection.',
+        answer: 'Use E = (row total × column total) / grand total. E = (60×50)/150 = 20.',
+        formula: 'E = (60×50)/150 = 20'
+      },
+    
+      {
+        label: 'J',
+        title: 'JMP reading',
+        prompt: 'A Pearson χ² output shows χ² = 11.8, df = 2, p = .0027. Identify the three key numbers and make the decision at α = .05. If this came from a test of independence, what is the contextual meaning of rejecting H₀?',
+        answer: 'The key numbers are χ² = 11.8, df = 2, and p = .0027. Since .0027 < .05, reject H₀. In a test of independence, conclude there is evidence the two categorical variables are associated in the population. Do not claim one causes the other.',
+        formula: 'χ²=11.8; df=2; p=.0027 < .05 → Reject H₀'
+      }
+    ];
+    
+    const state = JSON.parse(localStorage.getItem('ds101CodeState') || '{}');
+    const letters = ['A', 'B', 'C', 'D'];
+    const chapters = [
+        ['all', 'All Questions', 35], ['5', 'Chapter 5', 4], ['6', 'Chapter 6', 4], ['11', 'Chapter 11', 5], ['12', 'Chapter 12 / JMP', 2], ['13', 'Chapter 13', 4], ['14', 'Chapter 14', 4], ['15', 'Chapter 15 ★', 4], ['16', 'Chapter 16 ★', 5], ['18', 'Chapter 18', 3]
+    ];
+    let currentIndex = 0;
+    let chapterFilter = 'all';
+    let visibleQuestions = [...questions];
+    let activeView = 'quiz';
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
+    function save() { localStorage.setItem('ds101CodeState', JSON.stringify(state)); }
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c])); }
+    function buildChapterNav() {
+        $('#chapterNav').innerHTML = chapters.map(([id, label, count]) => `<button class="chapter-item ${id === 'all' ? 'active' : ''} ${id === '15' || id === '16' ? 'priority' : ''}" data-chapter="${id}"><span><span class="folder">${id === 'all' ? '▾' : '▸'}</span>${label}</span><b>${count}</b></button>`).join('');
+        $$('.chapter-item').forEach(btn => btn.addEventListener('click', () => {
+            chapterFilter = btn.dataset.chapter;
+            visibleQuestions = chapterFilter === 'all' ? [...questions] : questions.filter(q => q.ch === chapterFilter);
+            const currentQ = questions[currentIndex];
+            if (!visibleQuestions.some(q => q.n === currentQ.n))
+                currentIndex = questions.indexOf(visibleQuestions[0]);
+            $$('.chapter-item').forEach(b => b.classList.toggle('active', b === btn));
+            renderQuestion();
+            closeExplorer();
+        }));
+    }
+    function buildQuestionMap() {
+        const allowed = new Set(visibleQuestions.map(q => q.n));
+        $('#questionMap').innerHTML = questions.map((q, i) => {
+            const s = state[q.n] || {};
+            let cls = 'map-btn';
+            if (i === currentIndex)
+                cls += ' current';
+            if (s.submitted)
+                cls += s.correct ? ' correct' : ' incorrect';
+            const hidden = !allowed.has(q.n) ? ' style="opacity:.23"' : '';
+            return `<button class="${cls}" data-map="${i}" title="Question ${q.n}: ${esc(q.topic)}"${hidden}>${q.n}</button>`;
+        }).join('');
+        $$('[data-map]').forEach(b => b.addEventListener('click', () => { currentIndex = +b.dataset.map; renderQuestion(); closeExplorer(); }));
+    }
+    function renderQuestion() {
+        const q = questions[currentIndex];
+        const s = state[q.n] || {};
+        $('#questionNumber').textContent = String(q.n).padStart(2, '0');
+        $('#chapterTag').textContent = `CH ${q.ch}`;
+        $('#topicTag').textContent = q.topic;
+        $('#questionText').textContent = q.q;
+        $('#crumbChapter').textContent = `Chapter ${q.ch}`;
+        $('#crumbTopic').textContent = q.topic;
+        $('#contextChapter').textContent = q.ch;
+        $('#contextTopic').textContent = q.topic;
+        $('#contextStatus').textContent = s.submitted ? (s.correct ? 'correct' : 'needs review') : 'unanswered';
+        $('#quickRule').textContent = q.tip || 'Read the variable types and wording before choosing a method.';
+        $('#answerList').innerHTML = q.opts.map((opt, i) => {
+            let cls = 'answer';
+            if (s.selected === i)
+                cls += ' selected';
+            if (s.submitted && i === q.a)
+                cls += ' correct-choice';
+            if (s.submitted && s.selected === i && i !== q.a)
+                cls += ' wrong-choice';
+            return `<button class="${cls}" data-answer="${i}" ${s.submitted ? 'disabled' : ''}><span class="answer-letter">${letters[i]}</span><span class="answer-text">${esc(opt)}</span></button>`;
+        }).join('');
+        $$('[data-answer]').forEach(btn => btn.addEventListener('click', () => selectAnswer(+btn.dataset.answer)));
+        $('#submitAnswer').disabled = !Number.isInteger(s.selected) || s.submitted;
+        renderFeedback(q, s);
+        updateProgress();
+        buildQuestionMap();
+        const pos = visibleQuestions.findIndex(x => x.n === q.n);
+        const shownPos = pos >= 0 ? pos + 1 : q.n;
+        $('#currentPosition').textContent = chapterFilter === 'all' ? `Question ${q.n} of 35` : `${shownPos} of ${visibleQuestions.length} in Chapter ${chapterFilter}`;
+        $('#miniProgress').style.width = `${(q.n / 35) * 100}%`;
+        $('#statusText').textContent = `Ln ${q.n}, Col 1  ·  Chapter ${q.ch}  ·  ${q.topic}`;
+    }
+    function selectAnswer(i) {
+        const q = questions[currentIndex];
+        if (state[q.n]?.submitted)
+            return;
+        state[q.n] = { ...(state[q.n] || {}), selected: i };
+        save();
+        renderQuestion();
+    }
+    function submitCurrent() {
+        const q = questions[currentIndex], s = state[q.n];
+        if (!s || !Number.isInteger(s.selected) || s.submitted)
+            return;
+        state[q.n] = { ...s, submitted: true, correct: s.selected === q.a };
+        save();
+        renderQuestion();
+        $('#feedbackBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    function renderFeedback(q, s) {
+        const box = $('#feedbackBox');
+        if (!s.submitted) {
+            box.className = 'feedback-box';
+            box.innerHTML = '';
+            return;
+        }
+        const correct = `${letters[q.a]}. ${q.opts[q.a]}`;
+        const chosen = `${letters[s.selected]}. ${q.opts[s.selected]}`;
+        box.className = `feedback-box show ${s.correct ? 'good' : 'bad'}`;
+        box.innerHTML = `
+        <div class="feedback-head"><strong>${s.correct ? '✓ BUILD PASSED' : '✕ BUILD FAILED — REVIEW THIS'}</strong><span>${s.correct ? 'answer accepted' : 'correction generated'}</span></div>
+        <div class="feedback-grid">
+          <div class="feedback-cell"><label>${s.correct ? 'YOUR ANSWER' : 'YOU CHOSE'}</label><p>${esc(chosen)}</p></div>
+          <div class="feedback-cell"><label>CORRECT ANSWER</label><p>${esc(correct)}</p></div>
+          <div class="feedback-cell full"><label>WHY THIS IS CORRECT</label><p>${esc(q.exp)}</p></div>
+          ${q.formula ? `<div class="feedback-cell formula full"><label>FORMULA / RULE</label><p>${esc(q.formula)}</p></div>` : ''}
+          <div class="feedback-cell full"><label>EXAM TRAP TO REMEMBER</label><p>${esc(q.tip)}</p></div>
+        </div>`;
+    }
+    function navigate(dir) {
+        const currentQ = questions[currentIndex];
+        let pos = visibleQuestions.findIndex(q => q.n === currentQ.n);
+        if (pos < 0)
+            pos = 0;
+        pos = (pos + dir + visibleQuestions.length) % visibleQuestions.length;
+        currentIndex = questions.indexOf(visibleQuestions[pos]);
+        renderQuestion();
+        $('.editor').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function updateProgress() {
+        const attempted = questions.filter(q => state[q.n]?.submitted);
+        const correct = attempted.filter(q => state[q.n]?.correct).length;
+        const accuracy = attempted.length ? Math.round(correct / attempted.length * 100) : 0;
+        $('#sessionAnswered').textContent = attempted.length;
+        $('#scorePct').textContent = `${accuracy}%`;
+        $('#scoreCount').textContent = `${correct} / ${attempted.length}`;
+        $('#scoreCaption').textContent = attempted.length ? `${attempted.length} attempted · ${correct} correct` : 'Start answering to build your score.';
+        $('#scoreRing').style.background = `conic-gradient(var(--purple) ${accuracy * 3.6}deg,#1b2635 ${accuracy * 3.6}deg)`;
+    }
+    function retryCurrent() {
+        const q = questions[currentIndex];
+        delete state[q.n];
+        save();
+        renderQuestion();
+    }
+    function reviewMissed() {
+        const missed = questions.filter(q => state[q.n]?.submitted && !state[q.n]?.correct);
+        if (!missed.length) {
+            $('#statusText').textContent = 'No missed questions yet — keep going.';
+            return;
+        }
+        chapterFilter = 'all';
+        visibleQuestions = missed;
+        currentIndex = questions.indexOf(missed[0]);
+        $$('.chapter-item').forEach(b => b.classList.remove('active'));
+        renderQuestion();
+        closeExplorer();
+    }
+    function renderWorkouts() {
+        $('#workoutList').innerHTML = workouts.map((w, i) => `<article class="workout-card"><header><div class="workout-index">${w.label}</div><h3>${esc(w.title)}</h3></header><div class="body"><p>${esc(w.prompt)}</p><button class="reveal-btn" data-reveal="${i}">Reveal setup & answer</button><div class="workout-answer" id="workout${i}"><strong>SOLUTION</strong><p>${esc(w.answer)}</p><div class="formula-line">${esc(w.formula)}</div></div></div></article>`).join('');
+        $$('[data-reveal]').forEach(b => b.addEventListener('click', () => { const box = $(`#workout${b.dataset.reveal}`); box.classList.toggle('show'); b.textContent = box.classList.contains('show') ? 'Hide answer' : 'Reveal setup & answer'; }));
+    }
+    function switchView(view) {
+        activeView = view;
+        $('#quizView').classList.toggle('hidden', view !== 'quiz');
+        $('#workoutView').classList.toggle('hidden', view !== 'workouts');
+        $$('.tab').forEach(t => { const on = t.dataset.view === view; t.classList.toggle('active', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
+    }
+    function closeExplorer() { $('#explorer').classList.remove('open'); $('#scrim').classList.remove('show'); }
+    $('#mobileMenu').addEventListener('click', () => { $('#explorer').classList.add('open'); $('#scrim').classList.add('show'); });
+    $('#closeExplorer').addEventListener('click', closeExplorer);
+    $('#scrim').addEventListener('click', closeExplorer);
+    $('#submitAnswer').addEventListener('click', submitCurrent);
+    $('#prevQuestion').addEventListener('click', () => navigate(-1));
+    $('#nextQuestion').addEventListener('click', () => navigate(1));
+    $('#retryQuestion').addEventListener('click', retryCurrent);
+    $('#reviewMissed').addEventListener('click', reviewMissed);
+    $('#resetAll').addEventListener('click', () => { if (confirm('Reset all 35 saved answers?')) {
+        Object.keys(state).forEach(k => delete state[k]);
+        save();
+        visibleQuestions = [...questions];
+        chapterFilter = 'all';
+        currentIndex = 0;
+        buildChapterNav();
+        renderQuestion();
+    } });
+    $$('.tab').forEach(t => t.addEventListener('click', () => switchView(t.dataset.view)));
+    document.addEventListener('keydown', e => {
+        if (activeView !== 'quiz' || e.metaKey || e.ctrlKey || e.altKey)
+            return;
+        if (['1', '2', '3', '4'].includes(e.key)) {
+            selectAnswer(+e.key - 1);
+        }
+        else if (e.key === 'Enter') {
+            e.preventDefault();
+            submitCurrent();
+        }
+        else if (e.key === 'ArrowRight') {
+            navigate(1);
+        }
+        else if (e.key === 'ArrowLeft') {
+            navigate(-1);
+        }
+    });
+    buildChapterNav();
+    renderWorkouts();
+    renderQuestion();
+    
+  </script>
+</body>
+</html>
