@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0a0d14" />
-  <meta name="description" content="Interactive DS-101 Business Analytics exam practice lab." />
-  <title>DS-101 // Study Console</title>
+  <meta name="description" content="DS-101 final exam practice focused on hypothesis testing, test selection, confidence intervals, regression, and Type I/II errors." />
+  <title>DS-101 // Final Exam Focus Console</title>
   <style>
     :root {
       color-scheme: dark;
@@ -21,10 +21,12 @@
       --line2: #2a374a;
       --purple: #a78bfa;
       --cyan: #4de2ff;
+      --blue: #6da3ff;
       --green: #4ade9a;
       --red: #ff6b81;
       --amber: #ffca62;
       --shadow: 0 35px 90px rgba(0,0,0,.48);
+      --radius: 16px;
     }
     
     * {
@@ -1370,6 +1372,9 @@
       .question-topline {
         padding: 13px;
       }
+      .topic-tag {
+        max-width: 125px;
+      }
       .prompt-block h2 {
         font-size: 20px;
       }
@@ -1410,7 +1415,7 @@
         <button class="tab active" data-view="quiz" role="tab" aria-selected="true"><span class="file-icon html">&lt;/&gt;</span> quiz.html <b>●</b></button>
         <button class="tab" data-view="workouts" role="tab" aria-selected="false"><span class="file-icon md">#</span> workouts.md</button>
       </div>
-      <div class="command-pill"><span>⌘</span><span>DS-101 / Section 11</span><kbd>⌕</kbd></div>
+      <div class="command-pill"><span>⌘</span><span>DS-101 / Final Exam Focus</span><kbd>⌕</kbd></div>
       <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
     </header>
 
@@ -1419,16 +1424,16 @@
         <div class="pane-title"><span>EXPLORER</span><button id="closeExplorer" aria-label="Close navigation">×</button></div>
         <section class="brand-block">
           <div class="brand-glyph">DS</div>
-          <div><strong>EXAM_PREP</strong><small>intro-business-analytics</small></div>
+          <div><strong>EXAM_PREP</strong><small>inference-regression-final</small></div>
         </section>
 
         <section class="tree-section">
-          <button class="tree-heading"><span>⌄</span> REVIEW MODULES</button>
-          <nav id="chapterNav" class="chapter-tree" aria-label="Chapter filters"></nav>
+          <button class="tree-heading open"><span>⌄</span> REVIEW MODULES</button>
+          <nav id="chapterNav" class="chapter-tree" aria-label="Exam focus filters"></nav>
         </section>
 
         <section class="tree-section">
-          <button class="tree-heading"><span>⌄</span> QUESTION MAP</button>
+          <button class="tree-heading open"><span>⌄</span> QUESTION MAP</button>
           <div id="questionMap" class="question-map" aria-label="Question navigator"></div>
           <div class="map-legend"><span><i class="dot current"></i>current</span><span><i class="dot good"></i>correct</span><span><i class="dot bad"></i>review</span></div>
         </section>
@@ -1440,16 +1445,16 @@
       </aside>
 
       <main class="editor" id="quizView">
-        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span id="crumbChapter">Chapter 5</span><b>›</b><span id="crumbTopic">Categorical variables</span></div>
+        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span id="crumbChapter">Focus 1</span><b>›</b><span id="crumbTopic">Golden rule: p-value</span></div>
 
         <section class="editor-stage">
           <div class="study-header">
             <div>
               <div class="kicker"><span class="live-dot"></span> PRACTICE SESSION</div>
               <h1>Business Analytics <span>Study Console</span></h1>
-              <p>35 exam-style questions built around your class topics, calculations, and JMP interpretation.</p>
+              <p>45 exam-style questions focused on the five concepts in your final-exam review: p-values, test selection, confidence intervals, regression, and Type I/II errors.</p>
             </div>
-            <div class="session-chip"><span id="sessionAnswered">0</span><small>of 35 answered</small></div>
+            <div class="session-chip"><span id="sessionAnswered">0</span><small>of 45 answered</small></div>
           </div>
 
           <div class="question-shell" id="questionShell">
@@ -1458,8 +1463,8 @@
             </div>
             <article class="question-card">
               <header class="question-topline">
-                <div class="question-id"><span id="questionNumber">01</span><small>/ 35</small></div>
-                <div class="tags"><span id="chapterTag" class="tag purple">CH 5</span><span id="topicTag" class="tag">Categorical variables</span></div>
+                <div class="question-id"><span id="questionNumber">01</span><small>/ 45</small></div>
+                <div class="tags"><span id="chapterTag" class="tag purple">FOCUS 1</span><span id="topicTag" class="tag">Golden rule: p-value</span></div>
                 <button class="tiny-btn" id="retryQuestion" title="Clear this answer">↺ retry</button>
               </header>
 
@@ -1481,18 +1486,18 @@
 
           <div class="question-nav-row">
             <button class="nav-btn" id="prevQuestion">← Previous</button>
-            <div class="progress-inline"><span id="currentPosition">Question 1 of 35</span><div class="mini-track"><i id="miniProgress"></i></div></div>
+            <div class="progress-inline"><span id="currentPosition">Question 1 of 45</span><div class="mini-track"><i id="miniProgress"></i></div></div>
             <button class="nav-btn primary" id="nextQuestion">Next →</button>
           </div>
         </section>
       </main>
 
       <main class="editor hidden" id="workoutView">
-        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span>workouts.md</span><b>›</b><span>calculation-practice</span></div>
+        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span>workouts.md</span><b>›</b><span>final-exam-deep-practice</span></div>
         <section class="editor-stage workout-stage">
           <div class="study-header">
             <div><div class="kicker"><span class="live-dot cyan"></span> DEEP PRACTICE</div><h1>Workout <span>Problems</span></h1><p>Do these on paper first. Reveal the setup only after you commit to your own work.</p></div>
-            <div class="session-chip"><span>10</span><small>extended problems</small></div>
+            <div class="session-chip"><span>12</span><small>extended problems</small></div>
           </div>
           <div id="workoutList" class="workout-grid"></div>
         </section>
@@ -1507,24 +1512,27 @@
         </section>
 
         <section class="inspector-card priority-card">
-          <div class="card-label">PRIORITY REVIEW</div>
-          <div class="priority-row"><span>15</span><div><strong>Confidence Intervals</strong><small>margin of error · z vs t · interpretation</small></div></div>
-          <div class="priority-row"><span>16</span><div><strong>Hypothesis Testing</strong><small>critical values · p-values · decisions</small></div></div>
+          <div class="card-label">FINAL EXAM FOCUS</div>
+          <div class="priority-row"><span>1</span><div><strong>Hypothesis Testing</strong><small>p-values · α · one/two-tailed decisions</small></div></div>
+          <div class="priority-row"><span>2</span><div><strong>Choosing the Test</strong><small>1-sample · 2-sample · paired · ANOVA</small></div></div>
+          <div class="priority-row"><span>3</span><div><strong>Confidence Intervals</strong><small>zero rule · width · test connection</small></div></div>
+          <div class="priority-row"><span>4</span><div><strong>Regression & Correlation</strong><small>β₀ · β₁ · R² · causation trap</small></div></div>
+          <div class="priority-row"><span>5</span><div><strong>Type I vs Type II</strong><small>false positive · false negative · α · β</small></div></div>
         </section>
 
         <section class="inspector-card">
           <div class="card-label">CURRENT CONTEXT</div>
           <dl class="context-grid">
-            <div><dt>chapter</dt><dd id="contextChapter">5</dd></div>
+            <div><dt>focus</dt><dd id="contextChapter">1</dd></div>
             <div><dt>status</dt><dd id="contextStatus">unanswered</dd></div>
-            <div><dt>topic</dt><dd id="contextTopic">Categorical variables</dd></div>
+            <div><dt>topic</dt><dd id="contextTopic">Golden rule: p-value</dd></div>
             <div><dt>mode</dt><dd>multiple choice</dd></div>
           </dl>
         </section>
 
         <section class="inspector-card quick-rule">
           <div class="card-label">QUICK RULE</div>
-          <p id="quickRule">Two categorical variables → contingency table or mosaic plot.</p>
+          <p id="quickRule">p &lt; α → reject H₀; p ≥ α → fail to reject H₀.</p>
         </section>
 
         <section class="inspector-card keyboard-card">
@@ -1546,659 +1554,783 @@
   <script>
     const questions = [
       {
-        n: 1,
-        ch: '5',
-        topic: 'Categorical variables',
-        q: 'Which display is designed for the relationship between two categorical variables?',
-        opts: [
-          'Scatterplot',
-          'Mosaic plot',
-          'Histogram of sample means',
-          'x̄ control chart'
-        ],
-        a: 1,
-        exp: 'A mosaic plot is built for two categorical variables. Its column widths reflect group sizes, while the segment heights show conditional proportions.',
-        tip: 'Ask what type each variable is before choosing a graph. Two categorical variables → contingency table or mosaic plot.'
+            "n": 1,
+            "ch": "1",
+            "topic": "Golden rule: p-value",
+            "q": "At α = 0.05, a test gives p = 0.018. What is the correct decision?",
+            "opts": [
+                  "Fail to reject H₀",
+                  "Reject H₀",
+                  "Accept H₀ as true",
+                  "Increase α to 0.10 first"
+            ],
+            "a": 1,
+            "exp": "Because p = 0.018 is less than α = 0.05, the result is statistically significant and you reject H₀.",
+            "tip": "p < α → reject H₀. p ≥ α → fail to reject H₀.",
+            "formula": "0.018 < 0.05 → Reject H₀"
       },
-    
       {
-        n: 2,
-        ch: '5',
-        topic: 'Conditional distributions',
-        q: 'A contingency table has 80 customers: 50 members and 30 nonmembers. To compare payment preferences between the two groups, which values are most useful?',
-        opts: [
-          'Overall marginal counts only',
-          'Conditional percentages within member and nonmember groups',
-          'Pearson correlations',
-          'Sample means'
-        ],
-        a: 1,
-        exp: 'To compare categories across groups, calculate percentages within each group. Those are conditional distributions. Raw counts can mislead when group sizes differ.',
-        tip: 'When the question says “compare groups,” think conditional percentages, not marginal totals.'
+            "n": 2,
+            "ch": "1",
+            "topic": "Fail to reject",
+            "q": "A test gives p = 0.27 at α = 0.05. Which wording is best?",
+            "opts": [
+                  "Accept H₀",
+                  "Prove H₀ is true",
+                  "Fail to reject H₀",
+                  "Reject H₀"
+            ],
+            "a": 2,
+            "exp": "A large p-value means the sample does not provide enough evidence against H₀. It does not prove H₀ true.",
+            "tip": "Say “fail to reject,” not “accept the null.”"
       },
-    
       {
-        n: 3,
-        ch: '5',
-        topic: 'Association',
-        q: 'If conditional distributions are nearly the same across groups, the class worksheet says this suggests:',
-        opts: [
-          'Strong association',
-          'Little or weak evidence of association',
-          'Causation',
-          'A Type I error'
-        ],
-        a: 1,
-        exp: 'If the conditional distributions barely change from one group to another, knowing one variable provides little information about the other. That means little evidence of association.',
-        tip: 'Different conditional distributions → evidence of association. Similar conditional distributions → weak or little evidence.'
+            "n": 3,
+            "ch": "1",
+            "topic": "Meaning of a p-value",
+            "q": "Which statement best defines a p-value?",
+            "opts": [
+                  "The probability H₀ is false",
+                  "The probability H₀ is true",
+                  "Assuming H₀ is true, the probability of a result at least as extreme as the one observed",
+                  "The probability the sample mean equals the population mean"
+            ],
+            "a": 2,
+            "exp": "The p-value is calculated under the assumption that H₀ is true and measures how unusual the observed result, or something more extreme, would be.",
+            "tip": "A p-value is about data under H₀—not P(H₀ is true)."
       },
-    
       {
-        n: 4,
-        ch: '5',
-        topic: "Simpson's paradox",
-        q: 'After data are separated by a third variable, the direction of an apparent relationship reverses. This is called:',
-        opts: [
-          'Central Limit Theorem',
-          "Simpson's paradox",
-          'Binomial independence',
-          'Practical significance'
-        ],
-        a: 1,
-        exp: "Simpson's paradox occurs when an overall association reverses or changes substantially after the data are separated by a lurking or grouping variable.",
-        tip: 'Watch for a third variable that changes the story when you split the data into groups.'
+            "n": 4,
+            "ch": "1",
+            "topic": "Statistical significance",
+            "q": "A result is statistically significant at α = 0.05 when:",
+            "opts": [
+                  "p < 0.05",
+                  "p > 0.05",
+                  "the sample size is under 30",
+                  "the effect must be practically important"
+            ],
+            "a": 0,
+            "exp": "Statistical significance means the p-value is below the chosen significance level. Practical importance is a separate question.",
+            "tip": "Significant ≠ automatically important in the real world."
       },
-    
       {
-        n: 5,
-        ch: '6',
-        topic: 'Pearson correlation',
-        q: 'Pearson correlation is appropriate when:',
-        opts: [
-          'Both variables are numerical',
-          'Both variables are categorical',
-          'One variable is always a count',
-          'The data form a contingency table'
-        ],
-        a: 0,
-        exp: 'Pearson correlation measures the direction and strength of a linear relationship between two numerical variables.',
-        tip: 'Two numerical variables → scatterplot + Pearson correlation. Two categorical variables → contingency table/mosaic plot.'
+            "n": 5,
+            "ch": "1",
+            "topic": "Null and alternative",
+            "q": "A company claims its mean delivery time is less than 30 minutes. Which alternative hypothesis matches the claim?",
+            "opts": [
+                  "H₁: μ = 30",
+                  "H₁: μ ≠ 30",
+                  "H₁: μ < 30",
+                  "H₁: μ > 30"
+            ],
+            "a": 2,
+            "exp": "The phrase “less than” sets the direction of the alternative: μ < 30. The null contains equality.",
+            "tip": "Claims with < or > usually create a one-tailed alternative."
       },
-    
       {
-        n: 6,
-        ch: '6',
-        topic: 'Interpreting r',
-        q: 'JMP reports r = −0.88. The best interpretation is:',
-        opts: [
-          'Strong positive linear association',
-          'Strong negative linear association',
-          'Weak negative linear association',
-          '88% of Y is caused by X'
-        ],
-        a: 1,
-        exp: 'The negative sign gives the direction. Since |r| = 0.88 is close to 1, the linear association is strong. Correlation does not prove causation.',
-        tip: 'Sign = direction. |r| = strength. Never turn r into a causal percentage.'
+            "n": 6,
+            "ch": "1",
+            "topic": "Two-tailed test",
+            "q": "Which alternative hypothesis produces a two-tailed test?",
+            "opts": [
+                  "H₁: μ < 50",
+                  "H₁: μ > 50",
+                  "H₁: μ ≠ 50",
+                  "H₁: μ = 50"
+            ],
+            "a": 2,
+            "exp": "A not-equal alternative looks for departures in either direction, so it uses two tails.",
+            "tip": "≠ → two-tailed. < or > → one-tailed."
       },
-    
       {
-        n: 7,
-        ch: '6',
-        topic: 'Covariance',
-        q: 'Why is covariance harder to use as a stand-alone strength measure than correlation?',
-        opts: [
-          'Covariance can only be positive',
-          'Covariance depends on units and has no fixed scale',
-          'Covariance only works for categorical variables',
-          'Covariance is always between −1 and 1'
-        ],
-        a: 1,
-        exp: 'Covariance changes when measurement units change, and it does not live on a fixed standardized scale. Pearson r fixes both issues by being unitless and bounded from −1 to 1.',
-        tip: 'Correlation is standardized covariance.'
+            "n": 7,
+            "ch": "1",
+            "topic": "JMP one-tailed p-value",
+            "q": "JMP reports a two-sided p-value of 0.040 and the test statistic points in the SAME direction as H₁. For a symmetric one-tailed test, what p-value should you use?",
+            "opts": [
+                  "0.080",
+                  "0.040",
+                  "0.020",
+                  "0.960"
+            ],
+            "a": 2,
+            "exp": "When the reported p-value is two-sided and the observed statistic points in the direction specified by H₁, the matching one-sided p-value is half: 0.040/2 = 0.020.",
+            "tip": "Only halve a two-sided p-value when the observed effect points in the direction of the one-sided H₁.",
+            "formula": "0.040 ÷ 2 = 0.020"
       },
-    
       {
-        n: 8,
-        ch: '6',
-        topic: 'Linear vs nonlinear',
-        q: 'A scatterplot shows a clear curved pattern but r is close to 0. Which statement is safest?',
-        opts: [
-          'There is definitely no relationship',
-          'Pearson r indicates weak linear association, but a nonlinear relationship may still exist',
-          'The variables must be categorical',
-          'The sample size must be zero'
-        ],
-        a: 1,
-        exp: 'Pearson r only summarizes linear association. A strong curved relationship can still produce a correlation near zero.',
-        tip: 'Always read the scatterplot before relying only on r.'
+            "n": 8,
+            "ch": "1",
+            "topic": "Changing α",
+            "q": "A test gives p = 0.08. Which statement is correct?",
+            "opts": [
+                  "Reject at α = 0.05 and α = 0.10",
+                  "Fail to reject at both levels",
+                  "Fail to reject at α = 0.05 but reject at α = 0.10",
+                  "Reject at α = 0.05 but fail to reject at α = 0.10"
+            ],
+            "a": 2,
+            "exp": "0.08 is larger than 0.05 but smaller than 0.10. The same data can be nonsignificant at 5% and significant at 10%.",
+            "tip": "Always compare p to the α actually given in the question."
       },
-    
       {
-        n: 9,
-        ch: '11',
-        topic: 'Binomial conditions',
-        q: 'Which is NOT one of the binomial conditions emphasized in your worksheet?',
-        opts: [
-          'Fixed number of trials',
-          'Two outcomes per trial',
-          'Constant probability of success',
-          'The number of trials continues until the first success'
-        ],
-        a: 3,
-        exp: 'A binomial model uses a fixed number n of independent trials, each with two outcomes and the same success probability p. “Continue until first success” describes a geometric-style setup.',
-        tip: 'Binomial = fixed n. Geometric = count trials until first success.'
+            "n": 9,
+            "ch": "1",
+            "topic": "Reading JMP output",
+            "q": "In a two-sided t-test, which JMP number is the p-value you usually compare to α?",
+            "opts": [
+                  "Prob > |t|",
+                  "Std Error",
+                  "DF",
+                  "Estimate"
+            ],
+            "a": 0,
+            "exp": "For a two-sided t-test, JMP’s “Prob > |t|” is the two-sided p-value.",
+            "tip": "Don’t confuse the test statistic, degrees of freedom, standard error, and p-value."
       },
-    
       {
-        n: 10,
-        ch: '11',
-        topic: 'Probability wording',
-        q: 'If X counts successes in 12 trials, “at least 9 successes” means:',
-        opts: [
-          'X > 9',
-          'X ≥ 9',
-          'X ≤ 9',
-          'X < 9'
-        ],
-        a: 1,
-        exp: '“At least 9” includes 9 itself and every larger possible value, so X ≥ 9.',
-        tip: 'At least = ≥. More than = >. At most / no more than = ≤. Less than = <.'
+            "n": 10,
+            "ch": "2",
+            "topic": "One-sample t-test",
+            "q": "A coffee shop wants to know whether its mean wait time differs from a 5-minute target using one sample of customers. Which test fits?",
+            "opts": [
+                  "One-sample t-test",
+                  "Two-sample independent t-test",
+                  "Paired t-test",
+                  "ANOVA"
+            ],
+            "a": 0,
+            "exp": "There is one numerical sample being compared with one benchmark value, so use a one-sample t-test.",
+            "tip": "1 group mean vs target → one-sample t-test."
       },
-    
       {
-        n: 11,
-        ch: '11',
-        topic: 'Binomial mean',
-        q: 'For X ~ Binomial(n = 20, p = 0.30), the expected number of successes is:',
-        opts: [
-          '3',
-          '6',
-          '14',
-          '20'
-        ],
-        a: 1,
-        exp: 'For a binomial random variable, the mean is E(X) = np. Here, 20(0.30) = 6.',
-        tip: 'Binomial mean: μ = np.',
-        formula: 'μ = E(X) = np = 20(0.30) = 6'
+            "n": 11,
+            "ch": "2",
+            "topic": "Two independent groups",
+            "q": "You compare mean purchase amounts for separate groups of members and nonmembers. Which test fits?",
+            "opts": [
+                  "One-sample t-test",
+                  "Two-sample independent t-test",
+                  "Paired t-test",
+                  "ANOVA with repeated measures"
+            ],
+            "a": 1,
+            "exp": "The groups contain different, unrelated people, so the two means are compared with an independent two-sample t-test.",
+            "tip": "2 separate groups → independent two-sample t-test."
       },
-    
       {
-        n: 12,
-        ch: '11',
-        topic: 'Recognizing binomial',
-        q: 'A player takes 10 independent shots with the same make probability each time. X is the number made. This setup is best described as:',
-        opts: [
-          'Binomial',
-          'Chi-square independence',
-          'Confidence interval',
-          'Stratified sample'
-        ],
-        a: 0,
-        exp: 'There are 10 fixed trials, each shot has two outcomes, p is constant, and the shots are assumed independent. X counts successes, so a binomial model fits.',
-        tip: 'Fixed n + two outcomes + constant p + independence = binomial.'
+            "n": 12,
+            "ch": "2",
+            "topic": "Paired t-test",
+            "q": "The same 24 employees are measured before and after a training program. Which test fits?",
+            "opts": [
+                  "One-sample t-test",
+                  "Two-sample independent t-test",
+                  "Paired t-test",
+                  "One-way ANOVA"
+            ],
+            "a": 2,
+            "exp": "Each before value is naturally matched to the same employee’s after value, so the data are paired.",
+            "tip": "Before/after on the same people → paired t-test."
       },
-    
       {
-        n: 13,
-        ch: '11',
-        topic: 'Probability wording',
-        q: '“No more than 2 successes” is written:',
-        opts: [
-          'P(X ≥ 2)',
-          'P(X > 2)',
-          'P(X ≤ 2)',
-          'P(X < 2)'
-        ],
-        a: 2,
-        exp: '“No more than 2” means 0, 1, or 2 successes, so P(X ≤ 2).',
-        tip: 'Translate the words before touching JMP.'
+            "n": 13,
+            "ch": "2",
+            "topic": "ANOVA",
+            "q": "A manager compares mean sales across four independent store regions. Which test is designed for this setup?",
+            "opts": [
+                  "Paired t-test",
+                  "ANOVA (F-test)",
+                  "One-sample t-test",
+                  "Correlation"
+            ],
+            "a": 1,
+            "exp": "ANOVA compares means across three or more independent groups.",
+            "tip": "3+ independent group means → ANOVA."
       },
-    
       {
-        n: 14,
-        ch: '12',
-        topic: 'Normal Quantile',
-        q: 'The Chapter 12 JMP file uses Normal Quantile. Conceptually, Normal Quantile is used to find:',
-        opts: [
-          'A cutoff/value corresponding to a specified cumulative probability',
-          'A contingency-table expected count',
-          'Pearson correlation',
-          'A sample-selection method'
-        ],
-        a: 0,
-        exp: 'A normal quantile works backward from a cumulative probability (percentile) to the corresponding value on a normal-distribution scale.',
-        tip: 'Probability → cutoff is a quantile problem. Cutoff → probability is a cumulative probability problem.'
+            "n": 14,
+            "ch": "2",
+            "topic": "Matched pairs",
+            "q": "Two measurements are paired when:",
+            "opts": [
+                  "Both samples have the same size",
+                  "Each observation in one condition is meaningfully matched to one observation in the other",
+                  "Both group means are equal",
+                  "The p-value is below 0.05"
+            ],
+            "a": 1,
+            "exp": "Pairing comes from the study design: the two values belong together, such as before/after on the same person or matched subjects.",
+            "tip": "Same n does NOT automatically mean paired."
       },
-    
       {
-        n: 15,
-        ch: '12',
-        topic: 'Normal scale',
-        q: 'In a Normal Quantile calculation, changing the mean and standard deviation changes:',
-        opts: [
-          'The requested percentile/cutoff on the original measurement scale',
-          'Whether variables are categorical',
-          'The number of χ² categories',
-          'Whether n is a population size'
-        ],
-        a: 0,
-        exp: 'The mean shifts the distribution and the standard deviation changes its spread, so the percentile location changes on the original measurement scale.',
-        tip: 'The percentile probability can stay the same while the actual cutoff changes when μ or σ changes.'
+            "n": 15,
+            "ch": "2",
+            "topic": "Independent vs paired",
+            "q": "Twenty customers use Website A and a different 20 customers use Website B. You compare mean checkout time. Which description is correct?",
+            "opts": [
+                  "Paired because both groups have n = 20",
+                  "Independent because the people differ between groups",
+                  "One-sample because there is one outcome variable",
+                  "ANOVA is required because n > 30"
+            ],
+            "a": 1,
+            "exp": "The observations are from separate people with no matching, so the two groups are independent.",
+            "tip": "Ask “Are these the same/matched people?” before choosing paired."
       },
-    
       {
-        n: 16,
-        ch: '13',
-        topic: 'Population vs sample',
-        q: 'A population is:',
-        opts: [
-          'A subset selected for study',
-          'All elements under study',
-          'The sample mean',
-          'Only volunteers'
-        ],
-        a: 1,
-        exp: 'The population is the full set of elements you want information about. A sample is only a subset taken from that population.',
-        tip: 'Population → N and parameters. Sample → n and statistics.'
+            "n": 16,
+            "ch": "2",
+            "topic": "ANOVA null hypothesis",
+            "q": "For a one-way ANOVA comparing four population means, H₀ states:",
+            "opts": [
+                  "All population means are equal",
+                  "All population means are different",
+                  "At least one mean is zero",
+                  "The F statistic equals 1 in every sample"
+            ],
+            "a": 0,
+            "exp": "The ANOVA null hypothesis is that all group population means are equal.",
+            "tip": "ANOVA H₀: μ₁ = μ₂ = μ₃ = …"
       },
-    
       {
-        n: 17,
-        ch: '13',
-        topic: 'Stratified sampling',
-        q: 'A researcher divides students by class year and randomly samples students from every class year. This is:',
-        opts: [
-          'Cluster sampling',
-          'Convenience sampling',
-          'Stratified sampling',
-          'Voluntary response'
-        ],
-        a: 2,
-        exp: 'Stratified sampling divides the population into groups and takes a sample from every group. The goal is representation across all strata.',
-        tip: 'Stratified = sample from ALL groups. Cluster = randomly choose SOME groups.'
+            "n": 17,
+            "ch": "2",
+            "topic": "Significant ANOVA",
+            "q": "ANOVA gives p = 0.003 for four groups. What can you conclude from the overall test alone?",
+            "opts": [
+                  "Every pair of means differs",
+                  "At least one population mean differs from another",
+                  "Group 4 has the highest population mean",
+                  "The largest sample mean caused the difference"
+            ],
+            "a": 1,
+            "exp": "A significant overall ANOVA says not all population means are equal. It does not identify which pairs differ without follow-up comparisons.",
+            "tip": "ANOVA significance = at least one difference, not “all groups differ.”"
       },
-    
       {
-        n: 18,
-        ch: '13',
-        topic: 'Cluster sampling',
-        q: 'A researcher randomly chooses 4 entire store locations and surveys everyone in those selected locations. This most closely matches:',
-        opts: [
-          'Cluster sampling',
-          'Stratified sampling',
-          'Systematic sampling',
-          'Convenience sampling'
-        ],
-        a: 0,
-        exp: 'The stores are natural groups (clusters). Only some locations are selected, and people inside those selected clusters are surveyed.',
-        tip: 'Cluster sampling is often cheaper because you only visit selected groups.'
+            "n": 18,
+            "ch": "2",
+            "topic": "Test-selection clue",
+            "q": "Which clue most strongly signals a paired t-test?",
+            "opts": [
+                  "Three or more groups",
+                  "A numerical response",
+                  "Before and after measurements on the same subjects",
+                  "A target value such as 100"
+            ],
+            "a": 2,
+            "exp": "Repeated measurements on the same subjects create natural pairs, which is the key paired-test clue.",
+            "tip": "“Same people measured twice” is the paired-test giveaway."
       },
-    
       {
-        n: 19,
-        ch: '13',
-        topic: 'Statistic vs parameter',
-        q: 'Which is a statistic rather than a parameter?',
-        opts: [
-          'The true mean spending of all customers',
-          'The true proportion of all users who renew',
-          'The sample mean from 75 customers',
-          'The population variance'
-        ],
-        a: 2,
-        exp: 'A statistic is computed from a sample. The sample mean x̄ from 75 customers is a statistic. The other choices describe population parameters.',
-        tip: 'Statistic = sample. Parameter = population.'
+            "n": 19,
+            "ch": "3",
+            "topic": "Zero rule for differences",
+            "q": "A 95% confidence interval for μ₁ − μ₂ is (−1.4, 3.2). What does the zero rule say?",
+            "opts": [
+                  "There is a statistically significant difference",
+                  "There is no statistically significant difference at the matching 5% two-sided level",
+                  "Group 1 definitely has the larger mean",
+                  "The interval is invalid because it contains negatives"
+            ],
+            "a": 1,
+            "exp": "The interval contains 0, so a difference of zero remains plausible. The matching two-sided test would fail to reject H₀: μ₁ − μ₂ = 0.",
+            "tip": "CI for a difference contains 0 → no significant difference."
       },
-    
       {
-        n: 20,
-        ch: '14',
-        topic: 'Control charts',
-        q: 'An x̄ control chart plots:',
-        opts: [
-          'Individual raw observations only',
-          'Sample means over time',
-          'Sample proportions only',
-          'Categorical counts'
-        ],
-        a: 1,
-        exp: 'Each point on an x̄-chart is a subgroup/sample mean. The chart monitors whether the process center appears stable over time.',
-        tip: 'x̄-chart → sample means. s-chart → sample standard deviations. R-chart → sample ranges.'
+            "n": 20,
+            "ch": "3",
+            "topic": "CI excludes zero",
+            "q": "A 95% confidence interval for μ₁ − μ₂ is (2.1, 6.8). Which conclusion matches the interval?",
+            "opts": [
+                  "No significant difference",
+                  "A significant positive difference at the matching two-sided 5% level",
+                  "A significant negative difference",
+                  "H₀ must be true"
+            ],
+            "a": 1,
+            "exp": "Every plausible value in the interval is positive and 0 is excluded, so the difference is statistically significant and μ₁ − μ₂ is positive.",
+            "tip": "Strictly positive or strictly negative difference CI → significant."
       },
-    
       {
-        n: 21,
-        ch: '14',
-        topic: 'Standard error',
-        q: 'A process has μ = 100, σ = 8, and samples of n = 16. What is SE(x̄)?',
-        opts: [
-          '0.5',
-          '2',
-          '4',
-          '8'
-        ],
-        a: 1,
-        exp: 'The standard error of the sample mean is σ/√n. Here √16 = 4, so SE(x̄) = 8/4 = 2.',
-        tip: 'The sample mean varies less than individual observations because the standard error divides by √n.',
-        formula: 'SE(x̄) = σ/√n = 8/√16 = 8/4 = 2'
+            "n": 21,
+            "ch": "3",
+            "topic": "Confidence-level tradeoff",
+            "q": "All else equal, moving from a 95% confidence interval to a 99% confidence interval makes the interval:",
+            "opts": [
+                  "Narrower",
+                  "Wider",
+                  "Exactly the same",
+                  "Centered at zero"
+            ],
+            "a": 1,
+            "exp": "Higher confidence requires a larger critical value, increasing the margin of error and widening the interval.",
+            "tip": "More confidence → wider interval."
       },
-    
       {
-        n: 22,
-        ch: '14',
-        topic: 'Control limits',
-        q: 'Using Question 21, the 3-SE upper control limit is:',
-        opts: [
-          '102',
-          '104',
-          '106',
-          '124'
-        ],
-        a: 2,
-        exp: 'The upper control limit is μ + 3(SE). With μ = 100 and SE = 2, UCL = 100 + 3(2) = 106.',
-        tip: 'For the class 3-SE rule: LCL = μ − 3SE and UCL = μ + 3SE.',
-        formula: 'UCL = μ + 3(SE) = 100 + 3(2) = 106'
+            "n": 22,
+            "ch": "3",
+            "topic": "Sample size and width",
+            "q": "All else equal, what happens to a confidence interval when sample size increases?",
+            "opts": [
+                  "It gets narrower",
+                  "It gets wider",
+                  "It always shifts upward",
+                  "Its confidence level automatically increases"
+            ],
+            "a": 0,
+            "exp": "A larger sample size lowers standard error, which usually lowers the margin of error and narrows the interval.",
+            "tip": "More data → smaller SE → narrower interval."
       },
-    
       {
-        n: 23,
-        ch: '14',
-        topic: 'Control-chart interpretation',
-        q: 'A point falls above the UCL on an x̄ chart. The correct conclusion from your class notes is:',
-        opts: [
-          'The process malfunction is proven',
-          'Ignore it because all points are random',
-          'Investigate because it is unusually far from target',
-          'Automatically lower α'
-        ],
-        a: 2,
-        exp: 'A point outside a control limit is unusually far from the target under ordinary variation, so it is a signal to investigate. It does not prove a specific malfunction or cause.',
-        tip: 'Control-chart signal = investigate, not “proved broken.”'
+            "n": 23,
+            "ch": "3",
+            "topic": "CI interpretation",
+            "q": "Which is the best interpretation of a 95% confidence interval for a population mean?",
+            "opts": [
+                  "95% of individual observations lie inside it",
+                  "There is a 95% chance the fixed population mean moves into this computed interval",
+                  "The method produces intervals that capture the true mean about 95% of the time in repeated sampling",
+                  "95% of sample means equal the population mean"
+            ],
+            "a": 2,
+            "exp": "The confidence level describes the long-run success rate of the interval-building method, not the probability that a fixed parameter changes after the interval is calculated.",
+            "tip": "Interpret confidence as a property of the method, then use the interval as plausible values for the parameter."
       },
-    
       {
-        n: 24,
-        ch: '15',
-        topic: 'Confidence interval structure',
-        q: 'A confidence interval is best described as:',
-        opts: [
-          'Point estimate ± margin of error',
-          'Test statistic ± p-value',
-          'Population ± sample',
-          'Expected count ± observed count'
-        ],
-        a: 0,
-        exp: 'The basic confidence-interval structure is point estimate ± margin of error. For a population mean, x̄ is usually the point estimate.',
-        tip: 'Think center ± uncertainty.',
-        formula: 'Confidence interval = point estimate ± margin of error'
+            "n": 24,
+            "ch": "3",
+            "topic": "Null value in a CI",
+            "q": "For a confidence interval estimating a single population mean, what value do you check to test H₀: μ = 50?",
+            "opts": [
+                  "0",
+                  "1",
+                  "50",
+                  "The sample size"
+            ],
+            "a": 2,
+            "exp": "For a test about a single mean, the null value is the benchmark named in H₀. Here that value is 50.",
+            "tip": "Zero is the null value for a difference. For a single mean, use the benchmark in H₀."
       },
-    
       {
-        n: 25,
-        ch: '15',
-        topic: 'z vs t',
-        q: 'Population σ is unknown when estimating a population mean. According to your Chapter 15 worksheet, use:',
-        opts: [
-          'z only',
-          't with df = n − 1',
-          'χ² independence',
-          "Cramer's V"
-        ],
-        a: 1,
-        exp: 'When the population standard deviation σ is unknown, replace it with the sample standard deviation s and use the t distribution with df = n − 1.',
-        tip: 'Unknown σ → t. Known σ → z.',
-        formula: 'df = n − 1'
+            "n": 25,
+            "ch": "3",
+            "topic": "Negative difference CI",
+            "q": "A 95% CI for μ₁ − μ₂ is (−7.5, −1.2). What does it show?",
+            "opts": [
+                  "No significant difference",
+                  "A significant difference with μ₁ lower than μ₂",
+                  "A significant difference with μ₁ higher than μ₂",
+                  "The interval must be recalculated because both endpoints are negative"
+            ],
+            "a": 1,
+            "exp": "The interval excludes 0 and is entirely negative, so μ₁ − μ₂ is significantly below zero at the matching two-sided level.",
+            "tip": "The sign tells direction; excluding 0 tells significance."
       },
-    
       {
-        n: 26,
-        ch: '15',
-        topic: 'Interval width',
-        q: 'Which change makes a confidence interval narrower, all else equal?',
-        opts: [
-          'Higher confidence level',
-          'Smaller sample size',
-          'Larger sample size',
-          'Greater variability'
-        ],
-        a: 2,
-        exp: 'A larger sample size lowers standard error, which lowers the margin of error and narrows the interval. Higher confidence or greater variability makes intervals wider.',
-        tip: 'More data → narrower interval. More confidence → wider interval.'
+            "n": 26,
+            "ch": "3",
+            "topic": "p-value and CI agreement",
+            "q": "For the same two-sided test at α = 0.05 and its matching 95% CI for a difference, p = 0.032. What should be true about the CI?",
+            "opts": [
+                  "It should contain 0",
+                  "It should exclude 0",
+                  "It must be centered at 0",
+                  "It must have width 0.032"
+            ],
+            "a": 1,
+            "exp": "Because p < 0.05, the two-sided test rejects H₀: difference = 0. The matching 95% CI should therefore exclude 0.",
+            "tip": "Matching two-sided test and CI should agree."
       },
-    
       {
-        n: 27,
-        ch: '15',
-        topic: 'CI interpretation',
-        q: 'Which is the correct interpretation of a 95% confidence interval?',
-        opts: [
-          'There is a 95% probability the fixed population parameter is inside this computed interval',
-          'We are 95% confident the population parameter lies between the interval endpoints',
-          '95% of the sample observations must lie inside the interval',
-          'H₀ is true with probability .95'
-        ],
-        a: 1,
-        exp: 'Your course uses the wording “We are 95% confident that the population parameter is between the two endpoints.” The interval is about uncertainty in the parameter estimate, not the percentage of raw observations.',
-        tip: 'Avoid saying “95% probability the parameter is in this already-computed interval.”'
+            "n": 27,
+            "ch": "3",
+            "topic": "90% CI and α",
+            "q": "A 90% confidence interval corresponds to which α for the matching two-sided hypothesis test?",
+            "opts": [
+                  "0.01",
+                  "0.05",
+                  "0.10",
+                  "0.90"
+            ],
+            "a": 2,
+            "exp": "For the usual matching two-sided test, confidence level = 1 − α. Thus 0.90 = 1 − α, so α = 0.10.",
+            "tip": "90% ↔ .10, 95% ↔ .05, 99% ↔ .01.",
+            "formula": "α = 1 − 0.90 = 0.10"
       },
-    
       {
-        n: 28,
-        ch: '16',
-        topic: 'Hypotheses',
-        q: 'In a hypothesis test, H₀ generally contains:',
-        opts: [
-          'The benchmark/equality value',
-          'Only a greater-than sign',
-          'Only the sample mean',
-          'The p-value'
-        ],
-        a: 0,
-        exp: 'The null hypothesis states the benchmark/status-quo value and contains equality. The alternative tells you what kind of evidence you are looking for.',
-        tip: 'Put = in H₀. The direction (<, >, ≠) belongs in H₁.'
+            "n": 28,
+            "ch": "4",
+            "topic": "Regression equation",
+            "q": "In the simple linear regression equation Ŷ = β₀ + β₁X, what does Ŷ represent?",
+            "opts": [
+                  "Observed X",
+                  "Predicted value of Y",
+                  "The p-value",
+                  "The correlation coefficient"
+            ],
+            "a": 1,
+            "exp": "The regression equation uses X to calculate a predicted value of the response Y.",
+            "tip": "Regression predicts Y from X."
       },
-    
       {
-        n: 29,
-        ch: '16',
-        topic: 'Test tails',
-        q: 'If H₁: μ < 50, the test is:',
-        opts: [
-          'Right-tailed',
-          'Left-tailed',
-          'Two-tailed',
-          'Chi-square only'
-        ],
-        a: 1,
-        exp: 'The alternative points to values below the benchmark, so the rejection region is in the left tail.',
-        tip: 'The inequality in H₁ tells you the tail: < left, > right, ≠ two-tailed.'
+            "n": 29,
+            "ch": "4",
+            "topic": "Intercept β₀",
+            "q": "In Ŷ = β₀ + β₁X, the intercept β₀ is interpreted as:",
+            "opts": [
+                  "The change in predicted Y for a 1-unit increase in X",
+                  "Predicted Y when X = 0",
+                  "The percent of variation in Y explained by X",
+                  "The correlation between X and Y"
+            ],
+            "a": 1,
+            "exp": "The intercept is the predicted response at X = 0, provided that value is meaningful in context.",
+            "tip": "Intercept = predicted Y at X = 0."
       },
-    
       {
-        n: 30,
-        ch: '16',
-        topic: 'p-value decision',
-        q: 'At α = .05, JMP reports p = .018. The decision is:',
-        opts: [
-          'Fail to reject H₀',
-          'Reject H₀',
-          'Accept H₀',
-          'Increase p to .05'
-        ],
-        a: 1,
-        exp: 'Because p = .018 is smaller than α = .05, the observed result is sufficiently unusual under H₀ to reject H₀.',
-        tip: 'p < α → reject H₀. p ≥ α → fail to reject H₀.',
-        formula: '0.018 < 0.05 → Reject H₀'
+            "n": 30,
+            "ch": "4",
+            "topic": "Slope β₁",
+            "q": "A regression slope is β₁ = 3.4. Which interpretation is correct?",
+            "opts": [
+                  "Y is always 3.4",
+                  "For each 1-unit increase in X, predicted Y increases by 3.4 units",
+                  "X increases 3.4% for each unit of Y",
+                  "34% of variation in Y is explained"
+            ],
+            "a": 1,
+            "exp": "The slope gives the change in predicted Y associated with a one-unit increase in X.",
+            "tip": "Slope = change in predicted Y per +1 in X."
       },
-    
       {
-        n: 31,
-        ch: '16',
-        topic: 'p-value meaning',
-        q: 'A p-value is:',
-        opts: [
-          'The probability H₀ is true',
-          'Assuming H₀ is true, the probability of a result at least as extreme as observed',
-          'The probability the sample mean equals the population mean',
-          'The confidence level'
-        ],
-        a: 1,
-        exp: 'The p-value is calculated under the assumption that H₀ is true. It measures how unusual the observed statistic, or something more extreme, would be under that assumption.',
-        tip: 'Never interpret the p-value as P(H₀ is true).'
+            "n": 31,
+            "ch": "4",
+            "topic": "R² meaning",
+            "q": "A regression has R² = 0.64. What is the best interpretation?",
+            "opts": [
+                  "X causes 64% of Y",
+                  "64% of the variation in Y is explained by the fitted linear model using X",
+                  "The correlation must be +0.64",
+                  "The slope equals 0.64"
+            ],
+            "a": 1,
+            "exp": "R² is the proportion of variability in the response explained by the regression model. It does not establish causation.",
+            "tip": "R² × 100% = percent of variation in Y explained by the model."
       },
-    
       {
-        n: 32,
-        ch: '16',
-        topic: 'CI-test connection',
-        q: 'In a two-tailed test with α = .05, the matching confidence level in your worksheet is:',
-        opts: [
-          '90%',
-          '95%',
-          '97.5%',
-          '99%'
-        ],
-        a: 1,
-        exp: 'For a two-tailed test, α = .05 corresponds to a 95% confidence interval. If the null value is outside that interval, the two-tailed test rejects at α = .05.',
-        tip: 'α = .10 ↔ 90% CI, α = .05 ↔ 95% CI, α = .01 ↔ 99% CI.'
+            "n": 32,
+            "ch": "4",
+            "topic": "Correlation r",
+            "q": "A correlation of r = −0.91 indicates:",
+            "opts": [
+                  "A strong negative linear association",
+                  "A weak negative association",
+                  "A strong positive association",
+                  "91% causation"
+            ],
+            "a": 0,
+            "exp": "The negative sign gives direction; |r| close to 1 indicates a strong linear association.",
+            "tip": "Sign = direction. |r| = linear strength."
       },
-    
       {
-        n: 33,
-        ch: '18',
-        topic: 'Goodness-of-fit',
-        q: 'A χ² goodness-of-fit test is used to ask whether:',
-        opts: [
-          'Two numerical variables have linear association',
-          'One categorical distribution matches a proposed distribution/model',
-          'A population mean equals a benchmark',
-          'A control chart point is outside UCL'
-        ],
-        a: 1,
-        exp: 'A chi-square goodness-of-fit test compares observed counts in one categorical variable with the counts expected from a proposed distribution or probability model.',
-        tip: 'GOF = one categorical variable vs a proposed model. Independence = two categorical variables.'
+            "n": 33,
+            "ch": "4",
+            "topic": "r and R²",
+            "q": "In simple linear regression with one predictor, r = −0.70. What is R²?",
+            "opts": [
+                  "−0.70",
+                  "0.49",
+                  "0.70",
+                  "1.40"
+            ],
+            "a": 1,
+            "exp": "For simple linear regression, R² = r². Squaring −0.70 gives 0.49.",
+            "tip": "Simple regression only: R² = r².",
+            "formula": "(−0.70)² = 0.49"
       },
-    
       {
-        n: 34,
-        ch: '18',
-        topic: 'Expected counts',
-        q: 'In a χ² test of independence, an expected cell count is computed as:',
-        opts: [
-          'row total + column total',
-          '(row total × column total) / grand total',
-          'observed count / grand total',
-          'sample mean / standard error'
-        ],
-        a: 1,
-        exp: 'Under independence, the expected count combines the row and column marginal totals and divides by the overall grand total.',
-        tip: 'Expected count is based on marginals, not on the observed count in that cell.',
-        formula: 'E = (row total × column total) / grand total'
+            "n": 34,
+            "ch": "4",
+            "topic": "Causation trap",
+            "q": "A study finds a strong relationship between advertising and sales. Which conclusion is safe from regression/correlation alone?",
+            "opts": [
+                  "Advertising definitely causes sales",
+                  "Sales definitely cause advertising",
+                  "Advertising is associated with and may help predict sales",
+                  "No third variable could explain the relationship"
+            ],
+            "a": 2,
+            "exp": "Regression and correlation describe association and prediction. Without an appropriate causal design, they do not prove that changing X causes Y to change.",
+            "tip": "Use words like predicts, explains, or is associated with—not causes."
       },
-    
       {
-        n: 35,
-        ch: '18',
-        topic: 'JMP χ² output',
-        q: 'JMP reports Pearson χ² p = .003 at α = .05 for payment method vs membership status. The appropriate inferential conclusion is:',
-        opts: [
-          'Fail to reject independence',
-          'Reject H₀; there is evidence the variables are associated',
-          'Membership causes payment method',
-          'The χ² statistic must be negative'
-        ],
-        a: 1,
-        exp: 'Since .003 < .05, reject H₀ of independence. There is evidence that payment method and membership status are associated in the population. An association does not establish causation.',
-        tip: 'For chi-square independence, H₀ = independent and H₁ = associated/dependent.'
+            "n": 35,
+            "ch": "4",
+            "topic": "Extrapolation",
+            "q": "A regression was fit using ages 18–40. Predicting for age 85 is risky mainly because it is:",
+            "opts": [
+                  "Interpolation",
+                  "Extrapolation beyond the observed X range",
+                  "A paired comparison",
+                  "A Type I error"
+            ],
+            "a": 1,
+            "exp": "Predictions far outside the observed predictor range assume the linear pattern continues where no data were collected.",
+            "tip": "Predictions outside the observed X range = extrapolation."
+      },
+      {
+            "n": 36,
+            "ch": "4",
+            "topic": "Nonlinear relationship",
+            "q": "A scatterplot has a clear U-shaped pattern but r ≈ 0. What should you conclude?",
+            "opts": [
+                  "There is no relationship of any kind",
+                  "There may be a strong nonlinear relationship even though linear correlation is near zero",
+                  "The variables must be categorical",
+                  "R² must equal 1"
+            ],
+            "a": 1,
+            "exp": "Correlation summarizes linear association. A strong curved relationship can have correlation near zero.",
+            "tip": "Always inspect the scatterplot; r can miss nonlinear patterns."
+      },
+      {
+            "n": 37,
+            "ch": "5",
+            "topic": "Type I error",
+            "q": "A Type I error occurs when you:",
+            "opts": [
+                  "Reject a true H₀",
+                  "Fail to reject a false H₀",
+                  "Reject a false H₀",
+                  "Fail to reject a true H₀"
+            ],
+            "a": 0,
+            "exp": "Type I error means rejecting the null hypothesis even though it is actually true—a false positive.",
+            "tip": "Type I = false positive = reject a true null."
+      },
+      {
+            "n": 38,
+            "ch": "5",
+            "topic": "Type II error",
+            "q": "A Type II error occurs when you:",
+            "opts": [
+                  "Reject a true H₀",
+                  "Fail to reject a false H₀",
+                  "Reject a false H₀",
+                  "Always use α = 0.05"
+            ],
+            "a": 1,
+            "exp": "Type II error means missing a real effect by failing to reject H₀ when H₀ is false—a false negative.",
+            "tip": "Type II = false negative = fail to reject a false null."
+      },
+      {
+            "n": 39,
+            "ch": "5",
+            "topic": "False positive vs false negative",
+            "q": "Which pairing is correct?",
+            "opts": [
+                  "Type I = false negative; Type II = false positive",
+                  "Type I = false positive; Type II = false negative",
+                  "Both are false positives",
+                  "Both are false negatives"
+            ],
+            "a": 1,
+            "exp": "Type I is a false alarm; Type II is a missed real effect.",
+            "tip": "I = false positive. II = false negative."
+      },
+      {
+            "n": 40,
+            "ch": "5",
+            "topic": "Alpha α",
+            "q": "What does α represent in hypothesis testing?",
+            "opts": [
+                  "The chosen upper bound on the Type I error probability",
+                  "The Type II error probability",
+                  "The sample mean",
+                  "The correlation coefficient"
+            ],
+            "a": 0,
+            "exp": "The significance level α controls the probability of a Type I error under the null model for the test procedure.",
+            "tip": "α is tied to Type I error."
+      },
+      {
+            "n": 41,
+            "ch": "5",
+            "topic": "Beta β",
+            "q": "What does β represent?",
+            "opts": [
+                  "Probability of Type I error",
+                  "Probability of Type II error for a specified alternative",
+                  "Confidence level",
+                  "Regression slope"
+            ],
+            "a": 1,
+            "exp": "β is the probability of failing to reject H₀ when a particular alternative is actually true.",
+            "tip": "β is tied to Type II error."
+      },
+      {
+            "n": 42,
+            "ch": "5",
+            "topic": "Power",
+            "q": "Statistical power is:",
+            "opts": [
+                  "α + β",
+                  "1 − α",
+                  "1 − β",
+                  "p − α"
+            ],
+            "a": 2,
+            "exp": "Power is the probability of correctly rejecting H₀ when the specified alternative is true, so power = 1 − β.",
+            "tip": "Power = 1 − β.",
+            "formula": "Power = 1 − β"
+      },
+      {
+            "n": 43,
+            "ch": "5",
+            "topic": "Error tradeoff",
+            "q": "Holding sample size and effect size fixed, lowering α generally does what?",
+            "opts": [
+                  "Makes Type I errors more likely and Type II errors less likely",
+                  "Makes Type I errors less likely but can make Type II errors more likely",
+                  "Eliminates both errors",
+                  "Makes p-values smaller"
+            ],
+            "a": 1,
+            "exp": "A stricter rejection threshold reduces false positives, but with everything else fixed it can make real effects harder to detect.",
+            "tip": "Stricter α reduces Type I risk but may increase Type II risk unless you add information, such as a larger sample."
+      },
+      {
+            "n": 44,
+            "ch": "5",
+            "topic": "Type I in context",
+            "q": "Suppose H₀ says a new fraud filter does NOT improve detection. The company concludes it does improve detection, but in reality H₀ is true. What happened?",
+            "opts": [
+                  "Correct decision",
+                  "Type I error",
+                  "Type II error",
+                  "Paired-test error"
+            ],
+            "a": 1,
+            "exp": "The company rejected H₀ even though H₀ was actually true, which is a Type I error.",
+            "tip": "Ask two questions: What decision was made? What is actually true?"
+      },
+      {
+            "n": 45,
+            "ch": "5",
+            "topic": "Type II in context",
+            "q": "Suppose H₀ says a training program has no effect. The program truly helps, but the study fails to reject H₀. What happened?",
+            "opts": [
+                  "Type I error",
+                  "Type II error",
+                  "Correct rejection",
+                  "ANOVA error"
+            ],
+            "a": 1,
+            "exp": "A real effect exists, so H₀ is false, but the study failed to reject it. That is a Type II error.",
+            "tip": "Real effect missed → Type II error."
       }
-    ];
-    
+];
+
     const workouts = [
       {
-        label: 'A',
-        title: 'Conditional percentages',
-        prompt: 'A customer table shows 36 premium customers: 24 use app checkout and 12 use cashier checkout. Among 24 standard customers, 8 use app checkout and 16 use cashier checkout. Compute the conditional percentage using app checkout within each customer group. Does the pattern suggest association?',
-        answer: 'Premium: 24/36 = 66.7%. Standard: 8/24 = 33.3%. The conditional percentages are very different, so the pattern suggests an association between customer group and checkout method.',
-        formula: 'Premium app = 24 ÷ 36 = 0.667; Standard app = 8 ÷ 24 = 0.333'
+            "label": "A",
+            "title": "p-value decision drill",
+            "prompt": "For each p-value, make the decision at α = .05: .003, .049, .050, .18. Use the exact reject/fail-to-reject wording.",
+            "answer": "Reject for .003 and .049. Fail to reject for .050 and .18 because the rule is p < α for rejection.",
+            "formula": "p < .05 → reject; p ≥ .05 → fail to reject"
       },
-    
       {
-        label: 'B',
-        title: 'Correlation interpretation',
-        prompt: 'JMP gives r = 0.42 for advertising and sales. State direction, relative strength, and what you must NOT conclude about causation.',
-        answer: 'The relationship is positive and moderate in linear strength. As advertising tends to increase, sales tend to increase. You must not conclude that advertising causes sales from correlation alone.',
-        formula: 'r = 0.42 → positive sign; |r| = 0.42 → moderate linear association'
+            "label": "B",
+            "title": "JMP one-tailed output",
+            "prompt": "A right-tailed test has H₁: μ > 50. JMP reports t = 2.10 and two-sided Prob > |t| = .044. Find the one-sided p-value and decide at α = .05.",
+            "answer": "The statistic points in the direction of H₁, so halve the symmetric two-sided p-value: .044/2 = .022. Since .022 < .05, reject H₀.",
+            "formula": ".044 ÷ 2 = .022 < .05 → reject H₀"
       },
-    
       {
-        label: 'C',
-        title: 'Binomial',
-        prompt: 'A service representative successfully resolves a call on the first attempt with p = .70. Assume 8 independent calls with constant p. Write the model, compute the expected number of first-attempt resolutions, and write the expression for P(X ≥ 7).',
-        answer: 'X ~ Binomial(8, 0.70). The expected value is E(X)=np=8(0.70)=5.6. For at least 7 successes, add P(X=7) and P(X=8), or use the equivalent upper-tail calculation in JMP.',
-        formula: 'X ~ Binomial(8, 0.70); E(X)=5.6; P(X ≥ 7)=P(X=7)+P(X=8)'
+            "label": "C",
+            "title": "Choose the test",
+            "prompt": "Match each setup to a test: (1) one sample mean vs 100, (2) separate men vs women means, (3) same employees before/after, (4) four store means.",
+            "answer": "(1) one-sample t-test, (2) independent two-sample t-test, (3) paired t-test, (4) one-way ANOVA.",
+            "formula": "1 group vs target → 1-sample; 2 separate → 2-sample; same twice → paired; 3+ groups → ANOVA"
       },
-    
       {
-        label: 'D',
-        title: 'Sampling method',
-        prompt: 'A company separates employees into Finance, Marketing, Operations, and HR, then randomly selects 15 employees from every department. Name the sampling method and explain the clue.',
-        answer: 'Stratified sampling. The population is divided into groups (departments), and a random sample is taken from every group.',
-        formula: 'Stratified = divide into groups → sample from ALL groups'
+            "label": "D",
+            "title": "Paired differences",
+            "prompt": "Five employees have before/after productivity scores. In a paired t-test, what variable is actually analyzed?",
+            "answer": "The test analyzes one sample of within-pair differences (for example After − Before), then tests whether the population mean difference equals 0.",
+            "formula": "d = After − Before; test H₀: μd = 0"
       },
-    
       {
-        label: 'E',
-        title: 'Control chart',
-        prompt: 'A process target is μ = 40, σ = 3, and n = 9 per subgroup. Compute SE, LCL, UCL using 3-SE limits. A subgroup mean is 43.4. What should management do?',
-        answer: 'SE = 3/√9 = 1. LCL = 40 − 3(1)=37. UCL = 40 + 3(1)=43. Since 43.4 is above the UCL, investigate the process. The signal does not by itself prove a malfunction.',
-        formula: 'SE=1; LCL=37; UCL=43; 43.4 > 43 → investigate'
+            "label": "E",
+            "title": "ANOVA interpretation",
+            "prompt": "Four departments are compared with ANOVA and p = .009. What does the result establish, and what does it NOT establish?",
+            "answer": "Reject the null that all four population means are equal. Conclude at least one mean differs. The overall ANOVA does not identify which specific departments differ; follow-up comparisons are needed.",
+            "formula": "p=.009 < .05 → reject H₀: μ1=μ2=μ3=μ4"
       },
-    
       {
-        label: 'F',
-        title: 'Confidence interval mechanics',
-        prompt: 'A random sample has x̄ = 72, s = 10, n = 25, and σ is unknown. Identify z or t, degrees of freedom, standard error, and write the generic interval setup.',
-        answer: 'Use t because σ is unknown. df = 25 − 1 = 24. SE = 10/√25 = 2. The interval setup is 72 ± (t* × 2), where t* comes from a t table or JMP for the chosen confidence level.',
-        formula: 't; df=24; SE=2; CI = 72 ± t*·2'
+            "label": "F",
+            "title": "Confidence interval zero rule",
+            "prompt": "Interpret these 95% CIs for μA − μB: (−3.2, 1.1), (0.8, 4.6), and (−5.0, −0.4). State significance and direction.",
+            "answer": "(−3.2,1.1) contains 0 → not significant. (0.8,4.6) excludes 0 and is positive → significant with A > B. (−5.0,−0.4) excludes 0 and is negative → significant with A < B.",
+            "formula": "Difference CI contains 0 → no significance; excludes 0 → significant"
       },
-    
       {
-        label: 'G',
-        title: 'Hypothesis test + critical value',
-        prompt: 'Suppose H₁: μ ≠ 100 and a two-tailed t test uses critical values −2.06 and +2.06. If t = 2.34, state whether the statistic falls in a rejection region and give the decision.',
-        answer: 'Yes. Since 2.34 > 2.06, the test statistic lies in the right rejection region. Reject H₀.',
-        formula: 't = 2.34 > 2.06 → rejection region → Reject H₀'
+            "label": "G",
+            "title": "Confidence-width tradeoffs",
+            "prompt": "Starting from the same data, predict what happens to CI width when (1) confidence rises 95%→99%, (2) n increases, (3) sample variability increases.",
+            "answer": "(1) Wider, (2) narrower, (3) wider. Higher confidence or more variability raises margin of error; larger n reduces standard error.",
+            "formula": "ME = critical value × SE; SE often ∝ 1/√n"
       },
-    
       {
-        label: 'H',
-        title: 'p-value + CI connection',
-        prompt: 'For H₀: μ = 25 vs H₁: μ ≠ 25 at α = .05, JMP reports p = .031 and a 95% CI of (25.4, 29.1). Make the p-value decision, state whether 25 is inside or outside the CI, and explain whether the methods agree.',
-        answer: 'Because .031 < .05, reject H₀. The null value 25 is outside the 95% CI because the interval begins at 25.4. The methods agree, exactly as expected for a matching two-tailed test and confidence interval.',
-        formula: 'p=.031 < .05 → reject; 25 ∉ (25.4,29.1)'
+            "label": "H",
+            "title": "Regression coefficients",
+            "prompt": "A fitted model is Ŷ = 12 + 2.5X, where X is ad spend in $1,000s and Y is predicted weekly sales in $1,000s. Interpret the intercept and slope.",
+            "answer": "Intercept: when ad spend is $0, predicted weekly sales are $12,000. Slope: each additional $1,000 of ad spend is associated with a $2,500 increase in predicted weekly sales.",
+            "formula": "β0 = predicted Y at X=0; β1 = change in predicted Y per +1 X"
       },
-    
       {
-        label: 'I',
-        title: 'Chi-square expected counts',
-        prompt: 'A 2×3 table has row total 60, a particular column total 50, and grand total 150. Compute the expected count for the cell at that row/column intersection.',
-        answer: 'Use E = (row total × column total) / grand total. E = (60×50)/150 = 20.',
-        formula: 'E = (60×50)/150 = 20'
+            "label": "I",
+            "title": "R² and correlation",
+            "prompt": "Simple linear regression gives r = −.80. Compute R² and interpret both r and R².",
+            "answer": "R² = .64. The variables have a strong negative linear association. About 64% of the variation in Y is explained by the fitted linear model using X.",
+            "formula": "R² = r² = (−.80)² = .64 = 64%"
       },
-    
       {
-        label: 'J',
-        title: 'JMP reading',
-        prompt: 'A Pearson χ² output shows χ² = 11.8, df = 2, p = .0027. Identify the three key numbers and make the decision at α = .05. If this came from a test of independence, what is the contextual meaning of rejecting H₀?',
-        answer: 'The key numbers are χ² = 11.8, df = 2, and p = .0027. Since .0027 < .05, reject H₀. In a test of independence, conclude there is evidence the two categorical variables are associated in the population. Do not claim one causes the other.',
-        formula: 'χ²=11.8; df=2; p=.0027 < .05 → Reject H₀'
+            "label": "J",
+            "title": "Causation trap",
+            "prompt": "A regression shows that customers who receive more support contacts tend to spend more. Write a safe conclusion without claiming causation.",
+            "answer": "The number of support contacts is associated with customer spending and may help predict spending. The observational relationship alone does not show that increasing support contacts causes spending to rise.",
+            "formula": "Association/prediction ≠ causation"
+      },
+      {
+            "label": "K",
+            "title": "Type I vs Type II",
+            "prompt": "H₀: a new checkout design does not change conversion. Describe a Type I error and a Type II error in context.",
+            "answer": "Type I: conclude the design changes conversion when it actually does not. Type II: fail to detect a real change when the design actually does affect conversion.",
+            "formula": "Type I = false positive; Type II = false negative"
+      },
+      {
+            "label": "L",
+            "title": "p-value + CI cross-check",
+            "prompt": "A two-sided test of H₀: μ1−μ2=0 gives p=.021 at α=.05. The matching 95% CI is reported as (1.3, 7.8). Check whether the two methods agree and explain why.",
+            "answer": "They agree. p=.021 < .05 means reject H₀. The 95% CI excludes 0, which gives the same conclusion for the matching two-sided test.",
+            "formula": "p < .05 ↔ matching 95% difference CI excludes 0"
       }
-    ];
-    
-    const state = JSON.parse(localStorage.getItem('ds101CodeState') || '{}');
+];
+
+    const state = JSON.parse(localStorage.getItem('ds101FinalFocusV2') || '{}');
     const letters = ['A', 'B', 'C', 'D'];
     const chapters = [
-        ['all', 'All Questions', 35], ['5', 'Chapter 5', 4], ['6', 'Chapter 6', 4], ['11', 'Chapter 11', 5], ['12', 'Chapter 12 / JMP', 2], ['13', 'Chapter 13', 4], ['14', 'Chapter 14', 4], ['15', 'Chapter 15 ★', 4], ['16', 'Chapter 16 ★', 5], ['18', 'Chapter 18', 3]
+        ['all', 'All Questions', 45],
+        ['1', '1 · Hypothesis & p-values', 9],
+        ['2', '2 · Choosing the right test', 9],
+        ['3', '3 · Confidence intervals', 9],
+        ['4', '4 · Regression & correlation', 9],
+        ['5', '5 · Type I vs Type II', 9]
     ];
     let currentIndex = 0;
     let chapterFilter = 'all';
@@ -2206,10 +2338,10 @@
     let activeView = 'quiz';
     const $ = s => document.querySelector(s);
     const $$ = s => [...document.querySelectorAll(s)];
-    function save() { localStorage.setItem('ds101CodeState', JSON.stringify(state)); }
+    function save() { localStorage.setItem('ds101FinalFocusV2', JSON.stringify(state)); }
     function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c])); }
     function buildChapterNav() {
-        $('#chapterNav').innerHTML = chapters.map(([id, label, count]) => `<button class="chapter-item ${id === 'all' ? 'active' : ''} ${id === '15' || id === '16' ? 'priority' : ''}" data-chapter="${id}"><span><span class="folder">${id === 'all' ? '▾' : '▸'}</span>${label}</span><b>${count}</b></button>`).join('');
+        $('#chapterNav').innerHTML = chapters.map(([id, label, count]) => `<button class="chapter-item ${id === 'all' ? 'active' : ''} ${id !== 'all' ? 'priority' : ''}" data-chapter="${id}"><span><span class="folder">${id === 'all' ? '▾' : '▸'}</span>${label}</span><b>${count}</b></button>`).join('');
         $$('.chapter-item').forEach(btn => btn.addEventListener('click', () => {
             chapterFilter = btn.dataset.chapter;
             visibleQuestions = chapterFilter === 'all' ? [...questions] : questions.filter(q => q.ch === chapterFilter);
@@ -2217,6 +2349,7 @@
             if (!visibleQuestions.some(q => q.n === currentQ.n))
                 currentIndex = questions.indexOf(visibleQuestions[0]);
             $$('.chapter-item').forEach(b => b.classList.toggle('active', b === btn));
+            buildQuestionMap();
             renderQuestion();
             closeExplorer();
         }));
@@ -2239,10 +2372,10 @@
         const q = questions[currentIndex];
         const s = state[q.n] || {};
         $('#questionNumber').textContent = String(q.n).padStart(2, '0');
-        $('#chapterTag').textContent = `CH ${q.ch}`;
+        $('#chapterTag').textContent = `FOCUS ${q.ch}`;
         $('#topicTag').textContent = q.topic;
         $('#questionText').textContent = q.q;
-        $('#crumbChapter').textContent = `Chapter ${q.ch}`;
+        $('#crumbChapter').textContent = `Focus ${q.ch}`;
         $('#crumbTopic').textContent = q.topic;
         $('#contextChapter').textContent = q.ch;
         $('#contextTopic').textContent = q.topic;
@@ -2265,9 +2398,9 @@
         buildQuestionMap();
         const pos = visibleQuestions.findIndex(x => x.n === q.n);
         const shownPos = pos >= 0 ? pos + 1 : q.n;
-        $('#currentPosition').textContent = chapterFilter === 'all' ? `Question ${q.n} of 35` : `${shownPos} of ${visibleQuestions.length} in Chapter ${chapterFilter}`;
-        $('#miniProgress').style.width = `${(q.n / 35) * 100}%`;
-        $('#statusText').textContent = `Ln ${q.n}, Col 1  ·  Chapter ${q.ch}  ·  ${q.topic}`;
+        $('#currentPosition').textContent = chapterFilter === 'all' ? `Question ${q.n} of ${questions.length}` : `${shownPos} of ${visibleQuestions.length} in Focus ${chapterFilter}`;
+        $('#miniProgress').style.width = `${(q.n / questions.length) * 100}%`;
+        $('#statusText').textContent = `Ln ${q.n}, Col 1  ·  Focus ${q.ch}  ·  ${q.topic}`;
     }
     function selectAnswer(i) {
         const q = questions[currentIndex];
@@ -2364,7 +2497,7 @@
     $('#nextQuestion').addEventListener('click', () => navigate(1));
     $('#retryQuestion').addEventListener('click', retryCurrent);
     $('#reviewMissed').addEventListener('click', reviewMissed);
-    $('#resetAll').addEventListener('click', () => { if (confirm('Reset all 35 saved answers?')) {
+    $('#resetAll').addEventListener('click', () => { if (confirm(`Reset all ${questions.length} saved answers?`)) {
         Object.keys(state).forEach(k => delete state[k]);
         save();
         visibleQuestions = [...questions];
@@ -2392,6 +2525,7 @@
         }
     });
     buildChapterNav();
+    buildQuestionMap();
     renderWorkouts();
     renderQuestion();
     
