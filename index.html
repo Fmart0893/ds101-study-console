@@ -1401,6 +1401,65 @@
         display: none;
       }
     }
+
+    /* ===== Added HW / Cheat Sheet tab ===== */
+    .exam-lab-stage{width:min(1040px,calc(100% - 48px))}
+    .exam-lab-toolbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px;padding:10px;border:1px solid var(--line);border-radius:12px;background:#0f151f}
+    .exam-lab-modes,.exam-lab-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .exam-mode-btn{border:1px solid #2a374a;background:#111722;color:#8694a8;border-radius:8px;padding:8px 11px;font-size:10px;font-weight:800;cursor:pointer}
+    .exam-mode-btn.active{color:#fff;border-color:rgba(167,139,250,.65);background:#211d36}
+    .no-jmp-badge{border:1px solid rgba(74,222,154,.32);background:rgba(74,222,154,.06);color:var(--green);border-radius:999px;padding:7px 10px;font:800 9px ui-monospace,monospace}
+    .exam-lab-panel.hidden{display:none}
+    .hw-filter-row{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}
+    .hw-filter{border:1px solid var(--line);background:#0f1620;color:#77869b;border-radius:8px;padding:7px 10px;font-size:9px;font-weight:800;cursor:pointer}
+    .hw-filter.active{color:#fff;border-color:#62728a;background:#182233}
+    .hw-practice-card{background:linear-gradient(180deg,#111823,#0f151f);border:1px solid #253043;border-radius:14px;overflow:hidden}
+    .hw-practice-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 15px;border-bottom:1px solid var(--line)}
+    .hw-practice-meta{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+    .hw-pill{border:1px solid #33415a;border-radius:999px;padding:5px 8px;background:#121a26;color:#aab7ca;font:800 9px ui-monospace,monospace}
+    .hw-pill.chapter{color:#d9ccff;border-color:rgba(167,139,250,.4)}
+    .hw-practice-count{color:#66758a;font:700 9px ui-monospace,monospace}
+    .hw-practice-body{padding:18px}
+    .hw-practice-body h2{margin:0 0 17px;font-size:18px;line-height:1.45}
+    .hw-options{display:grid;gap:8px}
+    .hw-option{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;width:100%;border:1px solid #253146;background:#0d141e;color:#a9b5c7;border-radius:9px;padding:10px;text-align:left;cursor:pointer}
+    .hw-option:hover{border-color:#43536d;color:#e3eaf6}
+    .hw-option.selected{border-color:var(--purple);background:rgba(167,139,250,.08);color:#fff}
+    .hw-option.correct-choice{border-color:rgba(74,222,154,.65);background:rgba(74,222,154,.08)}
+    .hw-option.wrong-choice{border-color:rgba(255,107,129,.65);background:rgba(255,107,129,.08)}
+    .hw-letter{width:28px;height:28px;display:grid;place-items:center;border-radius:7px;background:#151f2c;color:#76869b;font:900 10px ui-monospace,monospace}
+    .hw-actions{display:flex;justify-content:space-between;gap:10px;margin-top:15px;align-items:center}
+    .hw-check{border:0;border-radius:8px;padding:9px 14px;cursor:pointer;font-size:10px;font-weight:900;background:linear-gradient(90deg,var(--purple),#7bb6ff);color:#090b10}
+    .hw-check:disabled{opacity:.35;cursor:not-allowed}
+    .hw-feedback{display:none;margin-top:14px;border:1px solid var(--line);border-radius:10px;background:#0b121b;overflow:hidden}
+    .hw-feedback.show{display:block}.hw-feedback.good{border-color:rgba(74,222,154,.4)}.hw-feedback.bad{border-color:rgba(255,107,129,.4)}
+    .hw-feedback header{padding:10px 12px;font:900 9px ui-monospace,monospace;letter-spacing:.05em}
+    .hw-feedback.good header{color:var(--green)}.hw-feedback.bad header{color:var(--red)}
+    .hw-feedback-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+    .hw-feedback-cell{padding:11px 12px;border-right:1px solid var(--line)}
+    .hw-feedback-cell:nth-child(even){border-right:0}.hw-feedback-cell.wide{grid-column:1/-1;border-top:1px solid var(--line);border-right:0}
+    .hw-feedback-cell label{display:block;color:#5f6d82;font:800 8px ui-monospace,monospace;margin-bottom:5px}
+    .hw-feedback-cell p{margin:0;color:#b5c0d1;font-size:11px;line-height:1.55}
+    .hw-progress{margin-top:10px;display:flex;align-items:center;gap:10px;color:#6e7d92;font:700 9px ui-monospace,monospace}
+    .hw-track{height:5px;background:#131d29;border-radius:999px;flex:1;overflow:hidden}.hw-track i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--cyan));width:0}
+    .cheat-intro{border:1px solid rgba(255,202,98,.28);background:rgba(255,202,98,.05);border-radius:12px;padding:12px 14px;color:#c6b98f;font-size:11px;line-height:1.55;margin-bottom:14px}
+    .cheat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .cheat-card{border:1px solid var(--line);border-radius:12px;background:#0f151f;overflow:hidden}
+    .cheat-card h3{margin:0;padding:11px 13px;border-bottom:1px solid var(--line);font-size:11px;color:#dce4f0;box-shadow:inset 3px 0 0 var(--purple)}
+    .cheat-row{display:grid;grid-template-columns:150px 1fr;gap:12px;padding:10px 13px;border-bottom:1px solid rgba(32,42,58,.7)}
+    .cheat-row:last-child{border-bottom:0}.cheat-row b{color:#77869d;font:800 9px ui-monospace,monospace}.cheat-row span{color:#b9c4d4;font-size:10px;line-height:1.5}
+    .exam-memory{margin-top:14px;border:1px solid var(--line);border-radius:12px;background:#0d141d;padding:13px}.exam-memory strong{color:#f0f4fb;font-size:11px}.exam-memory p{margin:7px 0 0;color:#8290a4;font-size:10px;line-height:1.6}
+    @media(max-width:980px){.cheat-grid{grid-template-columns:1fr}.cheat-row{grid-template-columns:130px 1fr}}
+    @media print{
+      body *{visibility:hidden!important}
+      #examLabView,#examLabView *{visibility:visible!important}
+      #examLabView{position:absolute;left:0;top:0;width:100%;background:#fff!important;color:#000!important}
+      #hwPracticePanel,.exam-lab-toolbar,.editor-breadcrumbs,.study-header{display:none!important}
+      #hwCheatPanel{display:block!important}
+      .cheat-card,.cheat-intro,.exam-memory{background:#fff!important;border-color:#bbb!important;break-inside:avoid}
+      .cheat-card h3,.cheat-row b,.cheat-row span,.cheat-intro,.exam-memory p,.exam-memory strong{color:#000!important}
+    }
+
   </style>
 </head>
 <body>
@@ -1414,6 +1473,7 @@
       <div class="tabs" role="tablist" aria-label="Study views">
         <button class="tab active" data-view="quiz" role="tab" aria-selected="true"><span class="file-icon html">&lt;/&gt;</span> quiz.html <b>●</b></button>
         <button class="tab" data-view="workouts" role="tab" aria-selected="false"><span class="file-icon md">#</span> workouts.md</button>
+        <button class="tab" data-view="examLab" role="tab" aria-selected="false"><span class="file-icon md">#</span> hw_exam.md</button>
       </div>
       <div class="command-pill"><span>⌘</span><span>DS-101 / Final Exam Focus</span><kbd>⌕</kbd></div>
       <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
@@ -1500,6 +1560,71 @@
             <div class="session-chip"><span>12</span><small>extended problems</small></div>
           </div>
           <div id="workoutList" class="workout-grid"></div>
+        </section>
+      </main>
+
+
+      <main class="editor hidden" id="examLabView">
+        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span>hw_exam.md</span><b>›</b><span id="examLabCrumb">homework-style-practice</span></div>
+        <section class="editor-stage exam-lab-stage">
+          <div class="study-header">
+            <div>
+              <div class="kicker"><span class="live-dot cyan"></span> CH 5 · 6 · 18 REVIEW</div>
+              <h1>HW Practice + <span>Cheat Sheet</span></h1>
+              <p>Homework-style questions based on the Chapter 5, 6, and 18 material you worked through. This exam version intentionally does not require JMP.</p>
+            </div>
+            <div class="session-chip"><span id="hwAnsweredCount">0</span><small>of 26 answered</small></div>
+          </div>
+
+          <div class="exam-lab-toolbar">
+            <div class="exam-lab-modes">
+              <button class="exam-mode-btn active" data-exam-mode="practice">HW-like Practice</button>
+              <button class="exam-mode-btn" data-exam-mode="cheat">Cheat Sheet</button>
+            </div>
+            <div class="exam-lab-actions">
+              <span class="no-jmp-badge">✓ NO JMP REQUIRED</span>
+              <button class="ghost-btn" id="printCheatSheet">Print cheat sheet</button>
+            </div>
+          </div>
+
+          <div class="exam-lab-panel" id="hwPracticePanel">
+            <div class="hw-filter-row" id="hwFilterRow"></div>
+            <article class="hw-practice-card">
+              <div class="hw-practice-top">
+                <div class="hw-practice-meta">
+                  <span class="hw-pill chapter" id="hwChapterTag">CH 5</span>
+                  <span class="hw-pill" id="hwTopicTag">Conditional proportion</span>
+                </div>
+                <span class="hw-practice-count" id="hwQuestionCount">01 / 26</span>
+              </div>
+              <div class="hw-practice-body">
+                <h2 id="hwQuestionText"></h2>
+                <div class="hw-options" id="hwOptionList"></div>
+                <div class="hw-actions">
+                  <button class="nav-btn" id="hwPrevQuestion">← Previous</button>
+                  <button class="hw-check" id="hwCheckAnswer">Check answer</button>
+                  <button class="nav-btn primary" id="hwNextQuestion">Next →</button>
+                </div>
+                <div class="hw-feedback" id="hwFeedbackBox"></div>
+                <div class="hw-progress">
+                  <span id="hwProgressText">0 answered</span>
+                  <div class="hw-track"><i id="hwProgressBar"></i></div>
+                  <button class="tiny-btn" id="hwRetryQuestion">↺ retry</button>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="exam-lab-panel hidden" id="hwCheatPanel">
+            <div class="cheat-intro">
+              <strong>Exam-use version:</strong> identify the problem type first, write the matching formula, then substitute numbers. For Chapters 5, 6, and 18, this tab is built for hand calculation and interpretation rather than JMP.
+            </div>
+            <div class="cheat-grid" id="cheatGrid"></div>
+            <div class="exam-memory">
+              <strong>Fast identification rules</strong>
+              <p>Two categorical variables → contingency table / conditional percentages / χ². · Two numerical variables → scatterplot + Pearson r. · Goodness-of-fit → one categorical variable compared with a model. · Independence → two categorical variables. · p-value &lt; α → reject H₀. · Expected counts come from the null model.</p>
+            </div>
+          </div>
         </section>
       </main>
 
@@ -2322,6 +2447,8 @@
       }
 ];
 
+    const hwExamQuestions = [{"n": 1, "ch": "5", "topic": "Conditional proportion", "q": "Stockholders: 7 said Very likely and 5 said Somewhat likely. There are 31 stockholders total. What proportion chose one of those two responses?", "opts": ["0.200", "0.345", "0.387", "0.600"], "a": 2, "exp": "Use the stockholder total as the denominator: (7+5)/31 = 12/31 = 0.387.", "formula": "conditional proportion = relevant count ÷ relevant group total", "tip": "The word “of” usually tells you which group total belongs in the denominator."}, {"n": 2, "ch": "5", "topic": "Conditional proportion", "q": "Nonstockholders: 3 said Very likely and 7 said Somewhat likely. There are 29 nonstockholders total. What is the proportion?", "opts": ["0.290", "0.345", "0.387", "0.483"], "a": 1, "exp": "(3+7)/29 = 10/29 = 0.3448 ≈ 0.345.", "formula": "conditional proportion = relevant count ÷ relevant group total", "tip": "Do not divide by the grand total if the question says “of nonstockholders.”"}, {"n": 3, "ch": "5", "topic": "Association", "q": "The conditional percentages differ across the columns of a contingency table. What does that suggest?", "opts": ["The variables are associated", "The variables are independent", "Causation is proved", "The table must be wrong"], "a": 0, "exp": "Different conditional distributions suggest an association between the categorical variables.", "formula": "different conditional distributions → evidence of association", "tip": "Association does not automatically mean causation."}, {"n": 4, "ch": "5", "topic": "Expected count", "q": "A row total is 200, a column total is 200, and the grand total is 400. What is the expected count for their cell under no association?", "opts": ["50", "100", "200", "400"], "a": 1, "exp": "E = (200×200)/400 = 100.", "formula": "E = (Row Total × Column Total) ÷ Grand Total", "tip": "Expected counts come from the margins."}, {"n": 5, "ch": "5", "topic": "Cramer's V", "q": "For a 2×2 table, χ² = 21.6 and n = 80. What is Cramer’s V?", "opts": ["0.270", "0.520", "0.735", "1.000"], "a": 1, "exp": "For a 2×2 table, min(r−1,c−1)=1. V=√(21.6/80)=√0.27≈0.520.", "formula": "V = √[χ² ÷ (n·min(r−1,c−1))]", "tip": "For 2×2 tables, the min term equals 1."}, {"n": 6, "ch": "5", "topic": "Lurking variable", "q": "Airline Y has the better on-time rate overall, but Airline X has the better rate within major destinations. What is the best explanation?", "opts": ["Arithmetic error", "Destination is a lurking variable", "On-time status is numerical", "Correlation proves causation"], "a": 1, "exp": "The airlines fly different mixes of destinations. Destination affects on-time performance and can reverse the overall comparison.", "formula": "overall pattern can reverse after conditioning on a lurking variable", "tip": "If the overall comparison reverses within groups, look for a third variable."}, {"n": 7, "ch": "5", "topic": "Conditional percentages", "q": "To compare the on-time arrival rates of Airline X and Airline Y, which percentages should you use?", "opts": ["Row percentages by arrival status", "Column percentages within each airline", "Grand-total percentages only", "Raw counts only"], "a": 1, "exp": "You want the proportion on time within each airline, so use each airline’s total as the denominator.", "formula": "conditional % = cell count ÷ relevant column total × 100%", "tip": "Ask: within which group am I comparing?"}, {"n": 8, "ch": "5", "topic": "Strength of association", "q": "Which Cramer’s V indicates the strongest association?", "opts": ["0.08", "0.22", "0.51", "They are the same"], "a": 2, "exp": "Cramer’s V ranges from 0 to 1, and values closer to 1 indicate stronger association.", "formula": "0 ≤ V ≤ 1", "tip": "Cramer’s V measures strength, not positive/negative direction."}, {"n": 9, "ch": "6", "topic": "Two numerical variables", "q": "Which pair is appropriate for a scatterplot and Pearson correlation?", "opts": ["Department & satisfaction category", "Payment method & customer type", "Age & annual income", "Airline & on-time status"], "a": 2, "exp": "Pearson correlation is for two numerical variables. Age and annual income are both numerical.", "formula": "two numerical variables → scatterplot + Pearson correlation", "tip": "If either variable is categorical, Pearson correlation is not the Chapter 6 tool."}, {"n": 10, "ch": "6", "topic": "X and Y", "q": "A business studies whether advertising spending is associated with sales revenue. Which setup is most natural?", "opts": ["X=sales, Y=advertising", "X=advertising, Y=sales", "Both must be categorical", "There is no explanatory variable"], "a": 1, "exp": "Advertising is the natural explanatory variable X, while sales is the response Y.", "formula": "explanatory variable → X-axis; response variable → Y-axis", "tip": "Think: what might explain or predict what?"}, {"n": 11, "ch": "6", "topic": "Correlation direction/strength", "q": "How should r = 0.82 be described?", "opts": ["Strong positive linear association", "Weak positive linear association", "Strong negative linear association", "No linear association"], "a": 0, "exp": "The positive sign gives positive direction; |0.82| is close to 1, so the linear association is strong.", "formula": "sign → direction; |r| → strength", "tip": "Do not use the sign to judge strength."}, {"n": 12, "ch": "6", "topic": "Correlation direction/strength", "q": "How should r = −0.95 be described?", "opts": ["Weak negative", "Strong negative", "Strong positive", "No relationship"], "a": 1, "exp": "The sign is negative and the magnitude is very close to 1, so this is a strong negative linear association.", "formula": "−1 ≤ r ≤ 1", "tip": "Near −1 is strong, not weak."}, {"n": 13, "ch": "6", "topic": "Compare correlations", "q": "Which represents the stronger linear relationship: r = −0.85 or r = 0.60?", "opts": ["r = −0.85", "r = 0.60", "They are equal", "Cannot compare because signs differ"], "a": 0, "exp": "Strength depends on |r|. Since 0.85 > 0.60, r = −0.85 is stronger.", "formula": "compare |r| for strength", "tip": "Negative does not mean weaker."}, {"n": 14, "ch": "6", "topic": "Nonlinear relationship", "q": "A scatterplot shows a clear U-shaped relationship, but r ≈ 0. What should you conclude?", "opts": ["X and Y are unrelated", "There is little linear association, but a nonlinear relationship may exist", "The data are wrong", "The relationship is perfectly negative"], "a": 1, "exp": "Pearson correlation measures linear association. A curved relationship can be strong even when r is near 0.", "formula": "r ≈ 0 → little linear association, not necessarily no relationship", "tip": "Always think about the scatterplot’s form."}, {"n": 15, "ch": "6", "topic": "Correlation vs causation", "q": "Ice-cream sales and sunglasses sales have a strong positive correlation. What is the best conclusion?", "opts": ["Ice cream causes sunglasses purchases", "Sunglasses cause ice-cream purchases", "They are associated; warm weather could be a lurking variable", "There is no relationship"], "a": 2, "exp": "Warm weather can increase both. Correlation by itself does not establish causation.", "formula": "correlation ≠ causation", "tip": "Look for a plausible third variable."}, {"n": 16, "ch": "6", "topic": "Covariance", "q": "Suppose Cov(X,Y)=25. Can you tell from 25 alone whether the relationship is strong?", "opts": ["Yes, definitely strong", "Yes, definitely weak", "No; covariance has no fixed strength scale", "Only if covariance is negative"], "a": 2, "exp": "Covariance depends on the units and has no fixed scale. Pearson correlation solves this by being unitless and bounded.", "formula": "covariance gives direction; its magnitude has no universal strength scale", "tip": "Use correlation, not covariance magnitude, to compare strength."}, {"n": 17, "ch": "18", "topic": "Goodness-of-fit df", "q": "A goodness-of-fit test compares counts across Monday through Friday. No parameters are estimated. What are the degrees of freedom?", "opts": ["3", "4", "5", "10"], "a": 1, "exp": "There are k=5 categories, so df=k−1=4.", "formula": "GOF df = k−1", "tip": "Count categories, then subtract 1."}, {"n": 18, "ch": "18", "topic": "Uniform expected count", "q": "Observed weekday call counts total 1025 across 5 weekdays. Under a uniform null model, what is the expected count for Friday?", "opts": ["200", "205", "215", "1025"], "a": 1, "exp": "Uniform means each category gets the same expected count: 1025/5=205.", "formula": "equal categories: E=N/k", "tip": "Uniform = same expected count for every category."}, {"n": 19, "ch": "18", "topic": "Chi-square GOF", "q": "Observed counts are 185, 220, 205, 200, 215, with E=205 for each day. What is χ²?", "opts": ["0.454", "1.000", "3.659", "4.000"], "a": 2, "exp": "χ²=[400+225+0+25+100]/205=750/205=3.659.", "formula": "χ² = Σ (O−E)²/E", "tip": "Compute every category’s contribution, then add."}, {"n": 20, "ch": "18", "topic": "p-value decision", "q": "A goodness-of-fit test gives p=0.454 at α=0.05. What is the decision?", "opts": ["Reject H₀", "Fail to reject H₀", "Accept H₀ as proven", "Change α to 0.50"], "a": 1, "exp": "Because 0.454>0.05, the result is not statistically significant; fail to reject H₀.", "formula": "p<α → reject H₀; p≥α → fail to reject H₀", "tip": "A large p-value is not evidence against H₀."}, {"n": 21, "ch": "18", "topic": "Independence df", "q": "A chi-square test of independence uses a table with 2 rows and 5 columns. What are the degrees of freedom?", "opts": ["4", "5", "6", "10"], "a": 0, "exp": "df=(r−1)(c−1)=(2−1)(5−1)=4.", "formula": "independence df=(r−1)(c−1)", "tip": "This is different from goodness-of-fit df."}, {"n": 22, "ch": "18", "topic": "Hypotheses", "q": "For a chi-square test of independence between weekday and market direction, which hypotheses are correct?", "opts": ["H₀: dependent; Hₐ: independent", "H₀: independent; Hₐ: dependent", "H₀: p=0.05; Hₐ: p≠0.05", "H₀: means equal; Hₐ: means differ"], "a": 1, "exp": "The null hypothesis says the two categorical variables are independent; the alternative says they are associated/dependent.", "formula": "H₀: independent; Hₐ: not independent", "tip": "Independence belongs in H₀."}, {"n": 23, "ch": "18", "topic": "Expected cell count", "q": "A row total is 209, a column total is 91, and the grand total is 473. What is the expected count for that cell?", "opts": ["40.209", "45.500", "91.000", "209.000"], "a": 0, "exp": "E=(209×91)/473≈40.209.", "formula": "E=(Row Total×Column Total)÷Grand Total", "tip": "Use the row and column margins for the cell."}, {"n": 24, "ch": "18", "topic": "2×2 chi-square", "q": "Observed counts are 95, 105, 105, 95 in a 2×2 table, and every expected count is 100. What is χ²?", "opts": ["0.250", "0.500", "1.000", "4.000"], "a": 2, "exp": "Each cell contributes 25/100=0.25. Four cells give χ²=1.000.", "formula": "χ² = Σ (O−E)²/E", "tip": "Do not stop after one cell; sum all cell contributions."}, {"n": 25, "ch": "18", "topic": "Independence decision", "q": "A 2×2 independence test gives χ²=1.000, df=1, and p=0.317. At α=0.05, what is the conclusion?", "opts": ["Reject H₀; evidence of association", "Fail to reject H₀; insufficient evidence of association", "Accept H₀ as certainly true", "Reject H₀ because χ² is positive"], "a": 1, "exp": "Since 0.317>0.05, fail to reject the null of independence.", "formula": "p≥α → fail to reject H₀", "tip": "A positive χ² value alone does not imply significance."}, {"n": 26, "ch": "18", "topic": "No-JMP exam strategy", "q": "On the exam, a chi-square problem gives χ², df, and the p-value. What should you do next?", "opts": ["Open JMP", "Compare p with α and state the decision in context", "Take √χ²", "Always divide p by 2"], "a": 1, "exp": "The exam does not require JMP here. Compare p with α and write the conclusion in context.", "formula": "p<α → reject H₀; otherwise fail to reject H₀", "tip": "This new tab is intentionally software-free."}];
+    const hwCheatSections = [["Chapter 5 · Categorical association", [["Conditional %", "Cell Count ÷ Relevant Column Total × 100%"], ["Expected count", "E = (Row Total × Column Total) ÷ Grand Total"], ["Chi-square distance", "χ² = Σ (O−E)² ÷ E"], ["Cramer’s V", "V = √[χ² ÷ (n·min(r−1,c−1))]"], ["Interpret V", "0 = no association; 1 = perfect association"], ["Big idea", "Compare conditional distributions. Different patterns suggest association."], ["Warning", "Association does not necessarily imply causation."]]], ["Chapter 6 · Two numerical variables", [["Use when", "Both variables are numerical → scatterplot + Pearson correlation"], ["Correlation range", "−1 ≤ r ≤ 1"], ["Direction", "r>0 positive; r<0 negative"], ["Strength", "Use |r|. Closer to 1 = stronger linear association."], ["Form warning", "r measures linear association. A curve can have r≈0 and still be related."], ["Covariance", "Direction is useful, but magnitude has no fixed strength scale."], ["Causation", "Correlation does not imply causation; consider lurking variables."]]], ["Chapter 18 · Inference for counts", [["Independence expected count", "E = (Row Total × Column Total) ÷ Grand Total"], ["χ² statistic", "χ² = Σ (O−E)² ÷ E"], ["Independence df", "df = (r−1)(c−1)"], ["Independence hypotheses", "H₀: independent; Hₐ: not independent"], ["GOF expected count", "Eᵢ = Npᵢ"], ["Equal-category GOF", "E = N/k"], ["GOF df", "df = k−1; if m parameters estimated: k−1−m"], ["Decision", "p-value < α → Reject H₀"], ["Critical value", "χ² > χ²critical → Reject H₀"]]], ["Chapter 11 · Probability models for counts", [["Bernoulli", "E(B)=p; Var(B)=p(1−p)"], ["Binomial exact", "P(Y=y)=C(n,y)pʸ(1−p)ⁿ⁻ʸ"], ["Binomial mean", "E(Y)=np"], ["Binomial variance", "Var(Y)=np(1−p)"], ["At least k", "P(Y≥k)=1−P(Y≤k−1)"], ["Poisson rate", "λ = total observed events ÷ number of intervals"], ["Poisson", "P(X=x)=e^(−λ)λˣ/x!; E(X)=Var(X)=λ"]]], ["Chapters 12–15 · Normal, sampling & CIs", [["Standardize", "Z=(x−μ)/σ"], ["Normal interval", "P(a≤Z≤b)=P(Z≤b)−P(Z≤a)"], ["Sample proportion SE", "SE(p̂)=√[p(1−p)/n]"], ["Sample mean SE", "SE(X̄)=σ/√n; estimated with s/√n"], ["95% prop CI", "p̂ ± 1.96√[p̂(1−p̂)/n]"], ["Mean CI", "X̄ ± t*·s/√n"], ["Margin of error", "Critical Value × Standard Error"], ["95% z critical", "1.96"]]], ["Chapter 16 · Statistical tests", [["One-proportion z", "z=(p̂−p₀)/√[p₀(1−p₀)/n]"], ["Null SE", "SE₀(p̂)=√[p₀(1−p₀)/n]"], ["One-sample t", "t=(X̄−μ₀)/(s/√n)"], ["t-test df", "df=n−1"], ["Tail from Hₐ", "> right; < left; ≠ two-tailed"], ["5% one-tail z", "±1.645 depending on direction"], ["Decision", "p-value < α → Reject H₀"]]]];
     const state = JSON.parse(localStorage.getItem('ds101FinalFocusV2') || '{}');
     const letters = ['A', 'B', 'C', 'D'];
     const chapters = [
@@ -2336,6 +2463,11 @@
     let chapterFilter = 'all';
     let visibleQuestions = [...questions];
     let activeView = 'quiz';
+    const hwExamState = JSON.parse(localStorage.getItem('ds101HwExamV1') || '{}');
+    let hwExamIndex = 0;
+    let hwExamFilter = 'all';
+    let hwExamVisible = [...hwExamQuestions];
+    let hwExamMode = 'practice';
     const $ = s => document.querySelector(s);
     const $$ = s => [...document.querySelectorAll(s)];
     function save() { localStorage.setItem('ds101FinalFocusV2', JSON.stringify(state)); }
@@ -2482,10 +2614,113 @@
         $('#workoutList').innerHTML = workouts.map((w, i) => `<article class="workout-card"><header><div class="workout-index">${w.label}</div><h3>${esc(w.title)}</h3></header><div class="body"><p>${esc(w.prompt)}</p><button class="reveal-btn" data-reveal="${i}">Reveal setup & answer</button><div class="workout-answer" id="workout${i}"><strong>SOLUTION</strong><p>${esc(w.answer)}</p><div class="formula-line">${esc(w.formula)}</div></div></div></article>`).join('');
         $$('[data-reveal]').forEach(b => b.addEventListener('click', () => { const box = $(`#workout${b.dataset.reveal}`); box.classList.toggle('show'); b.textContent = box.classList.contains('show') ? 'Hide answer' : 'Reveal setup & answer'; }));
     }
+
+    function saveHwExam(){localStorage.setItem('ds101HwExamV1',JSON.stringify(hwExamState));}
+
+    function buildHwExamFilters(){
+      const groups=[['all','All'],['5','Chapter 5'],['6','Chapter 6'],['18','Chapter 18']];
+      $('#hwFilterRow').innerHTML=groups.map(([id,label])=>`<button class="hw-filter ${hwExamFilter===id?'active':''}" data-hw-filter="${id}">${label}</button>`).join('');
+      $$('[data-hw-filter]').forEach(btn=>btn.addEventListener('click',()=>{
+        hwExamFilter=btn.dataset.hwFilter;
+        hwExamVisible=hwExamFilter==='all'?[...hwExamQuestions]:hwExamQuestions.filter(q=>q.ch===hwExamFilter);
+        if(!hwExamVisible.some(q=>q.n===hwExamQuestions[hwExamIndex].n)) hwExamIndex=hwExamQuestions.indexOf(hwExamVisible[0]);
+        buildHwExamFilters();
+        renderHwExamQuestion();
+      }));
+    }
+
+    function renderHwExamQuestion(){
+      const q=hwExamQuestions[hwExamIndex];
+      const s=hwExamState[q.n]||{};
+      $('#hwChapterTag').textContent=`CH ${q.ch}`;
+      $('#hwTopicTag').textContent=q.topic;
+      $('#hwQuestionText').textContent=q.q;
+      const pos=hwExamVisible.findIndex(x=>x.n===q.n);
+      $('#hwQuestionCount').textContent=`${String(pos+1).padStart(2,'0')} / ${hwExamVisible.length}`;
+      $('#hwOptionList').innerHTML=q.opts.map((opt,i)=>{
+        let cls='hw-option';
+        if(s.selected===i)cls+=' selected';
+        if(s.submitted&&i===q.a)cls+=' correct-choice';
+        if(s.submitted&&s.selected===i&&i!==q.a)cls+=' wrong-choice';
+        return `<button class="${cls}" data-hw-answer="${i}" ${s.submitted?'disabled':''}><span class="hw-letter">${letters[i]}</span><span>${esc(opt)}</span></button>`;
+      }).join('');
+      $$('[data-hw-answer]').forEach(btn=>btn.addEventListener('click',()=>{
+        if(hwExamState[q.n]?.submitted)return;
+        hwExamState[q.n]={...(hwExamState[q.n]||{}),selected:+btn.dataset.hwAnswer};
+        saveHwExam();renderHwExamQuestion();
+      }));
+      $('#hwCheckAnswer').disabled=!Number.isInteger(s.selected)||s.submitted;
+      renderHwExamFeedback(q,s);
+      updateHwExamProgress();
+    }
+
+    function renderHwExamFeedback(q,s){
+      const box=$('#hwFeedbackBox');
+      if(!s.submitted){box.className='hw-feedback';box.innerHTML='';return;}
+      const chosen=`${letters[s.selected]}. ${q.opts[s.selected]}`;
+      const correct=`${letters[q.a]}. ${q.opts[q.a]}`;
+      box.className=`hw-feedback show ${s.correct?'good':'bad'}`;
+      box.innerHTML=`<header>${s.correct?'✓ CORRECT':'✕ REVIEW THIS ONE'}</header>
+        <div class="hw-feedback-grid">
+          <div class="hw-feedback-cell"><label>YOU CHOSE</label><p>${esc(chosen)}</p></div>
+          <div class="hw-feedback-cell"><label>CORRECT</label><p>${esc(correct)}</p></div>
+          <div class="hw-feedback-cell wide"><label>WHY</label><p>${esc(q.exp)}</p></div>
+          <div class="hw-feedback-cell wide"><label>FORMULA / RULE</label><p>${esc(q.formula)}</p></div>
+          <div class="hw-feedback-cell wide"><label>EXAM TRAP</label><p>${esc(q.tip)}</p></div>
+        </div>`;
+    }
+
+    function submitHwExam(){
+      const q=hwExamQuestions[hwExamIndex];
+      const s=hwExamState[q.n];
+      if(!s||!Number.isInteger(s.selected)||s.submitted)return;
+      hwExamState[q.n]={...s,submitted:true,correct:s.selected===q.a};
+      saveHwExam();renderHwExamQuestion();
+    }
+
+    function navigateHwExam(dir){
+      const q=hwExamQuestions[hwExamIndex];
+      let pos=hwExamVisible.findIndex(x=>x.n===q.n);
+      if(pos<0)pos=0;
+      pos=(pos+dir+hwExamVisible.length)%hwExamVisible.length;
+      hwExamIndex=hwExamQuestions.indexOf(hwExamVisible[pos]);
+      renderHwExamQuestion();
+    }
+
+    function retryHwExam(){
+      const q=hwExamQuestions[hwExamIndex];
+      delete hwExamState[q.n];
+      saveHwExam();renderHwExamQuestion();
+    }
+
+    function updateHwExamProgress(){
+      const attempted=hwExamQuestions.filter(q=>hwExamState[q.n]?.submitted);
+      const correct=attempted.filter(q=>hwExamState[q.n]?.correct).length;
+      $('#hwAnsweredCount').textContent=attempted.length;
+      $('#hwProgressText').textContent=`${attempted.length} answered · ${correct} correct`;
+      $('#hwProgressBar').style.width=`${attempted.length/hwExamQuestions.length*100}%`;
+    }
+
+    function renderHwCheatSheet(){
+      $('#cheatGrid').innerHTML=hwCheatSections.map(([title,items])=>`
+        <article class="cheat-card"><h3>${esc(title)}</h3>
+          ${items.map(([label,value])=>`<div class="cheat-row"><b>${esc(label)}</b><span>${esc(value)}</span></div>`).join('')}
+        </article>`).join('');
+    }
+
+    function setHwExamMode(mode){
+      hwExamMode=mode;
+      $('#hwPracticePanel').classList.toggle('hidden',mode!=='practice');
+      $('#hwCheatPanel').classList.toggle('hidden',mode!=='cheat');
+      $('#examLabCrumb').textContent=mode==='practice'?'homework-style-practice':'cheat-sheet';
+      $$('[data-exam-mode]').forEach(b=>b.classList.toggle('active',b.dataset.examMode===mode));
+    }
+
     function switchView(view) {
         activeView = view;
         $('#quizView').classList.toggle('hidden', view !== 'quiz');
         $('#workoutView').classList.toggle('hidden', view !== 'workouts');
+        $('#examLabView').classList.toggle('hidden', view !== 'examLab');
         $$('.tab').forEach(t => { const on = t.dataset.view === view; t.classList.toggle('active', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
     }
     function closeExplorer() { $('#explorer').classList.remove('open'); $('#scrim').classList.remove('show'); }
@@ -2506,6 +2741,14 @@
         buildChapterNav();
         renderQuestion();
     } });
+
+    $('#hwCheckAnswer').addEventListener('click',submitHwExam);
+    $('#hwPrevQuestion').addEventListener('click',()=>navigateHwExam(-1));
+    $('#hwNextQuestion').addEventListener('click',()=>navigateHwExam(1));
+    $('#hwRetryQuestion').addEventListener('click',retryHwExam);
+    $$('[data-exam-mode]').forEach(b=>b.addEventListener('click',()=>setHwExamMode(b.dataset.examMode)));
+    $('#printCheatSheet').addEventListener('click',()=>{setHwExamMode('cheat');setTimeout(()=>window.print(),50);});
+
     $$('.tab').forEach(t => t.addEventListener('click', () => switchView(t.dataset.view)));
     document.addEventListener('keydown', e => {
         if (activeView !== 'quiz' || e.metaKey || e.ctrlKey || e.altKey)
@@ -2524,9 +2767,30 @@
             navigate(-1);
         }
     });
+
+    document.addEventListener('keydown',e=>{
+      if(activeView!=='examLab'||hwExamMode!=='practice'||e.metaKey||e.ctrlKey||e.altKey)return;
+      if(['1','2','3','4'].includes(e.key)){
+        const q=hwExamQuestions[hwExamIndex];
+        if(!hwExamState[q.n]?.submitted){
+          hwExamState[q.n]={...(hwExamState[q.n]||{}),selected:+e.key-1};
+          saveHwExam();renderHwExamQuestion();
+        }
+      }else if(e.key==='Enter'){
+        e.preventDefault();submitHwExam();
+      }else if(e.key==='ArrowRight'){
+        navigateHwExam(1);
+      }else if(e.key==='ArrowLeft'){
+        navigateHwExam(-1);
+      }
+    });
+
     buildChapterNav();
     buildQuestionMap();
     renderWorkouts();
+    buildHwExamFilters();
+    renderHwCheatSheet();
+    renderHwExamQuestion();
     renderQuestion();
     
   </script>
