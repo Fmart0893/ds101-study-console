@@ -1,0 +1,4634 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0d14" />
+  <meta name="description" content="DS-101 final exam practice focused on hypothesis testing, test selection, confidence intervals, regression, and Type I/II errors." />
+  <title>DS-101 // Textbook Exam Focus Console</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07090d;
+      --window: #0c1017;
+      --panel: #0f141d;
+      --panel2: #121925;
+      --panel3: #171f2d;
+      --ink: #edf3ff;
+      --muted: #8490a5;
+      --muted2: #5f6b7d;
+      --line: #202a3a;
+      --line2: #2a374a;
+      --purple: #a78bfa;
+      --cyan: #4de2ff;
+      --blue: #6da3ff;
+      --green: #4ade9a;
+      --red: #ff6b81;
+      --amber: #ffca62;
+      --shadow: 0 35px 90px rgba(0,0,0,.48);
+      --radius: 16px;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #05070a;
+      color: var(--ink);
+      font-family: Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      overflow-x: hidden;
+    }
+    
+    button,input {
+      font: inherit;
+    }
+    
+    button {
+      color: inherit;
+    }
+    
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: .28;
+      background-image: linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(circle at center,black,transparent 78%);
+    }
+    
+    .aurora {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: .16;
+      z-index: -2;
+      pointer-events: none;
+    }
+    
+    .aurora-one {
+      width: 520px;
+      height: 520px;
+      background: #6847ff;
+      left: -160px;
+      top: -150px;
+    }
+    
+    .aurora-two {
+      width: 520px;
+      height: 520px;
+      background: #00c8ff;
+      right: -220px;
+      bottom: -130px;
+    }
+    
+    .app-window {
+      width: min(1580px,calc(100vw - 28px));
+      height: calc(100vh - 28px);
+      min-height: 720px;
+      margin: 14px auto;
+      border: 1px solid #242d3a;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--window);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-rows: 46px minmax(0,1fr) 26px;
+      position: relative;
+    }
+    
+    .titlebar {
+      display: grid;
+      grid-template-columns: 160px minmax(280px,1fr) 330px 54px;
+      align-items: center;
+      background: #0c1119;
+      border-bottom: 1px solid var(--line);
+      min-width: 0;
+    }
+    
+    .traffic {
+      display: flex;
+      gap: 8px;
+      padding-left: 16px;
+    }
+    
+    .traffic i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: block;
+    }
+    
+    .traffic i:nth-child(1) {
+      background: #ff5f57;
+    }
+    
+    .traffic i:nth-child(2) {
+      background: #febc2e;
+    }
+    
+    .traffic i:nth-child(3) {
+      background: #28c840;
+    }
+    
+    .tabs {
+      display: flex;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .tab {
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: #0b0f16;
+      color: #94a0b5;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    
+    .tab.active {
+      background: #111722;
+      color: #f5f8ff;
+      box-shadow: inset 0 2px 0 var(--purple);
+    }
+    
+    .tab b {
+      font-size: 7px;
+      color: var(--purple);
+    }
+    
+    .file-icon {
+      font-weight: 900;
+    }
+    
+    .file-icon.html {
+      color: #ff876f;
+    }
+    
+    .file-icon.md {
+      color: #63b3ff;
+    }
+    
+    .command-pill {
+      height: 29px;
+      border: 1px solid #283447;
+      background: #111823;
+      border-radius: 8px;
+      color: #8d99ab;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      font-size: 11px;
+      margin-right: 10px;
+    }
+    
+    .command-pill kbd {
+      font: inherit;
+      color: #66758c;
+    }
+    
+    .mobile-menu {
+      display: none;
+      border: 0;
+      background: transparent;
+      font-size: 18px;
+      color: #aab6c9;
+    }
+    
+    .workspace {
+      display: grid;
+      grid-template-columns: 242px minmax(560px,1fr) 286px;
+      min-height: 0;
+    }
+    
+    .explorer,.inspector {
+      background: #0d121a;
+      min-height: 0;
+      overflow-y: auto;
+    }
+    
+    .explorer {
+      border-right: 1px solid var(--line);
+    }
+    
+    .inspector {
+      border-left: 1px solid var(--line);
+      padding-bottom: 20px;
+    }
+    
+    .pane-title {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      color: #7e899b;
+      font-size: 10px;
+      letter-spacing: .12em;
+      border-bottom: 1px solid rgba(32,42,58,.7);
+    }
+    
+    .pane-title button {
+      display: none;
+      border: 0;
+      background: none;
+      color: #8792a4;
+      font-size: 18px;
+    }
+    
+    .brand-block {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      margin: 14px 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg,#121a27,#0d131c);
+      border-radius: 12px;
+    }
+    
+    .brand-glyph {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg,var(--purple),var(--cyan));
+      color: #080b10;
+      font-weight: 1000;
+      font-size: 13px;
+      box-shadow: 0 10px 24px rgba(97,102,255,.18);
+    }
+    
+    .brand-block strong {
+      display: block;
+      font: 700 11px ui-monospace,SFMono-Regular,Menlo,monospace;
+      letter-spacing: .04em;
+    }
+    
+    .brand-block small {
+      display: block;
+      color: var(--muted2);
+      font-size: 9px;
+      margin-top: 3px;
+    }
+    
+    .tree-section {
+      padding: 4px 8px;
+    }
+    
+    .tree-heading {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #98a3b5;
+      text-align: left;
+      font: 700 9px ui-monospace,SFMono-Regular,Menlo,monospace;
+      letter-spacing: .08em;
+      padding: 10px 8px;
+    }
+    
+    .tree-heading span {
+      color: #66748a;
+    }
+    
+    .chapter-tree {
+      display: grid;
+      gap: 2px;
+    }
+    
+    .chapter-item {
+      border: 0;
+      background: transparent;
+      color: #91a0b5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 8px 7px 20px;
+      border-radius: 6px;
+      text-align: left;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    
+    .chapter-item:hover {
+      background: #151c28;
+      color: #cbd6e8;
+    }
+    
+    .chapter-item.active {
+      background: #192235;
+      color: #f4f7ff;
+      box-shadow: inset 2px 0 0 var(--purple);
+    }
+    
+    .chapter-item.priority .folder {
+      color: var(--amber);
+    }
+    
+    .chapter-item .folder {
+      color: #79a9ff;
+      margin-right: 7px;
+    }
+    
+    .chapter-item b {
+      font: 600 9px ui-monospace,monospace;
+      color: #536178;
+    }
+    
+    .chapter-item.active b {
+      color: #a9b5c7;
+    }
+    
+    .question-map {
+      display: grid;
+      grid-template-columns: repeat(7,1fr);
+      gap: 5px;
+      padding: 3px 7px 8px;
+    }
+    
+    .map-btn {
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #101722;
+      color: #6f7d92;
+      font: 700 9px ui-monospace,monospace;
+      cursor: pointer;
+    }
+    
+    .map-btn:hover {
+      border-color: #52637c;
+      color: #dbe4f3;
+    }
+    
+    .map-btn.current {
+      background: #232341;
+      border-color: var(--purple);
+      color: #f3f0ff;
+      box-shadow: 0 0 0 2px rgba(167,139,250,.09);
+    }
+    
+    .map-btn.correct {
+      border-color: rgba(74,222,154,.55);
+      color: var(--green);
+      background: rgba(74,222,154,.07);
+    }
+    
+    .map-btn.incorrect {
+      border-color: rgba(255,107,129,.55);
+      color: var(--red);
+      background: rgba(255,107,129,.07);
+    }
+    
+    .map-legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: #66748a;
+      font-size: 8px;
+      padding: 2px 8px 8px;
+    }
+    
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    
+    .dot.current {
+      background: var(--purple);
+    }
+    
+    .dot.good {
+      background: var(--green);
+    }
+    
+    .dot.bad {
+      background: var(--red);
+    }
+    
+    .explorer-actions {
+      display: grid;
+      gap: 6px;
+      padding: 14px;
+    }
+    
+    .ghost-btn {
+      border: 1px solid var(--line);
+      background: #111722;
+      color: #8f9bad;
+      border-radius: 8px;
+      padding: 8px 9px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    
+    .ghost-btn:hover {
+      border-color: #3a4a61;
+      color: #dce5f5;
+    }
+    
+    .ghost-btn.danger:hover {
+      border-color: rgba(255,107,129,.45);
+      color: #ff8295;
+    }
+    
+    .editor {
+      min-width: 0;
+      background: radial-gradient(circle at 50% 0%,rgba(167,139,250,.06),transparent 28rem),#0b1017;
+      overflow: auto;
+    }
+    
+    .editor.hidden {
+      display: none;
+    }
+    
+    .editor-breadcrumbs {
+      height: 38px;
+      border-bottom: 1px solid rgba(32,42,58,.65);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 17px;
+      color: #647188;
+      font: 500 10px ui-monospace,SFMono-Regular,Menlo,monospace;
+    }
+    
+    .editor-breadcrumbs b {
+      color: #3e4a5e;
+    }
+    
+    .editor-stage {
+      width: min(900px,calc(100% - 48px));
+      margin: 0 auto;
+      padding: 38px 0 70px;
+    }
+    
+    .study-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 28px;
+      align-items: flex-end;
+      margin-bottom: 24px;
+    }
+    
+    .kicker {
+      font: 800 10px ui-monospace,SFMono-Regular,Menlo,monospace;
+      letter-spacing: .11em;
+      color: #8391a6;
+      margin-bottom: 8px;
+    }
+    
+    .live-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(74,222,154,.08);
+      margin-right: 8px;
+    }
+    
+    .live-dot.cyan {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(77,226,255,.08);
+    }
+    
+    .study-header h1 {
+      font-size: clamp(26px,3vw,42px);
+      line-height: 1.02;
+      letter-spacing: -.04em;
+      margin: 0;
+    }
+    
+    .study-header h1 span {
+      background: linear-gradient(90deg,#b79dff,#66e8ff);
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .study-header p {
+      margin: 10px 0 0;
+      color: #7d899d;
+      font-size: 13px;
+      max-width: 610px;
+    }
+    
+    .session-chip {
+      min-width: 112px;
+      text-align: right;
+      border-left: 1px solid var(--line);
+      padding-left: 18px;
+    }
+    
+    .session-chip span {
+      display: block;
+      font: 800 25px ui-monospace,SFMono-Regular,Menlo,monospace;
+    }
+    
+    .session-chip small {
+      color: #637087;
+      font-size: 9px;
+    }
+    
+    .question-shell {
+      position: relative;
+    }
+    
+    .line-rail {
+      position: absolute;
+      left: -39px;
+      top: 0;
+      width: 28px;
+      padding-top: 25px;
+      display: grid;
+      gap: 21px;
+      color: #344155;
+      font: 500 9px ui-monospace,monospace;
+      text-align: right;
+      user-select: none;
+    }
+    
+    .question-card {
+      background: linear-gradient(180deg,#111823,#0f151f);
+      border: 1px solid #253043;
+      border-radius: 16px;
+      box-shadow: 0 22px 55px rgba(0,0,0,.27),inset 0 1px 0 rgba(255,255,255,.025);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .question-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(var(--purple),transparent 55%);
+    }
+    
+    .question-topline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .question-id {
+      font: 800 14px ui-monospace,SFMono-Regular,Menlo,monospace;
+      color: #dfe6f1;
+    }
+    
+    .question-id small {
+      font-size: 9px;
+      color: #5e6a7e;
+      margin-left: 2px;
+    }
+    
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .tag {
+      padding: 4px 7px;
+      border: 1px solid #283549;
+      border-radius: 6px;
+      color: #8e9cb0;
+      background: #111925;
+      font: 700 8px ui-monospace,monospace;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .tag.purple {
+      color: #c0adff;
+      border-color: rgba(167,139,250,.32);
+      background: rgba(167,139,250,.07);
+    }
+    
+    .tiny-btn {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: #66748a;
+      border-radius: 6px;
+      padding: 5px 7px;
+      font: 600 8px ui-monospace,monospace;
+      cursor: pointer;
+    }
+    
+    .tiny-btn:hover {
+      color: #d4dcec;
+      border-color: #3b4b63;
+    }
+    
+    .prompt-block {
+      padding: 28px 28px 20px;
+    }
+    
+    .code-label {
+      font: 700 10px ui-monospace,SFMono-Regular,Menlo,monospace;
+      color: #77859a;
+      margin-bottom: 11px;
+    }
+    
+    .code-label span {
+      color: #c792ea;
+    }
+    
+    .code-label em {
+      font-style: normal;
+      color: #89ddff;
+    }
+    
+    .prompt-block h2 {
+      margin: 0;
+      font-size: clamp(19px,2.1vw,28px);
+      line-height: 1.35;
+      letter-spacing: -.02em;
+      font-weight: 740;
+    }
+    
+    .answers {
+      display: grid;
+      gap: 10px;
+      padding: 4px 28px 24px;
+    }
+    
+    .answer {
+      width: 100%;
+      border: 1px solid #253248;
+      background: #121a26;
+      color: #d7dfed;
+      border-radius: 11px;
+      padding: 14px 15px;
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      text-align: left;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+    
+    .answer:hover {
+      transform: translateY(-1px);
+      border-color: #41536f;
+      background: #151e2c;
+    }
+    
+    .answer.selected {
+      border-color: var(--purple);
+      background: rgba(167,139,250,.09);
+      box-shadow: 0 0 0 2px rgba(167,139,250,.08);
+    }
+    
+    .answer.correct-choice {
+      border-color: rgba(74,222,154,.56);
+      background: rgba(74,222,154,.08);
+    }
+    
+    .answer.wrong-choice {
+      border-color: rgba(255,107,129,.56);
+      background: rgba(255,107,129,.07);
+    }
+    
+    .answer-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      border: 1px solid #334259;
+      background: #0e141e;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      font: 800 10px ui-monospace,monospace;
+      color: #9ca9bb;
+    }
+    
+    .answer.selected .answer-letter {
+      border-color: var(--purple);
+      color: #d7ccff;
+    }
+    
+    .answer.correct-choice .answer-letter {
+      border-color: var(--green);
+      color: var(--green);
+    }
+    
+    .answer.wrong-choice .answer-letter {
+      border-color: var(--red);
+      color: var(--red);
+    }
+    
+    .answer-text {
+      font-size: 13px;
+      line-height: 1.45;
+      padding-top: 4px;
+    }
+    
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 18px 16px 28px;
+      border-top: 1px solid var(--line);
+      background: #0e141d;
+    }
+    
+    .shortcut-hint {
+      color: #58667a;
+      font-size: 9px;
+    }
+    
+    .shortcut-hint kbd,.keyboard-card kbd {
+      font: 700 8px ui-monospace,monospace;
+      color: #a5b1c3;
+      background: #171f2b;
+      border: 1px solid #2c394c;
+      border-bottom-color: #1b2431;
+      border-radius: 5px;
+      padding: 3px 5px;
+      box-shadow: 0 1px 0 #000;
+    }
+    
+    .shortcut-hint span {
+      margin: 0 6px;
+      color: #364256;
+    }
+    
+    .run-btn {
+      border: 1px solid #b29bff;
+      background: linear-gradient(135deg,#a78bfa,#7e71ff);
+      color: #090b10;
+      font-weight: 900;
+      border-radius: 9px;
+      padding: 10px 16px;
+      font-size: 11px;
+      box-shadow: 0 10px 28px rgba(126,113,255,.2);
+      cursor: pointer;
+    }
+    
+    .run-btn span {
+      margin-right: 5px;
+    }
+    
+    .run-btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    
+    .feedback-box {
+      display: none;
+      margin: 0 18px 18px 28px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #0c121a;
+    }
+    
+    .feedback-box.show {
+      display: block;
+      animation: reveal .25s ease;
+    }
+    
+    .feedback-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .feedback-head strong {
+      font: 800 10px ui-monospace,monospace;
+      letter-spacing: .08em;
+    }
+    
+    .feedback-head span {
+      font: 700 8px ui-monospace,monospace;
+      color: #59687d;
+    }
+    
+    .feedback-box.good {
+      border-color: rgba(74,222,154,.3);
+    }
+    
+    .feedback-box.bad {
+      border-color: rgba(255,107,129,.34);
+    }
+    
+    .feedback-box.good .feedback-head {
+      background: rgba(74,222,154,.07);
+      color: var(--green);
+    }
+    
+    .feedback-box.bad .feedback-head {
+      background: rgba(255,107,129,.07);
+      color: var(--red);
+    }
+    
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .feedback-cell {
+      padding: 14px 15px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .feedback-cell:nth-child(2n) {
+      border-right: 0;
+    }
+    
+    .feedback-cell.full {
+      grid-column: 1/-1;
+      border-right: 0;
+    }
+    
+    .feedback-cell label {
+      display: block;
+      color: #65738a;
+      font: 800 8px ui-monospace,monospace;
+      letter-spacing: .08em;
+      margin-bottom: 5px;
+    }
+    
+    .feedback-cell p {
+      margin: 0;
+      color: #b8c3d4;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+    
+    .feedback-cell.formula p {
+      font: 700 12px ui-monospace,SFMono-Regular,Menlo,monospace;
+      color: #d8e1ee;
+    }
+    
+    .feedback-cell.formula {
+      background: #0f1620;
+    }
+    
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    
+    .question-nav-row {
+      display: grid;
+      grid-template-columns: 130px 1fr 130px;
+      align-items: center;
+      gap: 18px;
+      margin-top: 14px;
+    }
+    
+    .nav-btn {
+      border: 1px solid var(--line);
+      background: #101722;
+      color: #8492a6;
+      border-radius: 9px;
+      padding: 10px 12px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    
+    .nav-btn:hover {
+      color: #e1e8f4;
+      border-color: #3a4a61;
+    }
+    
+    .nav-btn.primary {
+      border-color: #33445e;
+      color: #c4cfde;
+    }
+    
+    .progress-inline {
+      text-align: center;
+      color: #647289;
+      font-size: 9px;
+    }
+    
+    .mini-track {
+      height: 4px;
+      background: #17202d;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 7px;
+    }
+    
+    .mini-track i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg,var(--purple),var(--cyan));
+      border-radius: inherit;
+      transition: width .25s;
+    }
+    
+    .inspector-card,.score-card {
+      margin: 12px;
+      border: 1px solid var(--line);
+      background: #101620;
+      border-radius: 12px;
+    }
+    
+    .score-card {
+      display: flex;
+      gap: 13px;
+      align-items: center;
+      padding: 13px;
+    }
+    
+    .ring {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: conic-gradient(var(--purple) 0deg,#1b2635 0deg);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      position: relative;
+    }
+    
+    .ring::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      background: #0f151e;
+    }
+    
+    .ring div {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    
+    .ring strong {
+      display: block;
+      font: 900 15px ui-monospace,monospace;
+    }
+    
+    .ring small {
+      display: block;
+      color: #607087;
+      font-size: 7px;
+    }
+    
+    .score-copy span,.card-label {
+      display: block;
+      color: #647288;
+      font: 800 8px ui-monospace,monospace;
+      letter-spacing: .1em;
+    }
+    
+    .score-copy strong {
+      display: block;
+      margin: 4px 0 2px;
+      font: 800 15px ui-monospace,monospace;
+    }
+    
+    .score-copy small {
+      display: block;
+      color: #657389;
+      font-size: 8px;
+      line-height: 1.4;
+    }
+    
+    .inspector-card {
+      padding: 13px;
+    }
+    
+    .priority-card {
+      background: linear-gradient(145deg,rgba(167,139,250,.08),#101620);
+    }
+    
+    .priority-row {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+      margin-top: 11px;
+    }
+    
+    .priority-row>span {
+      width: 27px;
+      height: 27px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: #1f1c35;
+      color: #b8a6ff;
+      border: 1px solid rgba(167,139,250,.23);
+      font: 800 9px ui-monospace,monospace;
+    }
+    
+    .priority-row strong {
+      display: block;
+      font-size: 10px;
+    }
+    
+    .priority-row small {
+      display: block;
+      color: #657289;
+      font-size: 7.5px;
+      margin-top: 2px;
+    }
+    
+    .context-grid {
+      margin: 10px 0 0;
+      display: grid;
+      gap: 8px;
+    }
+    
+    .context-grid div {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+    
+    .context-grid dt {
+      color: #566479;
+      font: 700 8px ui-monospace,monospace;
+    }
+    
+    .context-grid dd {
+      margin: 0;
+      color: #aab5c6;
+      font-size: 9px;
+      line-height: 1.35;
+    }
+    
+    .quick-rule p {
+      margin: 9px 0 0;
+      color: #aeb8c8;
+      font-size: 10px;
+      line-height: 1.55;
+    }
+    
+    .keyboard-card>div:not(.card-label) {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+    }
+    
+    .keyboard-card span {
+      margin-right: auto;
+      color: #6b788c;
+      font-size: 8px;
+    }
+    
+    .statusbar {
+      background: #131a24;
+      border-top: 1px solid #253044;
+      color: #728096;
+      font: 600 9px ui-monospace,monospace;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      padding: 0 10px;
+    }
+    
+    .statusbar>div {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .statusbar .status-center {
+      justify-content: center;
+      color: #65748a;
+    }
+    
+    .statusbar>div:last-child {
+      justify-content: flex-end;
+    }
+    
+    .branch {
+      color: var(--cyan);
+    }
+    
+    .workout-stage {
+      width: min(980px,calc(100% - 48px));
+    }
+    
+    .workout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    
+    .workout-card {
+      border: 1px solid #263247;
+      background: linear-gradient(180deg,#111823,#0e151f);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    
+    .workout-card header {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .workout-index {
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #1d1d34;
+      color: #c0adff;
+      font: 800 10px ui-monospace,monospace;
+    }
+    
+    .workout-card h3 {
+      font-size: 12px;
+      margin: 0;
+    }
+    
+    .workout-card .body {
+      padding: 15px;
+    }
+    
+    .workout-card p {
+      margin: 0;
+      color: #98a5b8;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    
+    .reveal-btn {
+      margin-top: 14px;
+      border: 1px solid #33435b;
+      background: #141d2a;
+      color: #b6c1d1;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 9px;
+      cursor: pointer;
+    }
+    
+    .workout-answer {
+      display: none;
+      margin-top: 12px;
+      padding: 11px;
+      border: 1px solid rgba(77,226,255,.18);
+      background: rgba(77,226,255,.04);
+      border-radius: 9px;
+    }
+    
+    .workout-answer.show {
+      display: block;
+    }
+    
+    .workout-answer strong {
+      font: 800 8px ui-monospace,monospace;
+      color: var(--cyan);
+      letter-spacing: .08em;
+    }
+    
+    .workout-answer p {
+      margin-top: 6px;
+    }
+    
+    .formula-line {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      font: 700 10px ui-monospace,monospace;
+      color: #dbe6f5;
+    }
+    
+    .scrim {
+      display: none;
+    }
+    
+    @media (max-width:1180px) {
+      .workspace {
+        grid-template-columns: 220px minmax(520px,1fr);
+      }
+      .inspector {
+        display: none;
+      }
+      .titlebar {
+        grid-template-columns: 145px 1fr 280px 40px;
+      }
+      .editor-stage {
+        width: min(860px,calc(100% - 44px));
+      }
+    }
+    
+    @media (max-width:860px) {
+      body {
+        background: #070a0f;
+      }
+      .app-window {
+        width: 100%;
+        height: 100vh;
+        min-height: 0;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+      }
+      .titlebar {
+        grid-template-columns: 1fr 42px;
+      }
+      .traffic,.command-pill {
+        display: none;
+      }
+      .tabs {
+        min-width: 0;
+      }
+      .mobile-menu {
+        display: block;
+      }
+      .workspace {
+        display: block;
+      }
+      .explorer {
+        position: fixed;
+        z-index: 90;
+        left: -270px;
+        top: 46px;
+        bottom: 26px;
+        width: 260px;
+        transition: left .22s;
+        box-shadow: 20px 0 60px #000;
+      }
+      .explorer.open {
+        left: 0;
+      }
+      .pane-title button {
+        display: block;
+      }
+      .editor {
+        height: calc(100vh - 72px);
+      }
+      .editor-stage {
+        width: min(100% - 28px,720px);
+        padding-top: 26px;
+      }
+      .study-header {
+        align-items: flex-start;
+      }
+      .session-chip {
+        display: none;
+      }
+      .line-rail {
+        display: none;
+      }
+      .prompt-block {
+        padding: 23px 18px 17px;
+      }
+      .answers {
+        padding: 3px 18px 20px;
+      }
+      .submit-row {
+        padding: 14px 18px;
+        align-items: flex-end;
+      }
+      .shortcut-hint {
+        display: none;
+      }
+      .feedback-box {
+        margin: 0 18px 18px;
+      }
+      .feedback-grid {
+        grid-template-columns: 1fr;
+      }
+      .feedback-cell {
+        border-right: 0;
+      }
+      .question-nav-row {
+        grid-template-columns: 100px 1fr 100px;
+      }
+      .workout-grid {
+        grid-template-columns: 1fr;
+      }
+      .statusbar {
+        grid-template-columns: 1fr 1fr;
+      }
+      .statusbar .status-center {
+        display: none;
+      }
+      .scrim.show {
+        display: block;
+        position: fixed;
+        z-index: 80;
+        inset: 46px 0 26px;
+        background: rgba(0,0,0,.55);
+        backdrop-filter: blur(2px);
+      }
+    }
+    
+    @media (max-width:560px) {
+      .tab {
+        padding: 0 11px;
+        font-size: 10px;
+      }
+      .study-header h1 {
+        font-size: 27px;
+      }
+      .study-header p {
+        font-size: 11px;
+      }
+      .question-topline {
+        padding: 13px;
+      }
+      .topic-tag {
+        max-width: 125px;
+      }
+      .prompt-block h2 {
+        font-size: 20px;
+      }
+      .answer {
+        padding: 12px;
+      }
+      .answer-text {
+        font-size: 12px;
+      }
+      .question-nav-row {
+        grid-template-columns: 1fr 1fr;
+      }
+      .progress-inline {
+        grid-column: 1/-1;
+        grid-row: 1;
+      }
+      .feedback-grid {
+        display: block;
+      }
+      .feedback-cell {
+        border-right: 0;
+      }
+      .statusbar>div:last-child span:nth-child(-n+2) {
+        display: none;
+      }
+    }
+    /* ===== HW-like exam drill + cheat sheet tab ===== */
+    .lab-stage { width:min(1040px,calc(100% - 42px)); }
+    .lab-toolbar {
+      display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin:0 0 18px; padding:10px; border:1px solid var(--line); border-radius:12px;
+      background:#0f151f;
+    }
+    .lab-mode-group { display:flex; gap:7px; flex-wrap:wrap; }
+    .lab-mode-btn {
+      border:1px solid #2b394d; background:#111925; color:#8f9db1; padding:8px 12px;
+      border-radius:8px; cursor:pointer; font-size:10px; font-weight:800; letter-spacing:.04em;
+    }
+    .lab-mode-btn.active {
+      color:#fff; border-color:rgba(167,139,250,.7); background:#211d36;
+      box-shadow:inset 0 0 0 1px rgba(167,139,250,.15);
+    }
+    .no-jmp-chip {
+      font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--green);
+      border:1px solid rgba(74,222,154,.3); background:rgba(74,222,154,.06);
+      border-radius:999px; padding:7px 10px;
+    }
+    .lab-panel.hidden { display:none; }
+    .hw-filter-row {
+      display:flex; gap:7px; flex-wrap:wrap; margin:0 0 12px;
+    }
+    .hw-filter {
+      border:1px solid var(--line); background:#0f1620; color:#77869b;
+      border-radius:8px; padding:7px 10px; font-size:9px; font-weight:800; cursor:pointer;
+    }
+    .hw-filter.active { color:#fff; border-color:#62728a; background:#182233; }
+    .hw-card {
+      background:linear-gradient(180deg,#111823,#0f151f); border:1px solid #253043;
+      border-radius:14px; overflow:hidden; box-shadow:0 20px 45px rgba(0,0,0,.16);
+    }
+    .hw-topline {
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:11px 14px; border-bottom:1px solid var(--line);
+    }
+    .hw-meta { display:flex; gap:7px; align-items:center; flex-wrap:wrap; }
+    .hw-chip {
+      font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace; border:1px solid #33415a;
+      border-radius:999px; padding:5px 8px; color:#aab7ca; background:#121a26;
+    }
+    .hw-chip.chapter { color:#d9ccff; border-color:rgba(167,139,250,.4); }
+    .hw-count { color:#66758a; font:700 9px ui-monospace,monospace; }
+    .hw-body { padding:18px; }
+    .hw-body h2 { margin:0 0 17px; font-size:18px; line-height:1.45; letter-spacing:-.01em; }
+    .hw-options { display:grid; gap:8px; }
+    .hw-option {
+      display:grid; grid-template-columns:34px 1fr; gap:10px; align-items:center; width:100%;
+      border:1px solid #253146; background:#0d141e; color:#a9b5c7; border-radius:9px;
+      padding:10px; text-align:left; cursor:pointer;
+    }
+    .hw-option:hover { border-color:#43536d; color:#e3eaf6; }
+    .hw-option.selected { border-color:var(--purple); background:rgba(167,139,250,.08); color:#fff; }
+    .hw-option.correct-choice { border-color:rgba(74,222,154,.65); background:rgba(74,222,154,.08); }
+    .hw-option.wrong-choice { border-color:rgba(255,107,129,.65); background:rgba(255,107,129,.08); }
+    .hw-letter {
+      width:28px; height:28px; display:grid; place-items:center; border-radius:7px;
+      background:#151f2c; color:#76869b; font:900 10px ui-monospace,monospace;
+    }
+    .hw-actions { display:flex; justify-content:space-between; gap:10px; margin-top:15px; align-items:center; }
+    .hw-actions .nav-btn { min-width:100px; }
+    .hw-submit {
+      border:0; border-radius:8px; padding:9px 14px; cursor:pointer; font-size:10px; font-weight:900;
+      background:linear-gradient(90deg,var(--purple),#7bb6ff); color:#090b10;
+    }
+    .hw-submit:disabled { opacity:.35; cursor:not-allowed; }
+    .hw-feedback {
+      display:none; margin-top:14px; border:1px solid var(--line); border-radius:10px;
+      background:#0b121b; overflow:hidden;
+    }
+    .hw-feedback.show { display:block; }
+    .hw-feedback.good { border-color:rgba(74,222,154,.4); }
+    .hw-feedback.bad { border-color:rgba(255,107,129,.4); }
+    .hw-feedback header { padding:10px 12px; font:900 9px ui-monospace,monospace; letter-spacing:.05em; }
+    .hw-feedback.good header { color:var(--green); }
+    .hw-feedback.bad header { color:var(--red); }
+    .hw-feedback .inner { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); }
+    .hw-feedback .cell { padding:11px 12px; border-right:1px solid var(--line); }
+    .hw-feedback .cell:nth-child(even) { border-right:0; }
+    .hw-feedback .wide { grid-column:1/-1; border-top:1px solid var(--line); border-right:0; }
+    .hw-feedback label { display:block; color:#5f6d82; font:800 8px ui-monospace,monospace; margin-bottom:5px; }
+    .hw-feedback p { margin:0; color:#b5c0d1; font-size:11px; line-height:1.55; }
+    .hw-progress {
+      margin-top:10px; display:flex; align-items:center; gap:10px; color:#6e7d92;
+      font:700 9px ui-monospace,monospace;
+    }
+    .hw-track { height:5px; background:#131d29; border-radius:999px; flex:1; overflow:hidden; }
+    .hw-track i { display:block; height:100%; background:linear-gradient(90deg,var(--purple),var(--cyan)); width:0; }
+    .cheat-intro {
+      border:1px solid rgba(255,202,98,.28); background:rgba(255,202,98,.05);
+      border-radius:12px; padding:12px 14px; color:#c6b98f; font-size:11px; line-height:1.55; margin-bottom:14px;
+    }
+    .cheat-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .cheat-card {
+      border:1px solid var(--line); border-radius:12px; background:#0f151f; overflow:hidden;
+    }
+    .cheat-card h3 {
+      margin:0; padding:11px 13px; border-bottom:1px solid var(--line); font-size:11px; color:#dce4f0;
+    }
+    .cheat-list { display:grid; }
+    .cheat-row { display:grid; grid-template-columns:145px 1fr; gap:12px; padding:10px 13px; border-bottom:1px solid rgba(32,42,58,.7); }
+    .cheat-row:last-child { border-bottom:0; }
+    .cheat-row b { color:#77869d; font:800 9px ui-monospace,monospace; }
+    .cheat-row span { color:#b9c4d4; font-size:10px; line-height:1.5; }
+    .cheat-card.purple h3 { box-shadow:inset 3px 0 0 var(--purple); }
+    .cheat-card.cyan h3 { box-shadow:inset 3px 0 0 var(--cyan); }
+    .cheat-card.amber h3 { box-shadow:inset 3px 0 0 var(--amber); }
+    .cheat-card.blue h3 { box-shadow:inset 3px 0 0 var(--blue); }
+    .cheat-card.green h3 { box-shadow:inset 3px 0 0 var(--green); }
+    .cheat-card.red h3 { box-shadow:inset 3px 0 0 var(--red); }
+    .exam-memory {
+      margin-top:14px; border:1px solid var(--line); border-radius:12px; background:#0d141d; padding:13px;
+    }
+    .exam-memory strong { color:#f0f4fb; font-size:11px; }
+    .exam-memory p { margin:7px 0 0; color:#8290a4; font-size:10px; line-height:1.6; }
+    @media (max-width: 980px) {
+      .cheat-grid { grid-template-columns:1fr; }
+      .cheat-row { grid-template-columns:125px 1fr; }
+    }
+    @media print {
+      body * { visibility:hidden !important; }
+      #examLabView, #examLabView * { visibility:visible !important; }
+      #examLabView { position:absolute; left:0; top:0; width:100%; background:#fff !important; color:#000 !important; }
+      #labPracticePanel, .lab-toolbar, .editor-breadcrumbs, .study-header { display:none !important; }
+      #labCheatPanel { display:block !important; }
+      .cheat-card, .cheat-intro, .exam-memory { background:#fff !important; color:#000 !important; border-color:#bbb !important; break-inside:avoid; }
+      .cheat-card h3, .cheat-row b, .cheat-row span, .cheat-intro, .exam-memory p, .exam-memory strong { color:#000 !important; }
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="aurora aurora-one" aria-hidden="true"></div>
+  <div class="aurora aurora-two" aria-hidden="true"></div>
+
+  <div class="app-window">
+    <header class="titlebar">
+      <div class="traffic" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="tabs" role="tablist" aria-label="Study views">
+        <button class="tab active" data-view="quiz" role="tab" aria-selected="true"><span class="file-icon html">&lt;/&gt;</span> quiz.html <b>●</b></button>
+        <button class="tab" data-view="workouts" role="tab" aria-selected="false"><span class="file-icon md">#</span> workouts.md</button>
+        <button class="tab" data-view="examLab" role="tab" aria-selected="false"><span class="file-icon md">#</span> textbook_exam.md</button>
+      </div>
+      <div class="command-pill"><span>⌘</span><span>DS-101 / Textbook Exam Focus</span><kbd>⌕</kbd></div>
+      <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+    </header>
+
+    <div class="workspace">
+      <aside class="explorer" id="explorer">
+        <div class="pane-title"><span>EXPLORER</span><button id="closeExplorer" aria-label="Close navigation">×</button></div>
+        <section class="brand-block">
+          <div class="brand-glyph">DS</div>
+          <div><strong>EXAM_PREP</strong><small>chapters-6-19-21-22</small></div>
+        </section>
+
+        <section class="tree-section">
+          <button class="tree-heading open"><span>⌄</span> REVIEW MODULES</button>
+          <nav id="chapterNav" class="chapter-tree" aria-label="Exam focus filters"></nav>
+        </section>
+
+        <section class="tree-section">
+          <button class="tree-heading open"><span>⌄</span> QUESTION MAP</button>
+          <div id="questionMap" class="question-map" aria-label="Question navigator"></div>
+          <div class="map-legend"><span><i class="dot current"></i>current</span><span><i class="dot good"></i>correct</span><span><i class="dot bad"></i>review</span></div>
+        </section>
+
+        <section class="explorer-actions">
+          <button class="ghost-btn" id="reviewMissed">↻ Review missed</button>
+          <button class="ghost-btn danger" id="resetAll">⌫ Reset progress</button>
+        </section>
+      </aside>
+
+      <main class="editor" id="quizView">
+        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span id="crumbChapter">Focus 1</span><b>›</b><span id="crumbTopic">Scatterplots & correlation</span></div>
+
+        <section class="editor-stage">
+          <div class="study-header">
+            <div>
+              <div class="kicker"><span class="live-dot"></span> PRACTICE SESSION</div>
+              <h1>Business Analytics <span>Study Console</span></h1>
+              <p>72 exam-style questions grounded in textbook Chapters 6, 19, 21 and 22, including familiar concepts in unfamiliar business scenarios.</p>
+            </div>
+            <div class="session-chip"><span id="sessionAnswered">0</span><small>of 72 answered</small></div>
+          </div>
+
+          <div class="question-shell" id="questionShell">
+            <div class="line-rail" aria-hidden="true">
+              <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span>
+            </div>
+            <article class="question-card">
+              <header class="question-topline">
+                <div class="question-id"><span id="questionNumber">01</span><small>/ 72</small></div>
+                <div class="tags"><span id="chapterTag" class="tag purple">FOCUS 1</span><span id="topicTag" class="tag">Scatterplots & correlation</span></div>
+                <button class="tiny-btn" id="retryQuestion" title="Clear this answer">↺ retry</button>
+              </header>
+
+              <div class="prompt-block">
+                <div class="code-label"><span>const</span> question <em>=</em></div>
+                <h2 id="questionText"></h2>
+              </div>
+
+              <div class="answers" id="answerList"></div>
+
+              <div class="submit-row">
+                <div class="shortcut-hint"><kbd>1–4</kbd> choose <span>·</span> <kbd>Enter</kbd> submit <span>·</span> <kbd>← →</kbd> navigate</div>
+                <button class="run-btn" id="submitAnswer"><span>▶</span> Run answer</button>
+              </div>
+
+              <div id="feedbackBox" class="feedback-box" aria-live="polite"></div>
+            </article>
+          </div>
+
+          <div class="question-nav-row">
+            <button class="nav-btn" id="prevQuestion">← Previous</button>
+            <div class="progress-inline"><span id="currentPosition">Question 1 of 72</span><div class="mini-track"><i id="miniProgress"></i></div></div>
+            <button class="nav-btn primary" id="nextQuestion">Next →</button>
+          </div>
+        </section>
+      </main>
+
+      <main class="editor hidden" id="workoutView">
+        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span>workouts.md</span><b>›</b><span>final-exam-deep-practice</span></div>
+        <section class="editor-stage workout-stage">
+          <div class="study-header">
+            <div><div class="kicker"><span class="live-dot cyan"></span> DEEP PRACTICE</div><h1>Workout <span>Problems</span></h1><p>Do these on paper first. Reveal the setup only after you commit to your own work.</p></div>
+            <div class="session-chip"><span>12</span><small>extended problems</small></div>
+          </div>
+          <div id="workoutList" class="workout-grid"></div>
+        </section>
+      </main>
+
+      <main class="editor hidden" id="examLabView">
+        <div class="editor-breadcrumbs"><span>DS101</span><b>›</b><span>textbook_exam.md</span><b>›</b><span id="labCrumb">textbook-style-drill</span></div>
+        <section class="editor-stage lab-stage">
+          <div class="study-header">
+            <div>
+              <div class="kicker"><span class="live-dot cyan"></span> EXAM MODE · NO JMP</div>
+              <h1>Homework-Style <span>Drill + Cheat Sheet</span></h1>
+              <p>Built from the Chapter 5, Chapter 6, and Chapter 18 problem styles you worked through. Calculations and interpretation only—no JMP steps.</p>
+            </div>
+            <div class="session-chip"><span id="hwAnswered">0</span><small>of 72 drill questions</small></div>
+          </div>
+
+          <div class="lab-toolbar">
+            <div class="lab-mode-group">
+              <button class="lab-mode-btn active" data-lab-mode="practice">HW-like Practice</button>
+              <button class="lab-mode-btn" data-lab-mode="cheat">Cheat Sheet</button>
+            </div>
+            <div class="lab-mode-group">
+              <span class="no-jmp-chip">✓ NO JMP REQUIRED</span>
+              <button class="ghost-btn" id="printCheat">Print cheat sheet</button>
+            </div>
+          </div>
+
+          <div class="lab-panel" id="labPracticePanel">
+            <div class="hw-filter-row" id="hwFilters"></div>
+            <article class="hw-card">
+              <div class="hw-topline">
+                <div class="hw-meta">
+                  <span class="hw-chip chapter" id="hwChapter">CH 5</span>
+                  <span class="hw-chip" id="hwTopic">Conditional proportion</span>
+                </div>
+                <span class="hw-count" id="hwCount">01 / 72</span>
+              </div>
+              <div class="hw-body">
+                <h2 id="hwQuestion"></h2>
+                <div class="hw-options" id="hwOptions"></div>
+                <div class="hw-actions">
+                  <button class="nav-btn" id="hwPrev">← Previous</button>
+                  <button class="hw-submit" id="hwSubmit">Check answer</button>
+                  <button class="nav-btn primary" id="hwNext">Next →</button>
+                </div>
+                <div class="hw-feedback" id="hwFeedback"></div>
+                <div class="hw-progress">
+                  <span id="hwProgressText">0 answered</span>
+                  <div class="hw-track"><i id="hwProgressBar"></i></div>
+                  <button class="tiny-btn" id="hwRetry">↺ retry</button>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="lab-panel hidden" id="labCheatPanel">
+            <div class="cheat-intro">
+              <strong>Use this like a decision sheet.</strong> First identify the variable type and test/problem type, then write the formula before plugging in numbers. For the exam, the Chapter 6/19/21/22 drill above avoids JMP-only steps.
+            </div>
+            <div class="cheat-grid" id="cheatGrid"></div>
+            <div class="exam-memory">
+              <strong>Fast exam memory checks</strong>
+              <p>
+                Chapter 6: r measures linear association, not causation. · Chapter 19: slope = r × sy / sx; residual = y − ŷ; r² is explained variation. · Chapter 21: check conditions and separate parameter confidence intervals from individual prediction intervals. · Chapter 22: investigate funnel-shaped spread, outliers, high leverage, and correlated errors.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="inspector">
+        <div class="pane-title"><span>INSPECTOR</span><span>•••</span></div>
+
+        <section class="score-card">
+          <div class="ring" id="scoreRing"><div><strong id="scorePct">0%</strong><small>accuracy</small></div></div>
+          <div class="score-copy"><span>SESSION SCORE</span><strong id="scoreCount">0 / 0</strong><small id="scoreCaption">Start answering to build your score.</small></div>
+        </section>
+
+        <section class="inspector-card priority-card">
+          <div class="card-label">TEXTBOOK EXAM FOCUS</div>
+          <div class="priority-row"><span>1</span><div><strong>Hypothesis Testing</strong><small>p-values · α · one/two-tailed decisions</small></div></div>
+          <div class="priority-row"><span>2</span><div><strong>Choosing the Test</strong><small>1-sample · 2-sample · paired · ANOVA</small></div></div>
+          <div class="priority-row"><span>3</span><div><strong>Confidence Intervals</strong><small>zero rule · width · test connection</small></div></div>
+          <div class="priority-row"><span>4</span><div><strong>Regression & Correlation</strong><small>β₀ · β₁ · R² · causation trap</small></div></div>
+          <div class="priority-row"><span>5</span><div><strong>Type I vs Type II</strong><small>false positive · false negative · α · β</small></div></div>
+        </section>
+
+        <section class="inspector-card">
+          <div class="card-label">CURRENT CONTEXT</div>
+          <dl class="context-grid">
+            <div><dt>focus</dt><dd id="contextChapter">1</dd></div>
+            <div><dt>status</dt><dd id="contextStatus">unanswered</dd></div>
+            <div><dt>topic</dt><dd id="contextTopic">Scatterplots & correlation</dd></div>
+            <div><dt>mode</dt><dd>multiple choice</dd></div>
+          </dl>
+        </section>
+
+        <section class="inspector-card quick-rule">
+          <div class="card-label">QUICK RULE</div>
+          <p id="quickRule">p &lt; α → reject H₀; p ≥ α → fail to reject H₀.</p>
+        </section>
+
+        <section class="inspector-card keyboard-card">
+          <div class="card-label">KEYBOARD</div>
+          <div><span>Choose answer</span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div>
+          <div><span>Submit</span><kbd>Enter</kbd></div>
+          <div><span>Navigate</span><kbd>←</kbd><kbd>→</kbd></div>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="statusbar">
+      <div><span class="branch">⑂</span> main <span>✓ synced</span></div>
+      <div class="status-center"><span id="statusText">Ready</span></div>
+      <div><span>UTF-8</span><span>DS-101</span><span>Dark+</span><span>⚡ Focus</span></div>
+    </footer>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <script>
+    const questions = [
+  {
+    "n": 1,
+    "ch": "6",
+    "topic": "Foundations",
+    "q": "A scatterplot has years of education along the horizontal axis and yearly salary on the vertical axis. Which variable is the response?",
+    "opts": [
+      "Years of education",
+      "Yearly salary",
+      "Both variables",
+      "Neither"
+    ],
+    "a": 1,
+    "exp": "The response is on the y-axis: yearly salary.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 2,
+    "ch": "6",
+    "topic": "Foundations",
+    "q": "Which correlation describes the strongest linear relationship?",
+    "opts": [
+      "−0.92",
+      "0.63",
+      "0.41",
+      "−0.18"
+    ],
+    "a": 0,
+    "exp": "Strength depends on |r|, not the sign. |−.92| is largest.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 3,
+    "ch": "6",
+    "topic": "Foundations",
+    "q": "A correlation of r = 0.02 most directly implies:",
+    "opts": [
+      "The variables are independent",
+      "There is essentially no linear association",
+      "There is no association of any kind",
+      "One variable causes the other"
+    ],
+    "a": 1,
+    "exp": "Correlation captures linear association only; a strong curve could still be present.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 4,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "Monthly temperatures are reported in °F rather than °C. The correlation between temperature and electricity use will:",
+    "opts": [
+      "Increase",
+      "Decrease",
+      "Stay unchanged",
+      "Become zero"
+    ],
+    "a": 2,
+    "exp": "Conversion °F = 1.8°C + 32 is a positive linear transformation; r is unchanged.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 5,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "A strong relationship between ice cream sales and drowning incidents is found. The most useful next question is:",
+    "opts": [
+      "Does ice cream cause drowning?",
+      "Is a third variable such as temperature driving both?",
+      "Can we calculate a larger r?",
+      "Are the units identical?"
+    ],
+    "a": 1,
+    "exp": "A lurking variable such as hot weather may account for the association.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 6,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "Given cov(x,y) = −24, sₓ = 6, sᵧ = 8, what is r?",
+    "opts": [
+      "−0.50",
+      "−0.25",
+      "0.50",
+      "−2.00"
+    ],
+    "a": 0,
+    "exp": "r = −24/(6×8) = −0.50.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 7,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "A curved U-shaped scatterplot has almost no overall linear tilt. Which is possible?",
+    "opts": [
+      "r close to zero despite a strong relationship",
+      "r must equal 1",
+      "All variables are independent",
+      "The data are categorical"
+    ],
+    "a": 0,
+    "exp": "A U-shape can cancel positive and negative linear trends.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 8,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "The predictor mean is 20, response mean 50, sₓ = 5, sᵧ = 10, r = 0.6. What is the correlation-line slope?",
+    "opts": [
+      "0.3",
+      "1.2",
+      "2.0",
+      "12"
+    ],
+    "a": 1,
+    "exp": "b = r(sᵧ/sₓ) = 0.6(10/5)=1.2.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 9,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "Using x̄=20, ȳ=50 and slope b=1.2, what is the intercept?",
+    "opts": [
+      "26",
+      "74",
+      "24",
+      "50"
+    ],
+    "a": 0,
+    "exp": "a = ȳ − bx̄ = 50 − 1.2(20)=26.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 10,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "Two variables have correlation 0.8. Which claim is justified?",
+    "opts": [
+      "The cause-and-effect relationship is 80% proven",
+      "They show a strong positive linear association",
+      "Every point lies exactly on a line",
+      "80% of observations are above the mean"
+    ],
+    "a": 1,
+    "exp": "r=.8 indicates a strong positive linear pattern; not causation.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 11,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "A scatterplot slopes down from left to right, with points tightly clustered. Which value is most plausible?",
+    "opts": [
+      "+0.9",
+      "0",
+      "−0.9",
+      "+0.1"
+    ],
+    "a": 2,
+    "exp": "A tight downward pattern suggests strong negative r.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 12,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "A sample has 5 (x,y) observations and Σ[(x−x̄)(y−ȳ)] = 40. What is sample covariance?",
+    "opts": [
+      "8",
+      "10",
+      "40",
+      "50"
+    ],
+    "a": 1,
+    "exp": "Sample covariance divides by n−1 = 4: 40/4=10.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 13,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "One outlier is far outside the rest of a scatterplot. What should you do before relying on r?",
+    "opts": [
+      "Always delete it",
+      "Check the plot and investigate its influence",
+      "Square r",
+      "Switch both axes"
+    ],
+    "a": 1,
+    "exp": "Outliers can dramatically alter correlation and must be examined in context.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 14,
+    "ch": "6",
+    "topic": "Foundations",
+    "q": "Which data pair is appropriate for Pearson correlation?",
+    "opts": [
+      "Car brand and fuel type",
+      "City name and ZIP code",
+      "Height (cm) and weight (kg)",
+      "Payment method and sex"
+    ],
+    "a": 2,
+    "exp": "Pearson correlation is for two quantitative variables.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 15,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "If x and y are exchanged in a scatterplot, which statistic necessarily remains the same?",
+    "opts": [
+      "Slope of y on x",
+      "Intercept",
+      "Correlation r",
+      "Predicted values"
+    ],
+    "a": 2,
+    "exp": "Correlation is symmetric: corr(x,y)=corr(y,x).",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 16,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "In a correlation matrix, what is always on the diagonal?",
+    "opts": [
+      "0",
+      "The sample size",
+      "1",
+      "The covariance"
+    ],
+    "a": 2,
+    "exp": "A nonconstant quantitative variable correlates perfectly with itself.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 17,
+    "ch": "19",
+    "topic": "Foundations",
+    "q": "For ŷ = 120 + 7x, what is the predicted y at x=5?",
+    "opts": [
+      "155",
+      "127",
+      "35",
+      "600"
+    ],
+    "a": 0,
+    "exp": "120+7(5)=155.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 18,
+    "ch": "19",
+    "topic": "Foundations",
+    "q": "An observed value is 83 and the fitted value is 90. The residual is:",
+    "opts": [
+      "173",
+      "7",
+      "−7",
+      "−90"
+    ],
+    "a": 2,
+    "exp": "Residual = observed−fitted = 83−90=−7.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 19,
+    "ch": "19",
+    "topic": "Foundations",
+    "q": "The least-squares line minimizes which quantity?",
+    "opts": [
+      "Σ|e|",
+      "Σe²",
+      "Σx²",
+      "Σy"
+    ],
+    "a": 1,
+    "exp": "Least squares minimizes the sum of squared residuals.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 20,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A model relating ad spending ($1,000s) to monthly sales ($) has slope 4,500. How do you interpret it?",
+    "opts": [
+      "Every $1 buys $4,500 in sales",
+      "Each additional $1,000 in ads is associated with $4,500 more predicted sales",
+      "Sales are always $4,500",
+      "4,500% of sales is advertising"
+    ],
+    "a": 1,
+    "exp": "The slope is change in predicted sales for one unit of x, here $1,000 advertising.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 21,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A fit has r²=0.64. What does that indicate?",
+    "opts": [
+      "64% of variation in the response is explained by its linear model using x",
+      "64% of observations are exactly predicted",
+      "The slope equals .64",
+      "The model is definitely causal"
+    ],
+    "a": 0,
+    "exp": "r² is the fraction of response variation explained by the fitted linear relationship.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 22,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "A fitted line includes an intercept and the sample mean of residuals is 3. What is wrong?",
+    "opts": [
+      "Nothing",
+      "Least-squares residuals with intercept should average approximately zero",
+      "r² must be 3",
+      "The x mean must be 3"
+    ],
+    "a": 1,
+    "exp": "Least squares with an intercept forces the residuals to sum to zero apart from numerical rounding.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 23,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "A model has SSE=200 and n=10. Estimate the residual standard deviation.",
+    "opts": [
+      "5",
+      "4",
+      "25",
+      "2.5"
+    ],
+    "a": 0,
+    "exp": "sₑ = √[SSE/(n−2)] = √(200/8) = 5.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 24,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A home-price regression used homes between 800 and 2,400 sq ft. Predicting a 12,000 sq ft mansion is:",
+    "opts": [
+      "Interpolation",
+      "Extrapolation",
+      "An unbiased estimate",
+      "A residual"
+    ],
+    "a": 1,
+    "exp": "The predictor is outside the observed x range; this is extrapolation.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 25,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "If r = −0.7 in simple least-squares regression with an intercept, r² equals:",
+    "opts": [
+      "−0.49",
+      "0.49",
+      "0.70",
+      "−0.70"
+    ],
+    "a": 1,
+    "exp": "Square the correlation: (−.7)²=.49.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 26,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A residual plot shows a strong U-shape. The best conclusion is:",
+    "opts": [
+      "A straight-line model misses a nonlinear pattern",
+      "The fit must be ideal",
+      "Increase r² by ignoring it",
+      "The response is categorical"
+    ],
+    "a": 0,
+    "exp": "Residual curves signal omitted nonlinear structure.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 27,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "Predictions from ŷ=25+3x are in kilograms, x is in hours. The slope has units:",
+    "opts": [
+      "hours/kg",
+      "kilograms/hour",
+      "kilograms²",
+      "No units"
+    ],
+    "a": 1,
+    "exp": "Slope units are response units per predictor unit.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 28,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "The predictor x is recorded in thousands instead of individual dollars. If the old slope is 0.02 response units per dollar, the new slope is:",
+    "opts": [
+      "0.00002",
+      "0.02",
+      "20",
+      "2,000"
+    ],
+    "a": 2,
+    "exp": "A one-unit increase in new x corresponds to 1,000 old dollars; 1,000×.02=20.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 29,
+    "ch": "19",
+    "topic": "Foundations",
+    "q": "A positive residual indicates:",
+    "opts": [
+      "Actual y is larger than predicted y",
+      "Actual y is smaller than predicted y",
+      "Predictor is negative",
+      "Slope is positive"
+    ],
+    "a": 0,
+    "exp": "e=y−ŷ > 0 when the observation lies above the fitted line.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 30,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A dataset has near-perfect r², but its residuals fan outward as x increases. What should you conclude?",
+    "opts": [
+      "High r² guarantees all assumptions",
+      "Model may still violate constant variance",
+      "Residual spread is irrelevant",
+      "Correlation must be zero"
+    ],
+    "a": 1,
+    "exp": "A high fit statistic does not resolve heteroscedasticity.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 31,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "If the correlation is 0 and both variables have positive SD, the fitted correlation-line slope is:",
+    "opts": [
+      "0",
+      "1",
+      "Undefined",
+      "−1"
+    ],
+    "a": 0,
+    "exp": "b=r(sᵧ/sₓ)=0.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 32,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "Why does doubling x not generally double ŷ in ŷ = 40+3x?",
+    "opts": [
+      "The intercept is nonzero",
+      "There are no units",
+      "Residuals are always negative",
+      "r² is a percent"
+    ],
+    "a": 0,
+    "exp": "The fixed intercept of 40 remains when x changes.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 33,
+    "ch": "21",
+    "topic": "Foundations",
+    "q": "In Yᵢ=β₀+β₁xᵢ+εᵢ, εᵢ represents:",
+    "opts": [
+      "The predictor",
+      "Random deviation around the conditional mean",
+      "The fitted intercept",
+      "The correlation"
+    ],
+    "a": 1,
+    "exp": "ε represents random error around β₀+β₁x.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 34,
+    "ch": "21",
+    "topic": "Foundations",
+    "q": "Which is an assumption of the simple regression model?",
+    "opts": [
+      "Errors are always positive",
+      "Nearly normal residuals for standard inference",
+      "The fitted slope equals 1",
+      "r² must exceed .8"
+    ],
+    "a": 1,
+    "exp": "The chapter checklist includes nearly normal errors/residuals.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 35,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "The 95% confidence interval for population slope β₁ is (2.1, 5.4). At the 5% two-sided level:",
+    "opts": [
+      "Slope is not significantly different from zero",
+      "Slope is significantly positive",
+      "95% of points have positive slopes",
+      "Causation is established"
+    ],
+    "a": 1,
+    "exp": "Zero is not in the 95% interval, so a two-sided zero-slope test rejects at α=.05.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 36,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "Which interval is ordinarily wider at the same x and 95% level?",
+    "opts": [
+      "Confidence interval for mean response",
+      "Prediction interval for one new response",
+      "They must be equal",
+      "Neither"
+    ],
+    "a": 1,
+    "exp": "A future individual varies around the mean as well as reflecting uncertainty in its estimate.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 37,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "An estimated slope is 4.8 with standard error 1.2. The test statistic for H₀: β₁=0 is:",
+    "opts": [
+      "0.25",
+      "4",
+      "5.76",
+      "6"
+    ],
+    "a": 1,
+    "exp": "t=(4.8−0)/1.2=4.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 38,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "An approximate 95% slope CI uses b₁ ± 2SE. If b₁=4 and SE=1.5, estimate it.",
+    "opts": [
+      "(2.5,5.5)",
+      "(1,7)",
+      "(−1.5,1.5)",
+      "(4,7)"
+    ],
+    "a": 1,
+    "exp": "4 ± 2(1.5) = 4 ± 3 => (1,7).",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 39,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "A regression is based on employees surveyed together on the same team, but many share the same manager. Most questionable assumption?",
+    "opts": [
+      "Numerical predictor",
+      "Independent observations/errors",
+      "Having an intercept",
+      "Positive correlation"
+    ],
+    "a": 1,
+    "exp": "Employees sharing managers may have dependent errors.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 40,
+    "ch": "21",
+    "topic": "Foundations",
+    "q": "The conditional mean E(Y|x) in the SRM is:",
+    "opts": [
+      "β₀ + β₁x",
+      "ε only",
+      "sₑ",
+      "r²"
+    ],
+    "a": 0,
+    "exp": "E(Y|x)=β₀+β₁x when errors have mean zero.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 41,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "Predicting response at x near the observed predictor mean versus very far away typically yields:",
+    "opts": [
+      "More precise at far x",
+      "More precise near x̄",
+      "Equal precision regardless of x",
+      "No prediction at x̄"
+    ],
+    "a": 1,
+    "exp": "Regression uncertainty generally grows as x moves away from the center of observed predictor values.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 42,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "A fit has sₑ=12, n=26 and sₓ=5. Approximate SE(b₁) using sₑ/[sₓ√(n−1)].",
+    "opts": [
+      "0.48",
+      "2.4",
+      "0.96",
+      "12"
+    ],
+    "a": 0,
+    "exp": "12/[5√25] = 12/25 = .48.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 43,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "A residual normal quantile plot bends markedly away from a line. Which condition is concerning?",
+    "opts": [
+      "Nearly normal residuals",
+      "Quantitative x",
+      "Linearity in x",
+      "Intercept definition"
+    ],
+    "a": 0,
+    "exp": "Strong deviations from a straight line in the normal quantile plot suggest nonnormal residuals.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 44,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "If sample size increases while predictor spread, noise and other features remain comparable, what usually happens to slope standard error?",
+    "opts": [
+      "It usually decreases",
+      "It necessarily doubles",
+      "It stays fixed",
+      "It becomes negative"
+    ],
+    "a": 0,
+    "exp": "More observations typically make the slope estimate more precise.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 45,
+    "ch": "21",
+    "topic": "Foundations",
+    "q": "Which symbol refers to the population slope rather than its sample estimate?",
+    "opts": [
+      "β₁",
+      "b₁",
+      "sₑ",
+      "eᵢ"
+    ],
+    "a": 0,
+    "exp": "Greek β₁ denotes the population parameter; b₁ is the fitted sample estimate.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 46,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "A 95% prediction interval for tomorrow’s sales is $200–$500. Which interpretation best fits?",
+    "opts": [
+      "95% of sample mean responses fall in that range",
+      "The method is intended to capture one future day’s sales about 95% of the time across repeated samples",
+      "There is a 95% chance β₁ is inside it",
+      "All days must fall inside"
+    ],
+    "a": 1,
+    "exp": "A prediction interval targets an individual future outcome, not a parameter or every outcome.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 47,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "A retailer wants to estimate the average sales of all locations with 10 employees, not one particular location. Which interval should they request?",
+    "opts": [
+      "CI for mean response at x=10",
+      "Prediction interval for individual response",
+      "Slope CI only",
+      "No interval"
+    ],
+    "a": 0,
+    "exp": "A confidence interval for E(Y|x=10) targets the average/conditional mean.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 48,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "A regression slope CI includes zero. What is the best statement?",
+    "opts": [
+      "We lack sufficient evidence of a nonzero population slope at the corresponding significance level",
+      "There is definitely no relationship",
+      "The correlation equals 1",
+      "The model is causal"
+    ],
+    "a": 0,
+    "exp": "Failure to reject zero slope is not proof the slope is exactly zero.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 49,
+    "ch": "22",
+    "topic": "Foundations",
+    "q": "Residual variation grows as x increases, creating a fan shape. This is:",
+    "opts": [
+      "Homoscedasticity",
+      "Heteroscedasticity",
+      "Independence",
+      "Normality"
+    ],
+    "a": 1,
+    "exp": "Unequal residual spread is heteroscedasticity.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 50,
+    "ch": "22",
+    "topic": "Foundations",
+    "q": "An observation has an x value much farther from the x mean than others. It has:",
+    "opts": [
+      "High leverage",
+      "Always a large residual",
+      "Guaranteed influence",
+      "Zero covariance"
+    ],
+    "a": 0,
+    "exp": "High leverage comes from unusual x, not necessarily unusual y.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 51,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "Removing one data point changes the fitted regression slope dramatically. That observation is:",
+    "opts": [
+      "Necessarily ordinary",
+      "Influential",
+      "Proof of independence",
+      "Homoscedastic"
+    ],
+    "a": 1,
+    "exp": "Influential cases materially change the fit when removed.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 52,
+    "ch": "22",
+    "topic": "Foundations",
+    "q": "A Durbin–Watson statistic near 2 typically suggests:",
+    "opts": [
+      "Strong positive lag-one correlation",
+      "Strong negative lag-one correlation",
+      "Little first-order autocorrelation",
+      "An impossible result"
+    ],
+    "a": 2,
+    "exp": "D≈2(1−r₁). If r₁≈0, D≈2.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 53,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "If successive residual correlation is approximately −0.5, D is approximately:",
+    "opts": [
+      "1",
+      "2",
+      "3",
+      "0.5"
+    ],
+    "a": 2,
+    "exp": "D≈2(1−(−.5))=3; negative serial correlation pushes D above 2.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 54,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "If D≈0.6, approximate lag-one residual correlation r.",
+    "opts": [
+      "0.7",
+      "−0.7",
+      "1.4",
+      "0"
+    ],
+    "a": 0,
+    "exp": "r≈1−D/2=1−.3=.7.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 55,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "The residual time plot exhibits long runs of consecutive positive residuals followed by negative ones. Which condition is threatened?",
+    "opts": [
+      "Equal units",
+      "Error independence",
+      "Numerical response",
+      "Having an intercept"
+    ],
+    "a": 1,
+    "exp": "Runs can indicate positive serial dependence/autocorrelation.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 56,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "A point with extreme x lies nearly exactly on the fitted line. Which is possible?",
+    "opts": [
+      "High leverage with small residual",
+      "No leverage with large residual",
+      "It must be influential",
+      "r² must be zero"
+    ],
+    "a": 0,
+    "exp": "Leverage concerns x position; residual concerns vertical distance.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 57,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "Two regression fits have the same large r². One shows random residual scatter; one shows a clear curved residual pattern. Which is preferable?",
+    "opts": [
+      "The random-residual fit",
+      "The curved-residual fit",
+      "Both guaranteed equally good",
+      "Neither could be linear"
+    ],
+    "a": 0,
+    "exp": "Residual plots diagnose pattern missed by summary fit statistics.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 58,
+    "ch": "22",
+    "topic": "Foundations",
+    "q": "What is the best graph to check changing residual spread against x?",
+    "opts": [
+      "Histogram of x only",
+      "Residuals versus predictor/fitted values",
+      "Bar chart of categories",
+      "Pie chart"
+    ],
+    "a": 1,
+    "exp": "A residual plot reveals fan-shaped variation and other structure.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 59,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "An outlier has a large vertical residual but x is near the sample mean. Which description is most accurate?",
+    "opts": [
+      "Likely large residual but low leverage",
+      "Always very high leverage",
+      "Cannot affect fit",
+      "Must be a categorical point"
+    ],
+    "a": 0,
+    "exp": "An unusual y can be an outlier without being extreme in x.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 60,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "A housing model fitted across ordinary homes becomes heavily influenced by one luxury mansion. What is the most defensible next action?",
+    "opts": [
+      "Delete it silently",
+      "Compare models with and without it, checking context and validity",
+      "Always trust the larger r²",
+      "Stop plotting residuals"
+    ],
+    "a": 1,
+    "exp": "Investigate influence, report sensitivity, and use context.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 61,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "A model’s residuals form a regular seasonal wave over time. The best concern is:",
+    "opts": [
+      "Random independent errors",
+      "Unmodeled temporal structure/autocorrelation",
+      "All errors are exactly zero",
+      "Slope units"
+    ],
+    "a": 1,
+    "exp": "Time dependence and omitted seasonality undermine regression assumptions.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 62,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "Which statement is NOT guaranteed?",
+    "opts": [
+      "A high-leverage point has an unusual x",
+      "An influential point changes the fit",
+      "Every high-leverage point is influential",
+      "Unequal error variance can affect inference"
+    ],
+    "a": 2,
+    "exp": "High leverage provides potential influence, not guaranteed influence.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 63,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "A normal quantile plot of the residuals appears approximately straight. What does this support?",
+    "opts": [
+      "Approximately normal residuals",
+      "Constant residual variance",
+      "No lurking variables",
+      "Causation"
+    ],
+    "a": 0,
+    "exp": "The quantile plot helps assess normality, not all assumptions.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 64,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "Which combination raises the biggest red flag for simple regression inference?",
+    "opts": [
+      "Random residual scatter and D≈2",
+      "Fan-shaped residuals and D≈0.4",
+      "Approximately linear scatterplot and stable spread",
+      "Normal quantile plot close to a line"
+    ],
+    "a": 1,
+    "exp": "A fan implies unequal variance; D≈.4 suggests strong positive autocorrelation.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 65,
+    "ch": "6",
+    "topic": "Association vs causation",
+    "q": "A report finds that branches with larger advertising budgets have higher sales. Which conclusion is justified?",
+    "opts": [
+      "Advertising definitely caused the increase",
+      "There is a positive association, but causation is not established",
+      "The variables must be independent",
+      "The correlation must equal 1"
+    ],
+    "a": 1,
+    "exp": "An association alone does not establish that advertising caused sales to rise.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 66,
+    "ch": "19",
+    "topic": "Slope in context",
+    "q": "A fitted line predicts weekly sales ($) from online ads purchased: Sales = 650 + 42(ads). What does 42 mean?",
+    "opts": [
+      "Expected weekly sales are $42 with no ads",
+      "Each additional ad is associated with $42 higher predicted weekly sales",
+      "Sales always rise by exactly $650 per ad",
+      "42% of variability is explained"
+    ],
+    "a": 1,
+    "exp": "Slope measures change in predicted response per unit increase in explanatory variable.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 67,
+    "ch": "21",
+    "topic": "Interval meaning",
+    "q": "A 95% confidence interval for a regression slope is (1.2, 4.8). What does this support?",
+    "opts": [
+      "95% of individual outcomes increase by 1.2 to 4.8",
+      "The population slope is plausibly between 1.2 and 4.8",
+      "95% of predictors lie in this range",
+      "The slope is definitely 3"
+    ],
+    "a": 1,
+    "exp": "A confidence interval estimates the population slope, not outcomes for individuals.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 68,
+    "ch": "22",
+    "topic": "Diagnostics decision",
+    "q": "A residual-versus-fitted plot widens dramatically as fitted values increase. What is the best conclusion?",
+    "opts": [
+      "Evidence of unequal error variances",
+      "The intercept is necessarily wrong",
+      "The errors are normally distributed",
+      "The model has no outliers"
+    ],
+    "a": 0,
+    "exp": "The funnel pattern suggests heteroscedasticity, a violation of the similar-variances condition.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 69,
+    "ch": "22",
+    "topic": "Leverage vs influence",
+    "q": "A point is far to the right of all other x values, but sits exactly on the fitted line. What is most justified?",
+    "opts": [
+      "It has high leverage, but may not greatly change the fitted line",
+      "It has no leverage because its residual is zero",
+      "It guarantees heteroscedasticity",
+      "It proves causation"
+    ],
+    "a": 0,
+    "exp": "Extreme x values create leverage; influence depends on how much the point changes the fit.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 70,
+    "ch": "21",
+    "topic": "Significance vs usefulness",
+    "q": "An estimated slope is statistically significant, but R² = 0.04. What is the best interpretation?",
+    "opts": [
+      "The slope is certainly zero",
+      "The linear relation may be detectable but explains little response variation",
+      "The model predicts every observation well",
+      "The regression assumptions are all verified"
+    ],
+    "a": 1,
+    "exp": "A statistically significant slope does not imply high explanatory power or accurate individual predictions.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 71,
+    "ch": "6",
+    "topic": "Correlation trick",
+    "q": "A relationship forms a near-perfect U-shaped curve on a scatterplot. Which statement is most accurate?",
+    "opts": [
+      "The correlation must be near +1",
+      "The correlation may be near 0 despite strong association",
+      "There can be no association",
+      "The covariance must be very large"
+    ],
+    "a": 1,
+    "exp": "Pearson correlation summarizes linear, not curved, association.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 72,
+    "ch": "19",
+    "topic": "Residual calculation",
+    "q": "A fitted model predicts a price of $310, but the actual price is $275. What is the residual?",
+    "opts": [
+      "$35",
+      "−$35",
+      "$585",
+      "−$585"
+    ],
+    "a": 1,
+    "exp": "Residual = observed − fitted = 275 − 310 = −35.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  }
+];
+
+    const workouts = [
+  {
+    "label": "A",
+    "title": "Read a scatterplot",
+    "prompt": "A scatterplot of miles driven (x) and fuel consumed (y) rises from left to right with moderate scatter. State the response variable, association direction, and whether this proves causation.",
+    "answer": "Fuel consumed is the response. The association is positive and moderately linear. The pattern alone does not prove causation.",
+    "formula": "x = explanatory · y = response · correlation ≠ causation"
+  },
+  {
+    "label": "B",
+    "title": "Compute and interpret slope",
+    "prompt": "If r = 0.60, sx = 4 units, and sy = 12 dollars, calculate the regression slope and interpret it.",
+    "answer": "b = 0.60 × 12 / 4 = 1.8 dollars per unit of x. Each additional unit of x corresponds to $1.80 higher predicted y.",
+    "formula": "b₁ = r × sy / sx"
+  },
+  {
+    "label": "C",
+    "title": "Regression prediction and residual",
+    "prompt": "A model is yhat = 70 + 3x. For x=10, the observed y is 94. Find prediction and residual.",
+    "answer": "Prediction: 100. Residual: 94−100 = −6, indicating the observed outcome is below the fitted line.",
+    "formula": "yhat=b₀+b₁x; e=y−yhat"
+  },
+  {
+    "label": "D",
+    "title": "Explain R-squared",
+    "prompt": "A model has correlation r = −0.80. What percent of y variation is explained by the fitted line, and is the slope positive or negative?",
+    "answer": "r² = 0.64, so 64% of y variation is explained. Since r is negative, slope is negative.",
+    "formula": "r² = (−0.80)² = 0.64"
+  },
+  {
+    "label": "E",
+    "title": "Identify assumption violations",
+    "prompt": "Residuals form a U-shape, spread becomes larger as x increases, and observations are sampled in time order. Name three diagnostic concerns.",
+    "answer": "The U-shape suggests nonlinearity; widening spread suggests heteroscedasticity; time ordering raises concern for autocorrelation.",
+    "formula": "Plot residuals vs x; check variance; plot vs time"
+  },
+  {
+    "label": "F",
+    "title": "Interpret slope CI",
+    "prompt": "A 95% slope confidence interval is (0.7,2.4). Does it support a nonzero positive association? What does it not say?",
+    "answer": "Yes: zero is excluded, so the slope differs from zero at the matching two-sided 5% level if assumptions hold. It does not imply 95% of individuals lie in this interval.",
+    "formula": "Slope CI excluding zero → evidence β₁ ≠ 0"
+  },
+  {
+    "label": "G",
+    "title": "Confidence vs prediction intervals",
+    "prompt": "For x=20, software reports a 95% confidence interval for mean y of (40,48) and a 95% prediction interval of (25,63). Why are they different?",
+    "answer": "The prediction interval covers one new observation, including individual noise, so it is wider than the interval for mean response.",
+    "formula": "Prediction interval usually wider than mean-response CI"
+  },
+  {
+    "label": "H",
+    "title": "Durbin–Watson interpretation",
+    "prompt": "Regression residual autocorrelation is estimated at 0.75. Approximate the Durbin–Watson statistic and interpret.",
+    "answer": "D ≈ 2(1−0.75)=0.5; this suggests positive serial correlation, violating independent errors.",
+    "formula": "D ≈ 2(1−rₑ)"
+  }
+];
+
+    const hwQuestions = [
+  {
+    "n": 1,
+    "ch": "6",
+    "topic": "Foundations",
+    "q": "A scatterplot has years of education along the horizontal axis and yearly salary on the vertical axis. Which variable is the response?",
+    "opts": [
+      "Years of education",
+      "Yearly salary",
+      "Both variables",
+      "Neither"
+    ],
+    "a": 1,
+    "exp": "The response is on the y-axis: yearly salary.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 2,
+    "ch": "6",
+    "topic": "Foundations",
+    "q": "Which correlation describes the strongest linear relationship?",
+    "opts": [
+      "−0.92",
+      "0.63",
+      "0.41",
+      "−0.18"
+    ],
+    "a": 0,
+    "exp": "Strength depends on |r|, not the sign. |−.92| is largest.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 3,
+    "ch": "6",
+    "topic": "Foundations",
+    "q": "A correlation of r = 0.02 most directly implies:",
+    "opts": [
+      "The variables are independent",
+      "There is essentially no linear association",
+      "There is no association of any kind",
+      "One variable causes the other"
+    ],
+    "a": 1,
+    "exp": "Correlation captures linear association only; a strong curve could still be present.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 4,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "Monthly temperatures are reported in °F rather than °C. The correlation between temperature and electricity use will:",
+    "opts": [
+      "Increase",
+      "Decrease",
+      "Stay unchanged",
+      "Become zero"
+    ],
+    "a": 2,
+    "exp": "Conversion °F = 1.8°C + 32 is a positive linear transformation; r is unchanged.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 5,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "A strong relationship between ice cream sales and drowning incidents is found. The most useful next question is:",
+    "opts": [
+      "Does ice cream cause drowning?",
+      "Is a third variable such as temperature driving both?",
+      "Can we calculate a larger r?",
+      "Are the units identical?"
+    ],
+    "a": 1,
+    "exp": "A lurking variable such as hot weather may account for the association.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 6,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "Given cov(x,y) = −24, sₓ = 6, sᵧ = 8, what is r?",
+    "opts": [
+      "−0.50",
+      "−0.25",
+      "0.50",
+      "−2.00"
+    ],
+    "a": 0,
+    "exp": "r = −24/(6×8) = −0.50.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 7,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "A curved U-shaped scatterplot has almost no overall linear tilt. Which is possible?",
+    "opts": [
+      "r close to zero despite a strong relationship",
+      "r must equal 1",
+      "All variables are independent",
+      "The data are categorical"
+    ],
+    "a": 0,
+    "exp": "A U-shape can cancel positive and negative linear trends.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 8,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "The predictor mean is 20, response mean 50, sₓ = 5, sᵧ = 10, r = 0.6. What is the correlation-line slope?",
+    "opts": [
+      "0.3",
+      "1.2",
+      "2.0",
+      "12"
+    ],
+    "a": 1,
+    "exp": "b = r(sᵧ/sₓ) = 0.6(10/5)=1.2.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 9,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "Using x̄=20, ȳ=50 and slope b=1.2, what is the intercept?",
+    "opts": [
+      "26",
+      "74",
+      "24",
+      "50"
+    ],
+    "a": 0,
+    "exp": "a = ȳ − bx̄ = 50 − 1.2(20)=26.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 10,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "Two variables have correlation 0.8. Which claim is justified?",
+    "opts": [
+      "The cause-and-effect relationship is 80% proven",
+      "They show a strong positive linear association",
+      "Every point lies exactly on a line",
+      "80% of observations are above the mean"
+    ],
+    "a": 1,
+    "exp": "r=.8 indicates a strong positive linear pattern; not causation.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 11,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "A scatterplot slopes down from left to right, with points tightly clustered. Which value is most plausible?",
+    "opts": [
+      "+0.9",
+      "0",
+      "−0.9",
+      "+0.1"
+    ],
+    "a": 2,
+    "exp": "A tight downward pattern suggests strong negative r.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 12,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "A sample has 5 (x,y) observations and Σ[(x−x̄)(y−ȳ)] = 40. What is sample covariance?",
+    "opts": [
+      "8",
+      "10",
+      "40",
+      "50"
+    ],
+    "a": 1,
+    "exp": "Sample covariance divides by n−1 = 4: 40/4=10.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 13,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "One outlier is far outside the rest of a scatterplot. What should you do before relying on r?",
+    "opts": [
+      "Always delete it",
+      "Check the plot and investigate its influence",
+      "Square r",
+      "Switch both axes"
+    ],
+    "a": 1,
+    "exp": "Outliers can dramatically alter correlation and must be examined in context.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 14,
+    "ch": "6",
+    "topic": "Foundations",
+    "q": "Which data pair is appropriate for Pearson correlation?",
+    "opts": [
+      "Car brand and fuel type",
+      "City name and ZIP code",
+      "Height (cm) and weight (kg)",
+      "Payment method and sex"
+    ],
+    "a": 2,
+    "exp": "Pearson correlation is for two quantitative variables.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 15,
+    "ch": "6",
+    "topic": "District-style challenge",
+    "q": "If x and y are exchanged in a scatterplot, which statistic necessarily remains the same?",
+    "opts": [
+      "Slope of y on x",
+      "Intercept",
+      "Correlation r",
+      "Predicted values"
+    ],
+    "a": 2,
+    "exp": "Correlation is symmetric: corr(x,y)=corr(y,x).",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 16,
+    "ch": "6",
+    "topic": "Interpretation",
+    "q": "In a correlation matrix, what is always on the diagonal?",
+    "opts": [
+      "0",
+      "The sample size",
+      "1",
+      "The covariance"
+    ],
+    "a": 2,
+    "exp": "A nonconstant quantitative variable correlates perfectly with itself.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 17,
+    "ch": "19",
+    "topic": "Foundations",
+    "q": "For ŷ = 120 + 7x, what is the predicted y at x=5?",
+    "opts": [
+      "155",
+      "127",
+      "35",
+      "600"
+    ],
+    "a": 0,
+    "exp": "120+7(5)=155.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 18,
+    "ch": "19",
+    "topic": "Foundations",
+    "q": "An observed value is 83 and the fitted value is 90. The residual is:",
+    "opts": [
+      "173",
+      "7",
+      "−7",
+      "−90"
+    ],
+    "a": 2,
+    "exp": "Residual = observed−fitted = 83−90=−7.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 19,
+    "ch": "19",
+    "topic": "Foundations",
+    "q": "The least-squares line minimizes which quantity?",
+    "opts": [
+      "Σ|e|",
+      "Σe²",
+      "Σx²",
+      "Σy"
+    ],
+    "a": 1,
+    "exp": "Least squares minimizes the sum of squared residuals.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 20,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A model relating ad spending ($1,000s) to monthly sales ($) has slope 4,500. How do you interpret it?",
+    "opts": [
+      "Every $1 buys $4,500 in sales",
+      "Each additional $1,000 in ads is associated with $4,500 more predicted sales",
+      "Sales are always $4,500",
+      "4,500% of sales is advertising"
+    ],
+    "a": 1,
+    "exp": "The slope is change in predicted sales for one unit of x, here $1,000 advertising.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 21,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A fit has r²=0.64. What does that indicate?",
+    "opts": [
+      "64% of variation in the response is explained by its linear model using x",
+      "64% of observations are exactly predicted",
+      "The slope equals .64",
+      "The model is definitely causal"
+    ],
+    "a": 0,
+    "exp": "r² is the fraction of response variation explained by the fitted linear relationship.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 22,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "A fitted line includes an intercept and the sample mean of residuals is 3. What is wrong?",
+    "opts": [
+      "Nothing",
+      "Least-squares residuals with intercept should average approximately zero",
+      "r² must be 3",
+      "The x mean must be 3"
+    ],
+    "a": 1,
+    "exp": "Least squares with an intercept forces the residuals to sum to zero apart from numerical rounding.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 23,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "A model has SSE=200 and n=10. Estimate the residual standard deviation.",
+    "opts": [
+      "5",
+      "4",
+      "25",
+      "2.5"
+    ],
+    "a": 0,
+    "exp": "sₑ = √[SSE/(n−2)] = √(200/8) = 5.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 24,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A home-price regression used homes between 800 and 2,400 sq ft. Predicting a 12,000 sq ft mansion is:",
+    "opts": [
+      "Interpolation",
+      "Extrapolation",
+      "An unbiased estimate",
+      "A residual"
+    ],
+    "a": 1,
+    "exp": "The predictor is outside the observed x range; this is extrapolation.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 25,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "If r = −0.7 in simple least-squares regression with an intercept, r² equals:",
+    "opts": [
+      "−0.49",
+      "0.49",
+      "0.70",
+      "−0.70"
+    ],
+    "a": 1,
+    "exp": "Square the correlation: (−.7)²=.49.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 26,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A residual plot shows a strong U-shape. The best conclusion is:",
+    "opts": [
+      "A straight-line model misses a nonlinear pattern",
+      "The fit must be ideal",
+      "Increase r² by ignoring it",
+      "The response is categorical"
+    ],
+    "a": 0,
+    "exp": "Residual curves signal omitted nonlinear structure.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 27,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "Predictions from ŷ=25+3x are in kilograms, x is in hours. The slope has units:",
+    "opts": [
+      "hours/kg",
+      "kilograms/hour",
+      "kilograms²",
+      "No units"
+    ],
+    "a": 1,
+    "exp": "Slope units are response units per predictor unit.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 28,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "The predictor x is recorded in thousands instead of individual dollars. If the old slope is 0.02 response units per dollar, the new slope is:",
+    "opts": [
+      "0.00002",
+      "0.02",
+      "20",
+      "2,000"
+    ],
+    "a": 2,
+    "exp": "A one-unit increase in new x corresponds to 1,000 old dollars; 1,000×.02=20.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 29,
+    "ch": "19",
+    "topic": "Foundations",
+    "q": "A positive residual indicates:",
+    "opts": [
+      "Actual y is larger than predicted y",
+      "Actual y is smaller than predicted y",
+      "Predictor is negative",
+      "Slope is positive"
+    ],
+    "a": 0,
+    "exp": "e=y−ŷ > 0 when the observation lies above the fitted line.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 30,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "A dataset has near-perfect r², but its residuals fan outward as x increases. What should you conclude?",
+    "opts": [
+      "High r² guarantees all assumptions",
+      "Model may still violate constant variance",
+      "Residual spread is irrelevant",
+      "Correlation must be zero"
+    ],
+    "a": 1,
+    "exp": "A high fit statistic does not resolve heteroscedasticity.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 31,
+    "ch": "19",
+    "topic": "District-style challenge",
+    "q": "If the correlation is 0 and both variables have positive SD, the fitted correlation-line slope is:",
+    "opts": [
+      "0",
+      "1",
+      "Undefined",
+      "−1"
+    ],
+    "a": 0,
+    "exp": "b=r(sᵧ/sₓ)=0.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 32,
+    "ch": "19",
+    "topic": "Interpretation",
+    "q": "Why does doubling x not generally double ŷ in ŷ = 40+3x?",
+    "opts": [
+      "The intercept is nonzero",
+      "There are no units",
+      "Residuals are always negative",
+      "r² is a percent"
+    ],
+    "a": 0,
+    "exp": "The fixed intercept of 40 remains when x changes.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 33,
+    "ch": "21",
+    "topic": "Foundations",
+    "q": "In Yᵢ=β₀+β₁xᵢ+εᵢ, εᵢ represents:",
+    "opts": [
+      "The predictor",
+      "Random deviation around the conditional mean",
+      "The fitted intercept",
+      "The correlation"
+    ],
+    "a": 1,
+    "exp": "ε represents random error around β₀+β₁x.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 34,
+    "ch": "21",
+    "topic": "Foundations",
+    "q": "Which is an assumption of the simple regression model?",
+    "opts": [
+      "Errors are always positive",
+      "Nearly normal residuals for standard inference",
+      "The fitted slope equals 1",
+      "r² must exceed .8"
+    ],
+    "a": 1,
+    "exp": "The chapter checklist includes nearly normal errors/residuals.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 35,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "The 95% confidence interval for population slope β₁ is (2.1, 5.4). At the 5% two-sided level:",
+    "opts": [
+      "Slope is not significantly different from zero",
+      "Slope is significantly positive",
+      "95% of points have positive slopes",
+      "Causation is established"
+    ],
+    "a": 1,
+    "exp": "Zero is not in the 95% interval, so a two-sided zero-slope test rejects at α=.05.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 36,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "Which interval is ordinarily wider at the same x and 95% level?",
+    "opts": [
+      "Confidence interval for mean response",
+      "Prediction interval for one new response",
+      "They must be equal",
+      "Neither"
+    ],
+    "a": 1,
+    "exp": "A future individual varies around the mean as well as reflecting uncertainty in its estimate.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 37,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "An estimated slope is 4.8 with standard error 1.2. The test statistic for H₀: β₁=0 is:",
+    "opts": [
+      "0.25",
+      "4",
+      "5.76",
+      "6"
+    ],
+    "a": 1,
+    "exp": "t=(4.8−0)/1.2=4.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 38,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "An approximate 95% slope CI uses b₁ ± 2SE. If b₁=4 and SE=1.5, estimate it.",
+    "opts": [
+      "(2.5,5.5)",
+      "(1,7)",
+      "(−1.5,1.5)",
+      "(4,7)"
+    ],
+    "a": 1,
+    "exp": "4 ± 2(1.5) = 4 ± 3 => (1,7).",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 39,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "A regression is based on employees surveyed together on the same team, but many share the same manager. Most questionable assumption?",
+    "opts": [
+      "Numerical predictor",
+      "Independent observations/errors",
+      "Having an intercept",
+      "Positive correlation"
+    ],
+    "a": 1,
+    "exp": "Employees sharing managers may have dependent errors.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 40,
+    "ch": "21",
+    "topic": "Foundations",
+    "q": "The conditional mean E(Y|x) in the SRM is:",
+    "opts": [
+      "β₀ + β₁x",
+      "ε only",
+      "sₑ",
+      "r²"
+    ],
+    "a": 0,
+    "exp": "E(Y|x)=β₀+β₁x when errors have mean zero.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 41,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "Predicting response at x near the observed predictor mean versus very far away typically yields:",
+    "opts": [
+      "More precise at far x",
+      "More precise near x̄",
+      "Equal precision regardless of x",
+      "No prediction at x̄"
+    ],
+    "a": 1,
+    "exp": "Regression uncertainty generally grows as x moves away from the center of observed predictor values.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 42,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "A fit has sₑ=12, n=26 and sₓ=5. Approximate SE(b₁) using sₑ/[sₓ√(n−1)].",
+    "opts": [
+      "0.48",
+      "2.4",
+      "0.96",
+      "12"
+    ],
+    "a": 0,
+    "exp": "12/[5√25] = 12/25 = .48.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 43,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "A residual normal quantile plot bends markedly away from a line. Which condition is concerning?",
+    "opts": [
+      "Nearly normal residuals",
+      "Quantitative x",
+      "Linearity in x",
+      "Intercept definition"
+    ],
+    "a": 0,
+    "exp": "Strong deviations from a straight line in the normal quantile plot suggest nonnormal residuals.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 44,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "If sample size increases while predictor spread, noise and other features remain comparable, what usually happens to slope standard error?",
+    "opts": [
+      "It usually decreases",
+      "It necessarily doubles",
+      "It stays fixed",
+      "It becomes negative"
+    ],
+    "a": 0,
+    "exp": "More observations typically make the slope estimate more precise.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 45,
+    "ch": "21",
+    "topic": "Foundations",
+    "q": "Which symbol refers to the population slope rather than its sample estimate?",
+    "opts": [
+      "β₁",
+      "b₁",
+      "sₑ",
+      "eᵢ"
+    ],
+    "a": 0,
+    "exp": "Greek β₁ denotes the population parameter; b₁ is the fitted sample estimate.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 46,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "A 95% prediction interval for tomorrow’s sales is $200–$500. Which interpretation best fits?",
+    "opts": [
+      "95% of sample mean responses fall in that range",
+      "The method is intended to capture one future day’s sales about 95% of the time across repeated samples",
+      "There is a 95% chance β₁ is inside it",
+      "All days must fall inside"
+    ],
+    "a": 1,
+    "exp": "A prediction interval targets an individual future outcome, not a parameter or every outcome.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 47,
+    "ch": "21",
+    "topic": "District-style challenge",
+    "q": "A retailer wants to estimate the average sales of all locations with 10 employees, not one particular location. Which interval should they request?",
+    "opts": [
+      "CI for mean response at x=10",
+      "Prediction interval for individual response",
+      "Slope CI only",
+      "No interval"
+    ],
+    "a": 0,
+    "exp": "A confidence interval for E(Y|x=10) targets the average/conditional mean.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 48,
+    "ch": "21",
+    "topic": "Interpretation",
+    "q": "A regression slope CI includes zero. What is the best statement?",
+    "opts": [
+      "We lack sufficient evidence of a nonzero population slope at the corresponding significance level",
+      "There is definitely no relationship",
+      "The correlation equals 1",
+      "The model is causal"
+    ],
+    "a": 0,
+    "exp": "Failure to reject zero slope is not proof the slope is exactly zero.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 49,
+    "ch": "22",
+    "topic": "Foundations",
+    "q": "Residual variation grows as x increases, creating a fan shape. This is:",
+    "opts": [
+      "Homoscedasticity",
+      "Heteroscedasticity",
+      "Independence",
+      "Normality"
+    ],
+    "a": 1,
+    "exp": "Unequal residual spread is heteroscedasticity.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 50,
+    "ch": "22",
+    "topic": "Foundations",
+    "q": "An observation has an x value much farther from the x mean than others. It has:",
+    "opts": [
+      "High leverage",
+      "Always a large residual",
+      "Guaranteed influence",
+      "Zero covariance"
+    ],
+    "a": 0,
+    "exp": "High leverage comes from unusual x, not necessarily unusual y.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 51,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "Removing one data point changes the fitted regression slope dramatically. That observation is:",
+    "opts": [
+      "Necessarily ordinary",
+      "Influential",
+      "Proof of independence",
+      "Homoscedastic"
+    ],
+    "a": 1,
+    "exp": "Influential cases materially change the fit when removed.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 52,
+    "ch": "22",
+    "topic": "Foundations",
+    "q": "A Durbin–Watson statistic near 2 typically suggests:",
+    "opts": [
+      "Strong positive lag-one correlation",
+      "Strong negative lag-one correlation",
+      "Little first-order autocorrelation",
+      "An impossible result"
+    ],
+    "a": 2,
+    "exp": "D≈2(1−r₁). If r₁≈0, D≈2.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 53,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "If successive residual correlation is approximately −0.5, D is approximately:",
+    "opts": [
+      "1",
+      "2",
+      "3",
+      "0.5"
+    ],
+    "a": 2,
+    "exp": "D≈2(1−(−.5))=3; negative serial correlation pushes D above 2.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 54,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "If D≈0.6, approximate lag-one residual correlation r.",
+    "opts": [
+      "0.7",
+      "−0.7",
+      "1.4",
+      "0"
+    ],
+    "a": 0,
+    "exp": "r≈1−D/2=1−.3=.7.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 55,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "The residual time plot exhibits long runs of consecutive positive residuals followed by negative ones. Which condition is threatened?",
+    "opts": [
+      "Equal units",
+      "Error independence",
+      "Numerical response",
+      "Having an intercept"
+    ],
+    "a": 1,
+    "exp": "Runs can indicate positive serial dependence/autocorrelation.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 56,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "A point with extreme x lies nearly exactly on the fitted line. Which is possible?",
+    "opts": [
+      "High leverage with small residual",
+      "No leverage with large residual",
+      "It must be influential",
+      "r² must be zero"
+    ],
+    "a": 0,
+    "exp": "Leverage concerns x position; residual concerns vertical distance.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 57,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "Two regression fits have the same large r². One shows random residual scatter; one shows a clear curved residual pattern. Which is preferable?",
+    "opts": [
+      "The random-residual fit",
+      "The curved-residual fit",
+      "Both guaranteed equally good",
+      "Neither could be linear"
+    ],
+    "a": 0,
+    "exp": "Residual plots diagnose pattern missed by summary fit statistics.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 58,
+    "ch": "22",
+    "topic": "Foundations",
+    "q": "What is the best graph to check changing residual spread against x?",
+    "opts": [
+      "Histogram of x only",
+      "Residuals versus predictor/fitted values",
+      "Bar chart of categories",
+      "Pie chart"
+    ],
+    "a": 1,
+    "exp": "A residual plot reveals fan-shaped variation and other structure.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 59,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "An outlier has a large vertical residual but x is near the sample mean. Which description is most accurate?",
+    "opts": [
+      "Likely large residual but low leverage",
+      "Always very high leverage",
+      "Cannot affect fit",
+      "Must be a categorical point"
+    ],
+    "a": 0,
+    "exp": "An unusual y can be an outlier without being extreme in x.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 60,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "A housing model fitted across ordinary homes becomes heavily influenced by one luxury mansion. What is the most defensible next action?",
+    "opts": [
+      "Delete it silently",
+      "Compare models with and without it, checking context and validity",
+      "Always trust the larger r²",
+      "Stop plotting residuals"
+    ],
+    "a": 1,
+    "exp": "Investigate influence, report sensitivity, and use context.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 61,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "A model’s residuals form a regular seasonal wave over time. The best concern is:",
+    "opts": [
+      "Random independent errors",
+      "Unmodeled temporal structure/autocorrelation",
+      "All errors are exactly zero",
+      "Slope units"
+    ],
+    "a": 1,
+    "exp": "Time dependence and omitted seasonality undermine regression assumptions.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 62,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "Which statement is NOT guaranteed?",
+    "opts": [
+      "A high-leverage point has an unusual x",
+      "An influential point changes the fit",
+      "Every high-leverage point is influential",
+      "Unequal error variance can affect inference"
+    ],
+    "a": 2,
+    "exp": "High leverage provides potential influence, not guaranteed influence.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 63,
+    "ch": "22",
+    "topic": "Interpretation",
+    "q": "A normal quantile plot of the residuals appears approximately straight. What does this support?",
+    "opts": [
+      "Approximately normal residuals",
+      "Constant residual variance",
+      "No lurking variables",
+      "Causation"
+    ],
+    "a": 0,
+    "exp": "The quantile plot helps assess normality, not all assumptions.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 64,
+    "ch": "22",
+    "topic": "District-style challenge",
+    "q": "Which combination raises the biggest red flag for simple regression inference?",
+    "opts": [
+      "Random residual scatter and D≈2",
+      "Fan-shaped residuals and D≈0.4",
+      "Approximately linear scatterplot and stable spread",
+      "Normal quantile plot close to a line"
+    ],
+    "a": 1,
+    "exp": "A fan implies unequal variance; D≈.4 suggests strong positive autocorrelation.",
+    "tip": "Ask what this question tests, then eliminate choices that overstate what the evidence proves.",
+    "formula": "See the cheat sheet for the applicable rule."
+  },
+  {
+    "n": 65,
+    "ch": "6",
+    "topic": "Association vs causation",
+    "q": "A report finds that branches with larger advertising budgets have higher sales. Which conclusion is justified?",
+    "opts": [
+      "Advertising definitely caused the increase",
+      "There is a positive association, but causation is not established",
+      "The variables must be independent",
+      "The correlation must equal 1"
+    ],
+    "a": 1,
+    "exp": "An association alone does not establish that advertising caused sales to rise.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 66,
+    "ch": "19",
+    "topic": "Slope in context",
+    "q": "A fitted line predicts weekly sales ($) from online ads purchased: Sales = 650 + 42(ads). What does 42 mean?",
+    "opts": [
+      "Expected weekly sales are $42 with no ads",
+      "Each additional ad is associated with $42 higher predicted weekly sales",
+      "Sales always rise by exactly $650 per ad",
+      "42% of variability is explained"
+    ],
+    "a": 1,
+    "exp": "Slope measures change in predicted response per unit increase in explanatory variable.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 67,
+    "ch": "21",
+    "topic": "Interval meaning",
+    "q": "A 95% confidence interval for a regression slope is (1.2, 4.8). What does this support?",
+    "opts": [
+      "95% of individual outcomes increase by 1.2 to 4.8",
+      "The population slope is plausibly between 1.2 and 4.8",
+      "95% of predictors lie in this range",
+      "The slope is definitely 3"
+    ],
+    "a": 1,
+    "exp": "A confidence interval estimates the population slope, not outcomes for individuals.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 68,
+    "ch": "22",
+    "topic": "Diagnostics decision",
+    "q": "A residual-versus-fitted plot widens dramatically as fitted values increase. What is the best conclusion?",
+    "opts": [
+      "Evidence of unequal error variances",
+      "The intercept is necessarily wrong",
+      "The errors are normally distributed",
+      "The model has no outliers"
+    ],
+    "a": 0,
+    "exp": "The funnel pattern suggests heteroscedasticity, a violation of the similar-variances condition.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 69,
+    "ch": "22",
+    "topic": "Leverage vs influence",
+    "q": "A point is far to the right of all other x values, but sits exactly on the fitted line. What is most justified?",
+    "opts": [
+      "It has high leverage, but may not greatly change the fitted line",
+      "It has no leverage because its residual is zero",
+      "It guarantees heteroscedasticity",
+      "It proves causation"
+    ],
+    "a": 0,
+    "exp": "Extreme x values create leverage; influence depends on how much the point changes the fit.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 70,
+    "ch": "21",
+    "topic": "Significance vs usefulness",
+    "q": "An estimated slope is statistically significant, but R² = 0.04. What is the best interpretation?",
+    "opts": [
+      "The slope is certainly zero",
+      "The linear relation may be detectable but explains little response variation",
+      "The model predicts every observation well",
+      "The regression assumptions are all verified"
+    ],
+    "a": 1,
+    "exp": "A statistically significant slope does not imply high explanatory power or accurate individual predictions.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 71,
+    "ch": "6",
+    "topic": "Correlation trick",
+    "q": "A relationship forms a near-perfect U-shaped curve on a scatterplot. Which statement is most accurate?",
+    "opts": [
+      "The correlation must be near +1",
+      "The correlation may be near 0 despite strong association",
+      "There can be no association",
+      "The covariance must be very large"
+    ],
+    "a": 1,
+    "exp": "Pearson correlation summarizes linear, not curved, association.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  },
+  {
+    "n": 72,
+    "ch": "19",
+    "topic": "Residual calculation",
+    "q": "A fitted model predicts a price of $310, but the actual price is $275. What is the residual?",
+    "opts": [
+      "$35",
+      "−$35",
+      "$585",
+      "−$585"
+    ],
+    "a": 1,
+    "exp": "Residual = observed − fitted = 275 − 310 = −35.",
+    "tip": "Choose the narrowest claim supported by the model.",
+    "formula": "See explanation."
+  }
+];
+
+    const cheatSections = [
+  {
+    "title": "Chapter 6 · Scatterplots and correlation",
+    "accent": "purple",
+    "items": [
+      [
+        "Explanatory and response",
+        "x = explanatory/predictor; y = response"
+      ],
+      [
+        "Correlation",
+        "r = cov(x,y)/(sx sy); −1 ≤ r ≤ 1"
+      ],
+      [
+        "Covariance",
+        "cov(x,y)=Σ(x−x̄)(y−ȳ)/(n−1)"
+      ],
+      [
+        "Interpret r",
+        "Sign = direction; |r| = strength of linear association"
+      ],
+      [
+        "Unit change",
+        "Positive scale changes do not change r"
+      ],
+      [
+        "Trap",
+        "r near 0 does not rule out nonlinear association"
+      ],
+      [
+        "Causation",
+        "Correlation alone cannot prove causation; check lurking variables"
+      ]
+    ]
+  },
+  {
+    "title": "Chapter 19 · Linear patterns",
+    "accent": "cyan",
+    "items": [
+      [
+        "Regression line",
+        "ŷ = b₀ + b₁x"
+      ],
+      [
+        "Slope",
+        "b₁ = r(sy/sx)"
+      ],
+      [
+        "Intercept",
+        "b₀ = ȳ − b₁x̄"
+      ],
+      [
+        "Fitted value",
+        "Insert x into ŷ = b₀ + b₁x"
+      ],
+      [
+        "Residual",
+        "e = actual y − fitted ŷ"
+      ],
+      [
+        "Explained variation",
+        "r² = (correlation)²"
+      ],
+      [
+        "Residual spread",
+        "se = √[Σe²/(n−2)]"
+      ],
+      [
+        "Trap",
+        "Avoid extrapolating far beyond observed x values"
+      ]
+    ]
+  },
+  {
+    "title": "Chapter 21 · Simple regression model",
+    "accent": "green",
+    "items": [
+      [
+        "Model",
+        "Yᵢ = β₀ + β₁xᵢ + εᵢ"
+      ],
+      [
+        "Mean response",
+        "E(Y | X=x)=β₀+β₁x"
+      ],
+      [
+        "Slope test",
+        "H₀: β₁=0 vs Hₐ: β₁≠0"
+      ],
+      [
+        "t statistic",
+        "t = b₁ / se(b₁)"
+      ],
+      [
+        "Slope SE",
+        "se(b₁)=se/(√(n−1) sx)"
+      ],
+      [
+        "Slope CI",
+        "b₁ ± t*·se(b₁)"
+      ],
+      [
+        "Prediction interval",
+        "Usually wider than a CI for mean response"
+      ],
+      [
+        "Conditions",
+        "Linear; no lurking; independent; constant variance; near-normal errors"
+      ]
+    ]
+  },
+  {
+    "title": "Chapter 22 · Diagnostics",
+    "accent": "red",
+    "items": [
+      [
+        "Heteroscedasticity",
+        "Residual variance changes with predictor/fitted values"
+      ],
+      [
+        "Homoscedasticity",
+        "Similar residual variation throughout x range"
+      ],
+      [
+        "Outlier",
+        "Unusual y/residual"
+      ],
+      [
+        "Leverage",
+        "x unusually far from other predictor values"
+      ],
+      [
+        "Influence",
+        "Removing point meaningfully changes fit"
+      ],
+      [
+        "Autocorrelation",
+        "Residuals across time are dependent"
+      ],
+      [
+        "Durbin–Watson",
+        "D=Σ(eᵢ−eᵢ₋₁)²/Σeᵢ² ≈2(1−rₑ)"
+      ],
+      [
+        "D interpretation",
+        "Near 2: little lag-1 autocorrelation; near 0: positive; near 4: negative"
+      ]
+    ]
+  }
+];
+
+    const state = JSON.parse(localStorage.getItem('ds101TextbookExactV1') || '{}');
+    const letters = ['A', 'B', 'C', 'D'];
+    const chapters = [['all','All Questions',72],['6','6 · Association',0],['19','19 · Linear Patterns',0],['21','21 · Simple Regression',0],['22','22 · Diagnostics',0]].map(([id,label,count])=>[id,label,id==='all'?questions.length:questions.filter(q=>q.ch===id).length]);
+    let currentIndex = 0;
+    let chapterFilter = 'all';
+    let visibleQuestions = [...questions];
+    let activeView = 'quiz';
+    const hwState = JSON.parse(localStorage.getItem('ds101TextbookDrillsV1') || '{}');
+    let hwIndex = 0;
+    let hwFilter = 'all';
+    let visibleHwQuestions = [...hwQuestions];
+    let labMode = 'practice';
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
+    function save() { localStorage.setItem('ds101TextbookExactV1', JSON.stringify(state)); }
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c])); }
+    function buildChapterNav() {
+        $('#chapterNav').innerHTML = chapters.map(([id, label, count]) => `<button class="chapter-item ${id === 'all' ? 'active' : ''} ${id !== 'all' ? 'priority' : ''}" data-chapter="${id}"><span><span class="folder">${id === 'all' ? '▾' : '▸'}</span>${label}</span><b>${count}</b></button>`).join('');
+        $$('.chapter-item').forEach(btn => btn.addEventListener('click', () => {
+            chapterFilter = btn.dataset.chapter;
+            visibleQuestions = chapterFilter === 'all' ? [...questions] : questions.filter(q => q.ch === chapterFilter);
+            const currentQ = questions[currentIndex];
+            if (!visibleQuestions.some(q => q.n === currentQ.n))
+                currentIndex = questions.indexOf(visibleQuestions[0]);
+            $$('.chapter-item').forEach(b => b.classList.toggle('active', b === btn));
+            buildQuestionMap();
+            renderQuestion();
+            closeExplorer();
+        }));
+    }
+    function buildQuestionMap() {
+        const allowed = new Set(visibleQuestions.map(q => q.n));
+        $('#questionMap').innerHTML = questions.map((q, i) => {
+            const s = state[q.n] || {};
+            let cls = 'map-btn';
+            if (i === currentIndex)
+                cls += ' current';
+            if (s.submitted)
+                cls += s.correct ? ' correct' : ' incorrect';
+            const hidden = !allowed.has(q.n) ? ' style="opacity:.23"' : '';
+            return `<button class="${cls}" data-map="${i}" title="Question ${q.n}: ${esc(q.topic)}"${hidden}>${q.n}</button>`;
+        }).join('');
+        $$('[data-map]').forEach(b => b.addEventListener('click', () => { currentIndex = +b.dataset.map; renderQuestion(); closeExplorer(); }));
+    }
+    function renderQuestion() {
+        const q = questions[currentIndex];
+        const s = state[q.n] || {};
+        $('#questionNumber').textContent = String(q.n).padStart(2, '0');
+        $('#chapterTag').textContent = `FOCUS ${q.ch}`;
+        $('#topicTag').textContent = q.topic;
+        $('#questionText').textContent = q.q;
+        $('#crumbChapter').textContent = `Focus ${q.ch}`;
+        $('#crumbTopic').textContent = q.topic;
+        $('#contextChapter').textContent = q.ch;
+        $('#contextTopic').textContent = q.topic;
+        $('#contextStatus').textContent = s.submitted ? (s.correct ? 'correct' : 'needs review') : 'unanswered';
+        $('#quickRule').textContent = q.tip || 'Read the variable types and wording before choosing a method.';
+        $('#answerList').innerHTML = q.opts.map((opt, i) => {
+            let cls = 'answer';
+            if (s.selected === i)
+                cls += ' selected';
+            if (s.submitted && i === q.a)
+                cls += ' correct-choice';
+            if (s.submitted && s.selected === i && i !== q.a)
+                cls += ' wrong-choice';
+            return `<button class="${cls}" data-answer="${i}" ${s.submitted ? 'disabled' : ''}><span class="answer-letter">${letters[i]}</span><span class="answer-text">${esc(opt)}</span></button>`;
+        }).join('');
+        $$('[data-answer]').forEach(btn => btn.addEventListener('click', () => selectAnswer(+btn.dataset.answer)));
+        $('#submitAnswer').disabled = !Number.isInteger(s.selected) || s.submitted;
+        renderFeedback(q, s);
+        updateProgress();
+        buildQuestionMap();
+        const pos = visibleQuestions.findIndex(x => x.n === q.n);
+        const shownPos = pos >= 0 ? pos + 1 : q.n;
+        $('#currentPosition').textContent = chapterFilter === 'all' ? `Question ${q.n} of ${questions.length}` : `${shownPos} of ${visibleQuestions.length} in Focus ${chapterFilter}`;
+        $('#miniProgress').style.width = `${(q.n / questions.length) * 100}%`;
+        $('#statusText').textContent = `Ln ${q.n}, Col 1  ·  Focus ${q.ch}  ·  ${q.topic}`;
+    }
+    function selectAnswer(i) {
+        const q = questions[currentIndex];
+        if (state[q.n]?.submitted)
+            return;
+        state[q.n] = { ...(state[q.n] || {}), selected: i };
+        save();
+        renderQuestion();
+    }
+    function submitCurrent() {
+        const q = questions[currentIndex], s = state[q.n];
+        if (!s || !Number.isInteger(s.selected) || s.submitted)
+            return;
+        state[q.n] = { ...s, submitted: true, correct: s.selected === q.a };
+        save();
+        renderQuestion();
+        $('#feedbackBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    function renderFeedback(q, s) {
+        const box = $('#feedbackBox');
+        if (!s.submitted) {
+            box.className = 'feedback-box';
+            box.innerHTML = '';
+            return;
+        }
+        const correct = `${letters[q.a]}. ${q.opts[q.a]}`;
+        const chosen = `${letters[s.selected]}. ${q.opts[s.selected]}`;
+        box.className = `feedback-box show ${s.correct ? 'good' : 'bad'}`;
+        box.innerHTML = `
+        <div class="feedback-head"><strong>${s.correct ? '✓ BUILD PASSED' : '✕ BUILD FAILED — REVIEW THIS'}</strong><span>${s.correct ? 'answer accepted' : 'correction generated'}</span></div>
+        <div class="feedback-grid">
+          <div class="feedback-cell"><label>${s.correct ? 'YOUR ANSWER' : 'YOU CHOSE'}</label><p>${esc(chosen)}</p></div>
+          <div class="feedback-cell"><label>CORRECT ANSWER</label><p>${esc(correct)}</p></div>
+          <div class="feedback-cell full"><label>WHY THIS IS CORRECT</label><p>${esc(q.exp)}</p></div>
+          ${q.formula ? `<div class="feedback-cell formula full"><label>FORMULA / RULE</label><p>${esc(q.formula)}</p></div>` : ''}
+          <div class="feedback-cell full"><label>EXAM TRAP TO REMEMBER</label><p>${esc(q.tip)}</p></div>
+        </div>`;
+    }
+    function navigate(dir) {
+        const currentQ = questions[currentIndex];
+        let pos = visibleQuestions.findIndex(q => q.n === currentQ.n);
+        if (pos < 0)
+            pos = 0;
+        pos = (pos + dir + visibleQuestions.length) % visibleQuestions.length;
+        currentIndex = questions.indexOf(visibleQuestions[pos]);
+        renderQuestion();
+        $('.editor').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function updateProgress() {
+        const attempted = questions.filter(q => state[q.n]?.submitted);
+        const correct = attempted.filter(q => state[q.n]?.correct).length;
+        const accuracy = attempted.length ? Math.round(correct / attempted.length * 100) : 0;
+        $('#sessionAnswered').textContent = attempted.length;
+        $('#scorePct').textContent = `${accuracy}%`;
+        $('#scoreCount').textContent = `${correct} / ${attempted.length}`;
+        $('#scoreCaption').textContent = attempted.length ? `${attempted.length} attempted · ${correct} correct` : 'Start answering to build your score.';
+        $('#scoreRing').style.background = `conic-gradient(var(--purple) ${accuracy * 3.6}deg,#1b2635 ${accuracy * 3.6}deg)`;
+    }
+    function retryCurrent() {
+        const q = questions[currentIndex];
+        delete state[q.n];
+        save();
+        renderQuestion();
+    }
+    function reviewMissed() {
+        const missed = questions.filter(q => state[q.n]?.submitted && !state[q.n]?.correct);
+        if (!missed.length) {
+            $('#statusText').textContent = 'No missed questions yet — keep going.';
+            return;
+        }
+        chapterFilter = 'all';
+        visibleQuestions = missed;
+        currentIndex = questions.indexOf(missed[0]);
+        $$('.chapter-item').forEach(b => b.classList.remove('active'));
+        renderQuestion();
+        closeExplorer();
+    }
+    function renderWorkouts() {
+        $('#workoutList').innerHTML = workouts.map((w, i) => `<article class="workout-card"><header><div class="workout-index">${w.label}</div><h3>${esc(w.title)}</h3></header><div class="body"><p>${esc(w.prompt)}</p><button class="reveal-btn" data-reveal="${i}">Reveal setup & answer</button><div class="workout-answer" id="workout${i}"><strong>SOLUTION</strong><p>${esc(w.answer)}</p><div class="formula-line">${esc(w.formula)}</div></div></div></article>`).join('');
+        $$('[data-reveal]').forEach(b => b.addEventListener('click', () => { const box = $(`#workout${b.dataset.reveal}`); box.classList.toggle('show'); b.textContent = box.classList.contains('show') ? 'Hide answer' : 'Reveal setup & answer'; }));
+    }
+    function saveHw() { localStorage.setItem('ds101TextbookDrillsV1', JSON.stringify(hwState)); }
+
+    function buildHwFilters() {
+        const groups = [['all','All'],['6','Chapter 6'],['19','Chapter 19'],['21','Chapter 21'],['22','Chapter 22']];
+        $('#hwFilters').innerHTML = groups.map(([id,label]) =>
+          `<button class="hw-filter ${hwFilter===id?'active':''}" data-hw-filter="${id}">${label}</button>`
+        ).join('');
+        $$('[data-hw-filter]').forEach(btn => btn.addEventListener('click', () => {
+            hwFilter = btn.dataset.hwFilter;
+            visibleHwQuestions = hwFilter === 'all' ? [...hwQuestions] : hwQuestions.filter(q => q.ch === hwFilter);
+            if (!visibleHwQuestions.some(q => q.n === hwQuestions[hwIndex].n)) {
+                hwIndex = hwQuestions.indexOf(visibleHwQuestions[0]);
+            }
+            buildHwFilters();
+            renderHwQuestion();
+        }));
+    }
+
+    function renderHwQuestion() {
+        const q = hwQuestions[hwIndex];
+        const s = hwState[q.n] || {};
+        $('#hwChapter').textContent = `CH ${q.ch}`;
+        $('#hwTopic').textContent = q.topic;
+        $('#hwQuestion').textContent = q.q;
+        const pos = visibleHwQuestions.findIndex(x => x.n === q.n);
+        $('#hwCount').textContent = `${String(pos + 1).padStart(2,'0')} / ${visibleHwQuestions.length}`;
+        $('#hwOptions').innerHTML = q.opts.map((opt,i) => {
+            let cls = 'hw-option';
+            if (s.selected === i) cls += ' selected';
+            if (s.submitted && i === q.a) cls += ' correct-choice';
+            if (s.submitted && s.selected === i && i !== q.a) cls += ' wrong-choice';
+            return `<button class="${cls}" data-hw-answer="${i}" ${s.submitted?'disabled':''}><span class="hw-letter">${letters[i]}</span><span>${esc(opt)}</span></button>`;
+        }).join('');
+        $$('[data-hw-answer]').forEach(btn => btn.addEventListener('click', () => {
+            if (hwState[q.n]?.submitted) return;
+            hwState[q.n] = {...(hwState[q.n] || {}), selected:+btn.dataset.hwAnswer};
+            saveHw();
+            renderHwQuestion();
+        }));
+        $('#hwSubmit').disabled = !Number.isInteger(s.selected) || s.submitted;
+        renderHwFeedback(q,s);
+        updateHwProgress();
+    }
+
+    function renderHwFeedback(q,s) {
+        const box = $('#hwFeedback');
+        if (!s.submitted) {
+            box.className = 'hw-feedback';
+            box.innerHTML = '';
+            return;
+        }
+        const chosen = `${letters[s.selected]}. ${q.opts[s.selected]}`;
+        const correct = `${letters[q.a]}. ${q.opts[q.a]}`;
+        box.className = `hw-feedback show ${s.correct?'good':'bad'}`;
+        box.innerHTML = `
+          <header>${s.correct?'✓ CORRECT — KEEP THE RULE':'✕ REVIEW — FIX THE SETUP'}</header>
+          <div class="inner">
+            <div class="cell"><label>YOU CHOSE</label><p>${esc(chosen)}</p></div>
+            <div class="cell"><label>CORRECT</label><p>${esc(correct)}</p></div>
+            <div class="cell wide"><label>WHY</label><p>${esc(q.exp)}</p></div>
+            <div class="cell wide"><label>FORMULA / RULE</label><p>${esc(q.formula)}</p></div>
+            <div class="cell wide"><label>EXAM TRAP</label><p>${esc(q.tip)}</p></div>
+          </div>`;
+    }
+
+    function submitHw() {
+        const q = hwQuestions[hwIndex];
+        const s = hwState[q.n];
+        if (!s || !Number.isInteger(s.selected) || s.submitted) return;
+        hwState[q.n] = {...s, submitted:true, correct:s.selected === q.a};
+        saveHw();
+        renderHwQuestion();
+    }
+
+    function navigateHw(dir) {
+        const current = hwQuestions[hwIndex];
+        let pos = visibleHwQuestions.findIndex(q => q.n === current.n);
+        if (pos < 0) pos = 0;
+        pos = (pos + dir + visibleHwQuestions.length) % visibleHwQuestions.length;
+        hwIndex = hwQuestions.indexOf(visibleHwQuestions[pos]);
+        renderHwQuestion();
+        $('#examLabView').scrollTo({top:0,behavior:'smooth'});
+    }
+
+    function retryHw() {
+        const q = hwQuestions[hwIndex];
+        delete hwState[q.n];
+        saveHw();
+        renderHwQuestion();
+    }
+
+    function updateHwProgress() {
+        const attempted = hwQuestions.filter(q => hwState[q.n]?.submitted);
+        const correct = attempted.filter(q => hwState[q.n]?.correct).length;
+        $('#hwAnswered').textContent = attempted.length;
+        $('#hwProgressText').textContent = `${attempted.length} answered · ${correct} correct`;
+        $('#hwProgressBar').style.width = `${attempted.length / hwQuestions.length * 100}%`;
+    }
+
+    function renderCheatSheet() {
+        $('#cheatGrid').innerHTML = cheatSections.map(section => `
+          <article class="cheat-card ${section.accent}">
+            <h3>${esc(section.title)}</h3>
+            <div class="cheat-list">
+              ${section.items.map(([label,value]) => `<div class="cheat-row"><b>${esc(label)}</b><span>${esc(value)}</span></div>`).join('')}
+            </div>
+          </article>`).join('');
+    }
+
+    function setLabMode(mode) {
+        labMode = mode;
+        $('#labPracticePanel').classList.toggle('hidden', mode !== 'practice');
+        $('#labCheatPanel').classList.toggle('hidden', mode !== 'cheat');
+        $('#labCrumb').textContent = mode === 'practice' ? 'textbook-style-drill' : 'cheat-sheet';
+        $$('[data-lab-mode]').forEach(b => b.classList.toggle('active', b.dataset.labMode === mode));
+    }
+
+
+    function switchView(view) {
+        activeView = view;
+        $('#quizView').classList.toggle('hidden', view !== 'quiz');
+        $('#workoutView').classList.toggle('hidden', view !== 'workouts');
+        $('#examLabView').classList.toggle('hidden', view !== 'examLab');
+        $$('.tab').forEach(t => { const on = t.dataset.view === view; t.classList.toggle('active', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
+    }
+    function closeExplorer() { $('#explorer').classList.remove('open'); $('#scrim').classList.remove('show'); }
+    $('#mobileMenu').addEventListener('click', () => { $('#explorer').classList.add('open'); $('#scrim').classList.add('show'); });
+    $('#closeExplorer').addEventListener('click', closeExplorer);
+    $('#scrim').addEventListener('click', closeExplorer);
+    $('#submitAnswer').addEventListener('click', submitCurrent);
+    $('#prevQuestion').addEventListener('click', () => navigate(-1));
+    $('#nextQuestion').addEventListener('click', () => navigate(1));
+    $('#retryQuestion').addEventListener('click', retryCurrent);
+    $('#reviewMissed').addEventListener('click', reviewMissed);
+    $('#resetAll').addEventListener('click', () => { if (confirm(`Reset all ${questions.length} saved answers?`)) {
+        Object.keys(state).forEach(k => delete state[k]);
+        save();
+        visibleQuestions = [...questions];
+        chapterFilter = 'all';
+        currentIndex = 0;
+        document.addEventListener('keydown', e => {
+        if (activeView !== 'examLab' || labMode !== 'practice' || e.metaKey || e.ctrlKey || e.altKey) return;
+        if (['1','2','3','4'].includes(e.key)) {
+            const q = hwQuestions[hwIndex];
+            if (!hwState[q.n]?.submitted) {
+                hwState[q.n] = {...(hwState[q.n] || {}), selected:+e.key-1};
+                saveHw();
+                renderHwQuestion();
+            }
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            submitHw();
+        } else if (e.key === 'ArrowRight') {
+            navigateHw(1);
+        } else if (e.key === 'ArrowLeft') {
+            navigateHw(-1);
+        }
+    });
+
+
+    buildChapterNav();
+        renderQuestion();
+    } });
+    $('#hwSubmit').addEventListener('click', submitHw);
+    $('#hwPrev').addEventListener('click', () => navigateHw(-1));
+    $('#hwNext').addEventListener('click', () => navigateHw(1));
+    $('#hwRetry').addEventListener('click', retryHw);
+    $$('[data-lab-mode]').forEach(b => b.addEventListener('click', () => setLabMode(b.dataset.labMode)));
+    $('#printCheat').addEventListener('click', () => {
+        setLabMode('cheat');
+        setTimeout(() => window.print(), 50);
+    });
+
+
+    $$('.tab').forEach(t => t.addEventListener('click', () => switchView(t.dataset.view)));
+    document.addEventListener('keydown', e => {
+        if (activeView !== 'quiz' || e.metaKey || e.ctrlKey || e.altKey)
+            return;
+        if (['1', '2', '3', '4'].includes(e.key)) {
+            selectAnswer(+e.key - 1);
+        }
+        else if (e.key === 'Enter') {
+            e.preventDefault();
+            submitCurrent();
+        }
+        else if (e.key === 'ArrowRight') {
+            navigate(1);
+        }
+        else if (e.key === 'ArrowLeft') {
+            navigate(-1);
+        }
+    });
+    buildChapterNav();
+    buildQuestionMap();
+    renderWorkouts();
+    buildHwFilters();
+    renderCheatSheet();
+    renderHwQuestion();
+    renderQuestion();
+    
+  </script>
+</body>
+</html>
